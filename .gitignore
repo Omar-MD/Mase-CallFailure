@@ -23,6 +23,9 @@ dist/
 target/
 dist/
 
+#vscode
+.vscode/
+
 # JetBrains IDE
 .idea/
 
