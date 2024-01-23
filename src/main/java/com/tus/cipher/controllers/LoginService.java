@@ -1,4 +1,4 @@
-package com.tus.mase.project.controllers;
+package com.tus.cipher.controllers;
 
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.web.bind.annotation.RestController;
