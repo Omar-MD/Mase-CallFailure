@@ -10,23 +10,15 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build & Test') {
             steps {
                 script {
-                    sh 'mvn clean install'
+                    sh 'mvn clean verify'
                 }
             }
         }
 
-        stage('Test') {
-            steps {
-                script {
-                    sh 'mvn test'
-                }
-            }
-        }
-        
-        stage('SonarQube Analysis') {
+        stage('SonarQube') {
             steps {
                 withSonarQubeEnv('sonarqube-server'){
                      sh "mvn sonar:sonar -Dsonar.projectKey=mase-project -Dsonar.projectName='Mase-Project'"
