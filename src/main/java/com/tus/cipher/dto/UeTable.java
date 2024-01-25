@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ue")
-public class UE {
+@Table(name = "ue_table")
+public class UeTable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +28,9 @@ public class UE {
 	@Column(name="access_capability")
 	private String accessCapability;
 
-	public UE() {}
+	public UeTable() {}
 
-	public UE(Long tac, String marketingName, String manufacturer, String accessCapability) {
+	public UeTable(Long tac, String marketingName, String manufacturer, String accessCapability) {
 		this.tac = tac;
 		this.marketingName = marketingName;
 		this.manufacturer = manufacturer;

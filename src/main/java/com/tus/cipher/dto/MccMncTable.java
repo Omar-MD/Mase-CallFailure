@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "mcc_mnc")
-public class MccMnc {
+@Table(name = "mcc_mnc_table")
+public class MccMncTable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +28,9 @@ public class MccMnc {
 	@Column(name="operator")
 	private String operator;
 
-	public MccMnc() {}
+	public MccMncTable() {}
 
-	public MccMnc(Long mcc, Long mnc, String country, String operator) {
+	public MccMncTable(Long mcc, Long mnc, String country, String operator) {
 		this.mcc = mcc;
 		this.mnc = mnc;
 		this.country = country;

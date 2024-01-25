@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "event_cause")
-public class EventCause {
+@Table(name = "event_cause_table")
+public class EventCauseTable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +25,8 @@ public class EventCause {
 	@Column(name="description")
 	private String description;
 
-	public EventCause() {}
-	public EventCause(Long causeCode, Long eventId, String description) {
+	public EventCauseTable() {}
+	public EventCauseTable(Long causeCode, Long eventId, String description) {
 		this.causeCode = causeCode;
 		this.eventId = eventId;
 		this.description = description;

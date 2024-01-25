@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "failure_class")
-public class FailureClass {
+@Table(name = "failure_class_table")
+public class FailureClassTable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,8 @@ public class FailureClass {
 	@Column(name="description")
 	private String description;
 
-	public FailureClass() {}
-	public FailureClass(Long failureCode, String description) {
+	public FailureClassTable() {}
+	public FailureClassTable(Long failureCode, String description) {
 		this.failureCode = failureCode;
 		this.description = description;
 	}
