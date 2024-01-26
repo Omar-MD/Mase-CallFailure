@@ -13,8 +13,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "call_failure_event")
-public class CallFailureEvent {
+@Table(name = "call_failure")
+public class CallFailure {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,8 +36,8 @@ public class CallFailureEvent {
 	@JoinColumn(name = "id")
 	private FailureDetail failureDetail;
 
-	public CallFailureEvent() {}
-	public CallFailureEvent(LocalDateTime dateTime, CellDetail cellDetail, SubscriberDetail subscriberDetail,
+	public CallFailure() {}
+	public CallFailure(LocalDateTime dateTime, CellDetail cellDetail, SubscriberDetail subscriberDetail,
 			FailureDetail failureDetail) {
 		this.dateTime = dateTime;
 		this.cellDetail = cellDetail;
