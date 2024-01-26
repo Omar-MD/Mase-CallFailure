@@ -1,4 +1,4 @@
-let rootUrl = "http://localhost:8080/login";  
+let rootUrl = "http://localhost:8081/login";  
 
 
 login = function() {
@@ -10,25 +10,29 @@ login = function() {
         type: 'POST',
         url: rootUrl,
         contentType: 'application/json',
-        data: JSON.stringify({ username: username, password: password }),
+        data: JSON.stringify({ "username": username, "password": password }),
         dataType: "json",
         success: function(data) {
-            if (data.success) {
-                alert('Login successful!');
+            console.log(data);
+            if (data.role == 'Admin') {
+                alert('Admin login successful!');
                 // We can Redirect to another page or perform other actions
             } else {
-                $('#errorMsg').text('Invalid username or password.').show();
+                alert('Login unsuccessful!');
+                // $('#errorMsg').text('Invalid username or password.').show();
             }
         },
         error: function() {
-            $('#errorMsg').text('Error during request.').show();
+            alert('Error during request. Incorrect username or password');
+            // $('#errorMsg').text('Error during request.').show();
         }
     });
 };
 
 
 $(document).ready(function() {
-    $('#loginForm').on('submit', function(event) {
+    $('#loginSubmit').on('click', function(event) {
+        console.log("Attempting login");
         event.preventDefault();
         // hide error msg at new login attempt
         login();
