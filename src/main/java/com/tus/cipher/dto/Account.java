@@ -1,6 +1,11 @@
 package com.tus.cipher.dto;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="accounts")
@@ -12,9 +17,9 @@ public class Account {
     private String username;
     private String password;
     private String role;
-    
+
     public Account() {
-    	
+
     }
 
 	public Account(Long id, String username, String password, String role) {
@@ -56,6 +61,6 @@ public class Account {
     public void setRole(String role) {
         this.role = role;
     }
-    
-    
+
+
 }
