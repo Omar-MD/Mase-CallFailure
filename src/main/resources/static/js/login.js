@@ -14,13 +14,14 @@ login = function() {
         dataType: "json",
         success: function(data) {
             console.log(data);
-            if (data.role == 'Admin') {
-                alert('Admin login successful!');
-                // We can Redirect to another page or perform other actions
-            } else {
-                alert('Login unsuccessful!');
-                // $('#errorMsg').text('Invalid username or password.').show();
-            }
+            alert('Admin login successful!');
+            // if (data.role == 'Admin') {
+            //     alert('Admin login successful!');
+            //     // We can Redirect to another page or perform other actions
+            // } else {
+            //     alert('Login unsuccessful!');
+            //     // $('#errorMsg').text('Invalid username or password.').show();
+            // }
         },
         error: function() {
             alert('Error during request. Incorrect username or password');
