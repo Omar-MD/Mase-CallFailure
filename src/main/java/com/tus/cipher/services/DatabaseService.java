@@ -1,7 +1,5 @@
 package com.tus.cipher.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -10,26 +8,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 
-// @Component
 @Configuration
 public class DatabaseService {
-	// @Autowired
-	// private DataSourceProperties dataSourceProperties;
-
-    
 
     final private String mySQL_URL = "jdbc:mysql://localhost/mase_group_project";
     final private String H2_URL = "jdbc:h2:mem:testdb";
 
-
     private DataSource ds = null;
     
-    
-    // public void loadData() {
     @Bean
     public DataSource getDataSource() {
         /*
@@ -72,8 +61,6 @@ public class DatabaseService {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         // dataSourceBuilder.driverClassName("org.h2.Driver");
         
-        
-        
 
         String username = System.getProperty("user.name");
         System.out.println("System Username: " + username);
@@ -93,17 +80,9 @@ public class DatabaseService {
 
         DataSource database = dataSourceBuilder.build();
 
-        // ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(
-        //     false, 
-        //     false, 
-        //     "UTF-8", 
-        //     // new ClassPathResource("testing_database.sql")
-        //     new ClassPathResource("database_setup.sql")
-        // );
-        // resourceDatabasePopulator.execute(database);
-
         
         ds = database;
+
         return database;
     }
 
