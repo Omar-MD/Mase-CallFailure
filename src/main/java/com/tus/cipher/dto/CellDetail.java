@@ -2,22 +2,16 @@ package com.tus.cipher.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "cell_detail")
-public class CellDetail {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class CellDetail extends BaseEntity {
 
 	// Cell ID
 	@Column(nullable = false)
-	private Integer cellID;
+	private Integer cellId;
 
 	// UE Type
 	@Column(nullable = false)
@@ -36,25 +30,19 @@ public class CellDetail {
 	private String neVersion;
 
 	public CellDetail() {}
-	public CellDetail(Integer cellID, Long tac, Integer mcc, Integer mnc, String neVersion) {
-		this.cellID = cellID;
+	public CellDetail(Integer cellId, Long tac, Integer mcc, Integer mnc, String neVersion) {
+		this.cellId = cellId;
 		this.tac = tac;
 		this.mcc = mcc;
 		this.mnc = mnc;
 		this.neVersion = neVersion;
 	}
 
-	public Long getId() {
-		return id;
+	public Integer getCellId() {
+		return cellId;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Integer getCellID() {
-		return cellID;
-	}
-	public void setCellID(Integer cellID) {
-		this.cellID = cellID;
+	public void setCellId(Integer cellId) {
+		this.cellId = cellId;
 	}
 	public Long getTac() {
 		return tac;

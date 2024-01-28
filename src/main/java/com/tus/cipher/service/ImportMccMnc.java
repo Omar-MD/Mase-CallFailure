@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tus.cipher.dao.MccMncDAO;
 import com.tus.cipher.dto.MccMnc;
@@ -21,25 +22,25 @@ public class ImportMccMnc implements SheetProcessor {
 	@Autowired
 	private MccMncDAO mccMncDAO;
 
-
+	@Transactional
 	@Override
 	public void processSheet(HSSFSheet sheet) {
 
-	    int totalRows = sheet.getPhysicalNumberOfRows();
-		System.out.println("=>" + sheet.getSheetName() + ", row(s): " + totalRows);
+		int totalRows = sheet.getPhysicalNumberOfRows();
+		System.out.println("=>" + sheet.getSheetName() + "\t\trow(s): " + totalRows);
 
 		// Skip Header Row
-	    for (int rowIndex = 1; rowIndex < totalRows; rowIndex++) {
-	        Row r = sheet.getRow(rowIndex);
-	        if (r != null) {
-	            processRow(r);
-	        }
-	    }
+		for (int rowIndex = 1; rowIndex < totalRows; rowIndex++) {
+			Row r = sheet.getRow(rowIndex);
+			if (r != null) {
+				processRow(r);
+			}
+		}
 
-		mccMncDAO.saveAll(validRecords); // Perform batch insert
+		mccMncDAO.saveAllAndFlush(validRecords); // Perform batch insert
 	}
 
-	private void processRow(Row r) { //NOSONAR
+	private void processRow(Row r) {// NOSONAR
 
 		boolean isValidRow = true;
 		int mcc = 0;
@@ -58,10 +59,8 @@ public class ImportMccMnc implements SheetProcessor {
 
 					} else if (columnIndex == 1) {
 						mnc = (int) c.getNumericCellValue();
-
 					}
 					break;
-
 				case STRING:
 					if (columnIndex == 2) {
 						country = c.getStringCellValue();
@@ -70,18 +69,14 @@ public class ImportMccMnc implements SheetProcessor {
 						operator = c.getStringCellValue();
 					}
 					break;
-
-				case _NONE:
-				case BLANK:
-				case BOOLEAN:
-				case ERROR:
 				default:
 					isValidRow = false;
 					break;
 				}
 
-			}else {
-				isValidRow=false;
+			} else {
+				isValidRow = false;
+				break;
 			}
 		}
 

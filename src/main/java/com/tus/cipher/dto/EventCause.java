@@ -2,51 +2,39 @@ package com.tus.cipher.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "event_cause_table")
-public class EventCause {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class EventCause extends BaseEntity {
 
 	@Column(nullable = false)
-	private Long causeCode;
+	private Integer causeCode;
 
 	@Column(nullable = false)
-	private Long eventId;
+	private Integer eventId;
 
 	@Column(nullable = false)
 	private String description;
 
 	public EventCause() {}
-	public EventCause(Long causeCode, Long eventId, String description) {
+	public EventCause(Integer causeCode, Integer eventId, String description) {
 		this.causeCode = causeCode;
 		this.eventId = eventId;
 		this.description = description;
 	}
 
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Long getCauseCode() {
+	public Integer getCauseCode() {
 		return causeCode;
 	}
-	public void setCauseCode(Long causeCode) {
+	public void setCauseCode(Integer causeCode) {
 		this.causeCode = causeCode;
 	}
-	public Long getEventId() {
+	public Integer getEventId() {
 		return eventId;
 	}
-	public void setEventId(Long eventId) {
+	public void setEventId(Integer eventId) {
 		this.eventId = eventId;
 	}
 	public String getDescription() {

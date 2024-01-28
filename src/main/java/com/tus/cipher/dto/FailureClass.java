@@ -2,40 +2,29 @@ package com.tus.cipher.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "failure_class_table")
-public class FailureClass {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class FailureClass extends BaseEntity {
 
 	@Column(nullable = false)
-	private Long failureCode;
+	private Integer failureCode;
 
 	@Column(nullable = false)
 	private String description;
 
 	public FailureClass() {}
-	public FailureClass(Long failureCode, String description) {
+	public FailureClass(Integer failureCode, String description) {
 		this.failureCode = failureCode;
 		this.description = description;
 	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Long getFailure() {
+
+	public Integer getFailure() {
 		return failureCode;
 	}
-	public void setFailure(Long failureCode) {
+	public void setFailure(Integer failureCode) {
 		this.failureCode = failureCode;
 	}
 	public String getDescription() {

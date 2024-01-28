@@ -2,18 +2,12 @@ package com.tus.cipher.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "mcc_mnc_table")
-public class MccMnc {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class MccMnc extends BaseEntity {
 
 	@Column(nullable = false)
 	private Integer mcc;
@@ -34,14 +28,6 @@ public class MccMnc {
 		this.mnc = mnc;
 		this.country = country;
 		this.operator = operator;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Integer getMccId() {

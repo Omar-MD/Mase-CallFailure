@@ -10,6 +10,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ImportService {
@@ -29,13 +30,12 @@ public class ImportService {
 	@Autowired
 	ImportBaseData importBaseData;
 
+	@Transactional
 	public void importFile(String filename) throws IOException {
 		List<SheetProcessor> refProcessors = Arrays.asList(importMccMnc, importUe, importFailureClass, importEventCause);
 		SheetProcessor baseProcessor = importBaseData;
 
 		try (HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory.create(new File("src/main/resources/" + filename))) {
-
-			System.out.println("Data dump:\n");
 
 			// Process Reference Sheets
 			for (SheetProcessor processor : refProcessors) {

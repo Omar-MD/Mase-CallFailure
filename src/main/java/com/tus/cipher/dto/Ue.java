@@ -2,18 +2,12 @@ package com.tus.cipher.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "ue_table")
-public class Ue {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Ue extends BaseEntity {
 
 	@Column(nullable = false)
 	private Long tac;
@@ -24,7 +18,7 @@ public class Ue {
 	@Column(nullable = false)
 	private String manufacturer;
 
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "TEXT")
 	private String accessCapability;
 
 	public Ue() {}
@@ -34,14 +28,6 @@ public class Ue {
 		this.marketingName = marketingName;
 		this.manufacturer = manufacturer;
 		this.accessCapability = accessCapability;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Long getTac() {
