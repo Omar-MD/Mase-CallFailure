@@ -9,24 +9,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "event_cause_table")
-public class EventCauseTable {
+public class EventCause {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
 	private Long id;
 
-	@Column(name="cause_code")
+	@Column(nullable = false)
 	private Long causeCode;
 
-	@Column(name="event_id")
+	@Column(nullable = false)
 	private Long eventId;
 
-	@Column(name="description")
+	@Column(nullable = false)
 	private String description;
 
-	public EventCauseTable() {}
-	public EventCauseTable(Long causeCode, Long eventId, String description) {
+	public EventCause() {}
+	public EventCause(Long causeCode, Long eventId, String description) {
 		this.causeCode = causeCode;
 		this.eventId = eventId;
 		this.description = description;

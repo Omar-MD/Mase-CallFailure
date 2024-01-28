@@ -9,28 +9,27 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ue_table")
-public class UeTable {
+public class Ue {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
 	private Long id;
 
-	@Column(name="tac")
+	@Column(nullable = false)
 	private Long tac;
 
-	@Column(name="marketing_name")
+	@Column(nullable = false)
 	private String marketingName;
 
-	@Column(name="manufacturer")
+	@Column(nullable = false)
 	private String manufacturer;
 
-	@Column(name="access_capability")
+	@Column(nullable = false)
 	private String accessCapability;
 
-	public UeTable() {}
+	public Ue() {}
 
-	public UeTable(Long tac, String marketingName, String manufacturer, String accessCapability) {
+	public Ue(Long tac, String marketingName, String manufacturer, String accessCapability) {
 		this.tac = tac;
 		this.marketingName = marketingName;
 		this.manufacturer = manufacturer;

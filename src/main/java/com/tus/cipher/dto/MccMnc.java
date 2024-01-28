@@ -9,28 +9,27 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "mcc_mnc_table")
-public class MccMncTable {
+public class MccMnc {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
 	private Long id;
 
-	@Column(name="mcc")
-	private Long mcc;
+	@Column(nullable = false)
+	private Integer mcc;
 
-	@Column(name="mnc")
-	private Long mnc;
+	@Column(nullable = false)
+	private Integer mnc;
 
-	@Column(name="country")
+	@Column(nullable = false)
 	private String country;
 
-	@Column(name="operator")
+	@Column(nullable = false)
 	private String operator;
 
-	public MccMncTable() {}
+	public MccMnc() {}
 
-	public MccMncTable(Long mcc, Long mnc, String country, String operator) {
+	public MccMnc(Integer mcc, Integer mnc, String country, String operator) {
 		this.mcc = mcc;
 		this.mnc = mnc;
 		this.country = country;
@@ -45,19 +44,19 @@ public class MccMncTable {
 		this.id = id;
 	}
 
-	public Long getMccId() {
+	public Integer getMccId() {
 		return mcc;
 	}
 
-	public void setMccId(Long mcc) {
+	public void setMccId(Integer mcc) {
 		this.mcc = mcc;
 	}
 
-	public Long getMncId() {
+	public Integer getMncId() {
 		return mnc;
 	}
 
-	public void setMncId(Long mnc) {
+	public void setMncId(Integer mnc) {
 		this.mnc = mnc;
 	}
 

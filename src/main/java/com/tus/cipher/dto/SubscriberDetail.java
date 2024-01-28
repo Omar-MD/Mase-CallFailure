@@ -16,19 +16,19 @@ public class SubscriberDetail {
 	private Long id;
 
 	// IMSI ID
-	@Column(name = "imsi")
+	@Column(nullable = false)
 	private Long imsi;
 
 	// HIER3 ID
-	@Column(name = "hier3_id")
+	@Column(nullable = false)
 	private Long hier3Id;
 
 	// HIER32 ID
-	@Column(name = "hier32_id")
+	@Column(nullable = false)
 	private Long hier32Id;
 
 	// HIER321 ID
-	@Column(name = "hier321_id")
+	@Column(nullable = false)
 	private Long hier321Id;
 
 	public SubscriberDetail() {}

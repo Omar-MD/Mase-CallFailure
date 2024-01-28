@@ -16,23 +16,23 @@ public class CellDetail {
 	private Long id;
 
 	// Cell ID
-	@Column(name = "cell_id")
+	@Column(nullable = false)
 	private Integer cellID;
 
 	// UE Type
-	@Column(name = "tac")
+	@Column(nullable = false)
 	private Long tac;
 
 	// Market
-	@Column(name = "mcc")
+	@Column(nullable = false)
 	private Integer mcc;
 
 	// Operator
-	@Column(name = "mnc")
+	@Column(nullable = false)
 	private Integer mnc;
 
 	// NE version
-	@Column(name = "ne_version")
+	@Column(nullable = false)
 	private String neVersion;
 
 	public CellDetail() {}

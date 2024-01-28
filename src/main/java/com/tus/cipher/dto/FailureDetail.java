@@ -16,19 +16,19 @@ public class FailureDetail {
 	private Long id;
 
 	// Event ID
-	@Column(name = "event_id")
+	@Column(nullable = false)
 	private Integer eventId;
 
 	// Cause Code
-	@Column(name = "cause_code")
+	@Column(nullable = false)
 	private Integer causeCode;
 
 	// Failure Class
-	@Column(name = "failure_code")
+	@Column(nullable = false)
 	private Integer failureCode;
 
 	// Duration
-	@Column(name = "duration")
+	@Column(nullable = false)
 	private Integer duration;
 
 	public FailureDetail() {}

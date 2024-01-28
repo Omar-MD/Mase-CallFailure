@@ -25,15 +25,15 @@ public class CallFailure {
 	private LocalDateTime dateTime;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "id", nullable = false)
 	private CellDetail cellDetail;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "id", nullable = false)
 	private SubscriberDetail subscriberDetail;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "id", nullable = false)
 	private FailureDetail failureDetail;
 
 	public CallFailure() {}

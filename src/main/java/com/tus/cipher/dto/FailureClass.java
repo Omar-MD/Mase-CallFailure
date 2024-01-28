@@ -9,21 +9,20 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "failure_class_table")
-public class FailureClassTable {
+public class FailureClass {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
 	private Long id;
 
-	@Column(name="failure_code")
+	@Column(nullable = false)
 	private Long failureCode;
 
-	@Column(name="description")
+	@Column(nullable = false)
 	private String description;
 
-	public FailureClassTable() {}
-	public FailureClassTable(Long failureCode, String description) {
+	public FailureClass() {}
+	public FailureClass(Long failureCode, String description) {
 		this.failureCode = failureCode;
 		this.description = description;
 	}
