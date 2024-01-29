@@ -22,10 +22,10 @@ import com.tus.cipher.dto.LoginRequest;
 
 // @SpringBootTest
 @ExtendWith(MockitoExtension.class)					//	using this annotation, avoids running the spring boot container i.e. faster
-class LoginServiceTest {
+class LoginControllerTest {
 
     @InjectMocks
-    private LoginService loginService;
+    private LoginController loginService;
 
     @Mock
     private AccountRepository accountRepository;
@@ -40,7 +40,7 @@ class LoginServiceTest {
         Account testAccount = new Account(1L, "testUsername", "testPassword", "testRole");
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
         // Call the SystemAdminHomepage method, verify http response status including body
-        ResponseEntity<Account> response = loginService.SystemAdminHomepage(loginRequest);
+        ResponseEntity<Account> response = loginService.login(loginRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Account responseBody = response.getBody();
         assertNotNull(responseBody);
@@ -57,7 +57,7 @@ class LoginServiceTest {
         Account testAccount = new Account(1L, "testUsername", "testPassword", "testRole");
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
         // Call the SystemAdminHomepage method, verify http response status
-        ResponseEntity<Account> response = loginService.SystemAdminHomepage(loginRequest);
+        ResponseEntity<Account> response = loginService.login(loginRequest);
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 
@@ -67,7 +67,7 @@ class LoginServiceTest {
         LoginRequest loginRequest = new LoginRequest("nonExistentUser", "password");
         when(accountRepository.findByUsername("nonExistentUser")).thenReturn(Optional.empty());
         // Call the SystemAdminHomepage method, verify http response status
-        ResponseEntity<Account> response = loginService.SystemAdminHomepage(loginRequest);
+        ResponseEntity<Account> response = loginService.login(loginRequest);
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 }
