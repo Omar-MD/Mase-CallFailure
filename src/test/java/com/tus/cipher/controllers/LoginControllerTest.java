@@ -12,7 +12,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -37,7 +36,7 @@ class LoginControllerTest {
     void loginTestSuccess() {
         // Mock login credentials and accountRepository behavior
         LoginRequest loginRequest = new LoginRequest("testUsername", "testPassword");
-        Account testAccount = new Account(1L, "testUsername", "testPassword", "testRole");
+        Account testAccount = new Account("testUsername", "testPassword", "testRole");
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
         // Call the SystemAdminHomepage method, verify http response status including body
         ResponseEntity<Account> response = loginService.login(loginRequest);
@@ -54,7 +53,7 @@ class LoginControllerTest {
     void loginTestIncorrectPassword() {
         // Mock invalid password and accountRepository behavior
         LoginRequest loginRequest = new LoginRequest("testUsername", "incorrectPassword");
-        Account testAccount = new Account(1L, "testUsername", "testPassword", "testRole");
+        Account testAccount = new Account("testUsername", "testPassword", "testRole");
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
         // Call the SystemAdminHomepage method, verify http response status
         ResponseEntity<Account> response = loginService.login(loginRequest);

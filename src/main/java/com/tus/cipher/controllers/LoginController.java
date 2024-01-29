@@ -2,16 +2,13 @@ package com.tus.cipher.controllers;
 
 import java.util.Optional;
 
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.Account;
 import com.tus.cipher.dto.LoginRequest;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
