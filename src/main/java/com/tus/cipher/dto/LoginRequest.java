@@ -3,7 +3,7 @@ package com.tus.cipher.dto;
 public class LoginRequest {
     private String username;
     private String password;
-    
+
 
 	public LoginRequest(String username, String password) {
 		super();
@@ -26,6 +26,6 @@ public class LoginRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-    
-    
+
+
 }
