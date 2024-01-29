@@ -1,5 +1,8 @@
-package com.tus.cipher.dto;
+package com.tus.cipher.dto.accounts;
 
+import javax.persistence.Entity;
+
+// @Entity
 public class SysAdm extends Account {
     
     public SysAdm () {

@@ -89,7 +89,6 @@ public class DatabaseService {
     @EventListener
     public void onApplicationReadyEvent(ApplicationReadyEvent event) {
         System.out.println("Populating database");
-        System.out.println(ds == null);
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(
             false, 
             false, 

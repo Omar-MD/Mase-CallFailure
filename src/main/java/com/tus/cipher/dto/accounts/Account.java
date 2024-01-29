@@ -1,4 +1,4 @@
-package com.tus.cipher.dto;
+package com.tus.cipher.dto.accounts;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -8,19 +8,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="role")
+// @MappedSuperclass
+// @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+// @DiscriminatorColumn(name="role")
 @Table(name="accounts")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+	@Column(name = "username")
     private String username;
+
+	@Column(name = "password")
     private String password;
+
+	@Column(name = "role")
     private String role;
 
     public Account() {
