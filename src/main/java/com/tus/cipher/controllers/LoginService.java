@@ -7,7 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.Account;
+<<<<<<< HEAD
 import com.tus.cipher.dto.LoginController;
+=======
+import com.tus.cipher.dto.LoginRequest;
+import com.tus.cipher.exceptions.AccountNotFoundException;
+>>>>>>> b262a4a6dfb6f970ccea3f230b4ac0efcfd8d235
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,6 +59,7 @@ public class LoginService {
             System.out.println("Account not found");
             // Code for invalid username
             return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
+            
         }
     }
 }
