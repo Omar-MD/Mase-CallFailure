@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.Account;
 import com.tus.cipher.dto.LoginRequest;
-import com.tus.cipher.exceptions.AccountNotFoundException;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
