@@ -1,4 +1,4 @@
-package com.tus.cipher.exception;
+package com.tus.cipher.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
