@@ -20,9 +20,9 @@ import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.Account;
 import com.tus.cipher.dto.LoginRequest;
 
-@SpringBootTest
-// @ExtendWith(MockitoExtension.class)					//	using this annotation, avoids running the spring boot container i.e. faster
-class MaseProjectApplicationControllerTests {
+// @SpringBootTest
+@ExtendWith(MockitoExtension.class)					//	using this annotation, avoids running the spring boot container i.e. faster
+class LoginServiceTest {
 
     @InjectMocks
     private LoginService loginService;
