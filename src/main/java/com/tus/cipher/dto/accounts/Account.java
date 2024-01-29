@@ -10,6 +10,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 // @MappedSuperclass
@@ -23,12 +24,15 @@ public class Account {
     private Long id;
 
 	@Column(name = "username")
+	@NotBlank
     private String username;
 
 	@Column(name = "password")
+	@NotBlank
     private String password;
 
 	@Column(name = "role")
+	@NotBlank
     private String role;
 
     public Account() {
