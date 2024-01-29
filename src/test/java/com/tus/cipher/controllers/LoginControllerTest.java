@@ -22,10 +22,10 @@ import com.tus.cipher.dto.LoginRequest;
 
 // @SpringBootTest
 @ExtendWith(MockitoExtension.class)					//	using this annotation, avoids running the spring boot container i.e. faster
-class LoginServiceTest {
+class LoginControllerTest {
 
     @InjectMocks
-    private LoginService loginService;
+    private LoginController loginService;
 
     @Mock
     private AccountRepository accountRepository;
