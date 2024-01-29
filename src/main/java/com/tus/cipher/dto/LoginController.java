@@ -1,14 +1,11 @@
 package com.tus.cipher.dto;
 
-public class LoginRequest {
+public class LoginController {
     private String username;
     private String password;
     
-    public LoginRequest() {
-    	
-    }
 
-	public LoginRequest(String username, String password) {
+	public LoginController(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;

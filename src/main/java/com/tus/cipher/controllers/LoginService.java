@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.Account;
-import com.tus.cipher.dto.LoginRequest;
+import com.tus.cipher.dto.LoginController;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,7 @@ public class LoginService {
     AccountRepository accountRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<Account> SystemAdminHomepage(@RequestBody LoginRequest loginDetail) {
+    public ResponseEntity<Account> SystemAdminHomepage(@RequestBody LoginController loginDetail) {
 
         System.out.println("Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
         
