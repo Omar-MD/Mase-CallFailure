@@ -27,7 +27,7 @@ public class Account {
     private String password;
 
 	@Enumerated(EnumType.STRING)
-	@NotBlank
+	// @NotBlank
     private EmployeeRole role;
 	
 

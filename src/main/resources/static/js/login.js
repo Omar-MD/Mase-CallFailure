@@ -15,13 +15,13 @@ login = function() {
         success: function(data) {
             console.log(data);
             alert('Admin login successful!');
-            // if (data.role == 'Admin') {
-            //     alert('Admin login successful!');
-            //     // We can Redirect to another page or perform other actions
-            // } else {
-            //     alert('Login unsuccessful!');
-            //     // $('#errorMsg').text('Invalid username or password.').show();
-            // }
+            if (data.role == 'Admin') {
+                alert('SYSTEM_ADMINISTRATOR login successful!');
+                // We can Redirect to another page or perform other actions
+            } else {
+                alert('Login successful!');
+                // $('#errorMsg').text('Invalid username or password.').show();
+            }
         },
         error: function() {
             alert('Error during request. Incorrect username or password');

@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS accounts (
 
 -- Insert test account
 INSERT INTO accounts (username, password, role) VALUES
-    ('admin', 'password', 'Admin');
+    ('admin', 'password', 'SYSTEM_ADMINISTRATOR');
 
 -- SELECT * FROM accounts;
