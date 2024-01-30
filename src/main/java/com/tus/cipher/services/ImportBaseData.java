@@ -1,149 +1,97 @@
 package com.tus.cipher.services;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.CallFailure;
-import com.tus.cipher.dto.CellDetail;
-import com.tus.cipher.dto.FailureDetail;
-import com.tus.cipher.dto.SubscriberDetail;
 
 @Component
-public class ImportBaseData implements SheetProcessor {
+public class ImportBaseData implements SheetProcessor<CallFailure> {
 
 	private static final String SHEET_NAME = "Base Data";
-	private List<CallFailure> validRecords = new ArrayList<>();
-
-	@Autowired
-	CallFailureDAO callFailureDAO;
-
-	@Transactional
-	@Override
-	public void processSheet(HSSFSheet sheet) {
-
-		int totalRows = sheet.getPhysicalNumberOfRows();
-		System.out.println("=>" + sheet.getSheetName() + "\t\trow(s): " + totalRows);
-
-		// Skip Header Row
-		for (int rowIndex = 1; rowIndex < totalRows; rowIndex++) {
-			Row r = sheet.getRow(rowIndex);
-			if (r != null) {
-				processRow(r);
-			}
-		}
-
-		callFailureDAO.saveAllAndFlush(validRecords);
-	}
-
-	private void processRow(Row r) { // NOSONAR
-
-		boolean isValidRow = true;
-
-		LocalDateTime dateTime = null;  // 0
-
-		// Failure Detail
-		int eventId = 0;				// 1
-		int causeCode = 0;				// 8
-		int failureCode = 0;			// 2
-		int duration = 0;				// 7
-
-		// Cell Detail
-		int cellId = 0;					// 6
-		long tac = 0l;					// 3
-		int mcc = 0;					// 4
-		int mnc = 0;					// 5
-		String neVersion = null;		// 9
-
-		// Subscriber Detail
-		long imsi = 0l;					// 10
-		long hier3Id = 0l;				// 11
-		long hier32Id = 0l;				// 12
-		long hier321Id = 0l;			// 13
-
-		for (Cell c : r) {
-			if (c != null) {
-				int index = c.getColumnIndex();
-
-				switch (c.getCellType()) {
-				case NUMERIC:
-					switch (index) {
-					case 1:
-						eventId = (int) c.getNumericCellValue();
-						break;
-					case 2:
-						failureCode = (int) c.getNumericCellValue();
-						break;
-					case 3:
-						tac = (long) c.getNumericCellValue();
-						break;
-					case 4:
-						mcc = (int) c.getNumericCellValue();
-						break;
-					case 5:
-						mnc = (int) c.getNumericCellValue();
-						break;
-					case 6:
-						cellId = (int) c.getNumericCellValue();
-						break;
-					case 7:
-						duration = (int) c.getNumericCellValue();
-						break;
-					case 8:
-						causeCode = (int) c.getNumericCellValue();
-						break;
-					case 10:
-						imsi = (long) c.getNumericCellValue();
-						break;
-					case 11:
-						hier3Id = (long) c.getNumericCellValue();
-						break;
-					case 12:
-						hier32Id = (long) c.getNumericCellValue();
-						break;
-					case 13:
-						hier321Id = (long) c.getNumericCellValue();
-						break;
-					default:
-						isValidRow = false;
-					}
-					break;
-
-				case STRING:
-					if (index == 0) {
-						dateTime = c.getLocalDateTimeCellValue();
-
-					} else if (index == 9) {
-						neVersion = c.getStringCellValue();
-					}
-					break;
-				default:
-					isValidRow = false;
-				}
-
-			} else {
-				isValidRow = false;
-				break;
-			}
-		}
-
-		if (isValidRow) {
-			validRecords.add(new CallFailure(dateTime, new FailureDetail(eventId, causeCode, failureCode, duration),
-					new CellDetail(cellId, tac, mcc, mnc, neVersion),
-					new SubscriberDetail(imsi, hier3Id, hier32Id, hier321Id)));
-		}
-	}
 
 	@Override
 	public String getSheetName() {
 		return SHEET_NAME;
 	}
+
+	@Autowired
+	CallFailureDAO callFailureDAO;
+
+	@Override
+	public CallFailureDAO getDAO() {
+		return callFailureDAO;
+	}
+
+	@Override
+	public Class<CallFailure> getType() {
+		return CallFailure.class;
+	}
+
+	@Override
+	public CallFailure processRow(Row r) {
+		CallFailure callFailure = null;
+
+		LocalDateTime dateTime = null;
+
+		// Failure Detail
+		Integer eventId = null;
+		Integer causeCode = null;
+		Integer failureCode = null;
+		Integer duration = null;
+
+		// Cell Detail
+		Integer cellId = null;
+		Long tac = null;
+		Integer mcc = null;
+		Integer mnc = null;
+		String neVersion = null;
+
+		// Subscriber Detail
+		Long imsi = null;
+		Long hier3Id = null;
+		Long hier32Id = null;
+		Long hier321Id = null;
+
+		try {
+			dateTime = r.getCell(0).getLocalDateTimeCellValue();
+
+			eventId = (int) r.getCell(1).getNumericCellValue();
+			failureCode = (int) r.getCell(2).getNumericCellValue();
+
+			tac = (long) r.getCell(3).getNumericCellValue();
+
+			mcc = (int) r.getCell(4).getNumericCellValue();
+			mnc = (int) r.getCell(5).getNumericCellValue();
+			cellId = (int) r.getCell(6).getNumericCellValue();
+			duration = (int) r.getCell(7).getNumericCellValue();
+			causeCode = (int) r.getCell(8).getNumericCellValue();
+
+			neVersion = r.getCell(9).getStringCellValue();
+
+			imsi = (long) r.getCell(10).getNumericCellValue();
+			hier3Id = (long) r.getCell(11).getNumericCellValue();
+			hier32Id = (long) r.getCell(12).getNumericCellValue();
+			hier321Id = (long) r.getCell(13).getNumericCellValue();
+
+		} catch (Exception e) {
+			return null;
+		}
+
+		// TODO: Perform Validation
+		if (eventId != null && causeCode != null && failureCode != null && duration != null && cellId != null
+				&& tac != null && mcc != null && mnc != null && neVersion != null && imsi != null && hier3Id != null
+				&& hier32Id != null && hier321Id != null) {
+
+			callFailure = new CallFailure(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
+					neVersion, imsi, hier3Id, hier32Id, hier321Id);
+		}
+
+		return callFailure;
+	}
+
 }

@@ -1,11 +1,15 @@
 package com.tus.cipher.services;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SheetProcessor {
+public interface SheetProcessor<T>{
 
 	String getSheetName();
 
-	void processSheet(HSSFSheet sheet);
+	T processRow(Row r);
 
+	Class<T> getType();
+
+	JpaRepository<T, Long> getDAO();
 }

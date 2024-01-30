@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "mcc_mnc_table")
+@Table(name = "mcc_mnc")
 public class MccMnc extends BaseEntity {
 
 	@Column(nullable = false)
@@ -20,8 +20,6 @@ public class MccMnc extends BaseEntity {
 
 	@Column(nullable = false)
 	private String operator;
-
-	public MccMnc() {}
 
 	public MccMnc(Integer mcc, Integer mnc, String country, String operator) {
 		this.mcc = mcc;

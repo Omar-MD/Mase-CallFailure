@@ -25,13 +25,7 @@ public class Account {
 	@NotBlank
     private String role;
 
-    public Account() {
-
-    }
-
 	public Account(String username, String password, String role) {
-		super();
-		// this.id = id;
 		this.username = username;
 		this.password = password;
         this.role = role;
@@ -68,6 +62,4 @@ public class Account {
     public void setRole(String role) {
         this.role = role;
     }
-
-
 }

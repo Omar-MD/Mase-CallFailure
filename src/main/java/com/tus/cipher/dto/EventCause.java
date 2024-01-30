@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "event_cause_table")
+@Table(name = "event_cause")
 public class EventCause extends BaseEntity {
 
 	@Column(nullable = false)
@@ -18,7 +18,6 @@ public class EventCause extends BaseEntity {
 	@Column(nullable = false)
 	private String description;
 
-	public EventCause() {}
 	public EventCause(Integer causeCode, Integer eventId, String description) {
 		this.causeCode = causeCode;
 		this.eventId = eventId;

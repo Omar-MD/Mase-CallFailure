@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "ue_table")
+@Table(name = "ue")
 public class Ue extends BaseEntity {
 
 	@Column(nullable = false)
@@ -20,8 +20,6 @@ public class Ue extends BaseEntity {
 
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String accessCapability;
-
-	public Ue() {}
 
 	public Ue(Long tac, String marketingName, String manufacturer, String accessCapability) {
 		this.tac = tac;
