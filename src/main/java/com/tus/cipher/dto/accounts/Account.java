@@ -27,6 +27,7 @@ public class Account {
 	@Column(name = "role")
 	@NotBlank
     private String role;
+	
 
     public Account() {
 
