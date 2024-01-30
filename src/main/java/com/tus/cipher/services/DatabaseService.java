@@ -76,7 +76,7 @@ public class DatabaseService {
                 break;
             default:
                 testing_mode = true;
-                dataSourceBuilder.url(mySQL_URL);
+                dataSourceBuilder.url(H2_URL);
                 dataSourceBuilder.username("root");
                 dataSourceBuilder.password("root");
                 break;
