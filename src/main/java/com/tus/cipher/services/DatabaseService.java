@@ -18,6 +18,8 @@ public class DatabaseService {
     final private String H2_URL = "jdbc:h2:mem:testdb";
 
     private DataSource ds = null;
+
+    private boolean testing_mode = false;
     
     @Bean
     public DataSource getDataSource() {
@@ -67,11 +69,13 @@ public class DatabaseService {
 
         switch(username) {
             case "shaneneary":
+                testing_mode = false;
                 dataSourceBuilder.url(mySQL_URL);
                 dataSourceBuilder.username("root");
                 dataSourceBuilder.password("root");
                 break;
             default:
+                testing_mode = true;
                 dataSourceBuilder.url(mySQL_URL);
                 dataSourceBuilder.username("root");
                 dataSourceBuilder.password("root");
@@ -93,8 +97,9 @@ public class DatabaseService {
             false, 
             false, 
             "UTF-8", 
-            // new ClassPathResource("testing_database.sql")
-            new ClassPathResource("database_setup.sql")
+            // Changes the SQL file depending on whether we are 
+            // in testing mode or not
+            (testing_mode ? new ClassPathResource("testing_database.sql") : new ClassPathResource("database_setup.sql"))
         );
         resourceDatabasePopulator.execute(ds);
     }
