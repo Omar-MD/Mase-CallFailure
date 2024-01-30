@@ -7,7 +7,7 @@ public class AccountFactory {
         return createAccount(account.getUsername(), account.getPassword(), account.getRole());
     }
 
-    public static Account createAccount(String username, String password, String role) {
+    public static Account createAccount(String username, String password, EmployeeRole role) {
         return new Account(username, password, role);
     }
 }

@@ -2,6 +2,8 @@ package com.tus.cipher.dto.accounts;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,16 +26,16 @@ public class Account {
 	@NotBlank
     private String password;
 
-	@Column(name = "role")
+	@Enumerated(EnumType.STRING)
 	@NotBlank
-    private String role;
+    private EmployeeRole role;
 	
 
     public Account() {
 
     }
 
-	public Account(String username, String password, String role) {
+	public Account(String username, String password, EmployeeRole role) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -64,11 +66,11 @@ public class Account {
 		this.password = password;
 	}
 
-    public String getRole() {
+    public EmployeeRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(EmployeeRole role) {
         this.role = role;
     }
 }
