@@ -8,6 +8,6 @@ public class AccountFactory {
     }
 
     public static Account createAccount(String username, String password, String role) {
-        return new Account(null, username, password, role);
+        return new Account(username, password, role);
     }
 }
