@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.accounts.Account;
+import com.tus.cipher.dto.accounts.EmployeeRole;
 import com.tus.cipher.dto.LoginRequest;
 
 // @SpringBootTest
@@ -28,15 +29,17 @@ class LoginControllerTest {
 
     @Mock
     private AccountRepository accountRepository;
+    
+    private EmployeeRole testRole;
 
     @Captor
-    private ArgumentCaptor<LoginRequest> captor;  
+    private ArgumentCaptor<LoginRequest> captor;
 
     @Test
     void loginTestSuccess() {
         // Mock login credentials and accountRepository behavior
         LoginRequest loginRequest = new LoginRequest("testUsername", "testPassword");
-        Account testAccount = new Account("testUsername", "testPassword", "testRole");
+        Account testAccount = new Account("testUsername", "testPassword", testRole);
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
         // Call the SystemAdminHomepage method, verify http response status including body
         ResponseEntity<Account> response = loginService.login(loginRequest);
@@ -53,7 +56,7 @@ class LoginControllerTest {
     void loginTestIncorrectPassword() {
         // Mock invalid password and accountRepository behavior
         LoginRequest loginRequest = new LoginRequest("testUsername", "incorrectPassword");
-        Account testAccount = new Account("testUsername", "testPassword", "testRole");
+        Account testAccount = new Account("testUsername", "testPassword", testRole);
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
         // Call the SystemAdminHomepage method, verify http response status
         ResponseEntity<Account> response = loginService.login(loginRequest);
