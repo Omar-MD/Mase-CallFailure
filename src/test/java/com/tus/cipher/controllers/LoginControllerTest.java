@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.tus.cipher.dao.AccountRepository;
-import com.tus.cipher.dto.Account;
+import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.LoginRequest;
 
 // @SpringBootTest
