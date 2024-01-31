@@ -1,14 +1,14 @@
-package com.tus.cipher.services;
+package com.tus.cipher.services.sheets;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.EventCauseDAO;
-import com.tus.cipher.dto.EventCause;
+import com.tus.cipher.dto.sheets.EventCause;
 
 @Component
-public class ImportEventCause implements SheetProcessor<EventCause> {
+public class EventCauseSheet implements SheetProcessor<EventCause> {
 
 	private static final String SHEET_NAME = "Event-Cause Table";
 

@@ -1,13 +1,16 @@
-package com.tus.cipher.dto;
+package com.tus.cipher.dto.sheets;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
+import com.tus.cipher.dto.BaseEntity;
+
 @Entity
 @Table(name = "mcc_mnc")
 public class MccMnc extends BaseEntity {
+
+	private static final long serialVersionUID = 1L;
 
 	@Column(nullable = false)
 	private Integer mcc;

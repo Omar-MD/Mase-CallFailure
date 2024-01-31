@@ -1,4 +1,4 @@
-package com.tus.cipher.services;
+package com.tus.cipher.services.sheets;
 
 import java.time.LocalDateTime;
 
@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.dto.CallFailure;
+import com.tus.cipher.dto.sheets.CallFailure;
 
 @Component
-public class ImportBaseData implements SheetProcessor<CallFailure> {
+public class BaseDataSheet implements SheetProcessor<CallFailure> {
 
 	private static final String SHEET_NAME = "Base Data";
 

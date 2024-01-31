@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.tus.cipher.dto.Account;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long>  {
-    Optional<Account> findByUsername(String userId);
+public interface AccountRepository extends JpaRepository<Account, Long> {
+	Optional<Account> findByUsername(String userId);
 }

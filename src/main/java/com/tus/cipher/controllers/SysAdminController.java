@@ -31,7 +31,7 @@ public class SysAdminController {
 			return ApiResponse.success(HttpStatus.OK.value(), "Import process complete");
 
 		} catch (IOException ioe) {
-			ApiError error = ApiError.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Import failed", ioe.getMessage());
+			ApiError error = ApiError.of("Import failed", ioe.getMessage());
 			return ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), error);
 		}
 	}

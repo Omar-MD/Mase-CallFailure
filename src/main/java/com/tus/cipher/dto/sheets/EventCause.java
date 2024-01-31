@@ -1,13 +1,16 @@
-package com.tus.cipher.dto;
+package com.tus.cipher.dto.sheets;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
+import com.tus.cipher.dto.BaseEntity;
+
 @Entity
 @Table(name = "event_cause")
 public class EventCause extends BaseEntity {
+
+	private static final long serialVersionUID = 1L;
 
 	@Column(nullable = false)
 	private Integer causeCode;
@@ -27,18 +30,23 @@ public class EventCause extends BaseEntity {
 	public Integer getCauseCode() {
 		return causeCode;
 	}
+
 	public void setCauseCode(Integer causeCode) {
 		this.causeCode = causeCode;
 	}
+
 	public Integer getEventId() {
 		return eventId;
 	}
+
 	public void setEventId(Integer eventId) {
 		this.eventId = eventId;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}

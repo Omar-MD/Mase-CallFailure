@@ -13,11 +13,12 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tus.cipher.dto.CallFailure;
-import com.tus.cipher.dto.EventCause;
-import com.tus.cipher.dto.FailureClass;
-import com.tus.cipher.dto.MccMnc;
-import com.tus.cipher.dto.Ue;
+import com.tus.cipher.dto.sheets.CallFailure;
+import com.tus.cipher.dto.sheets.EventCause;
+import com.tus.cipher.dto.sheets.FailureClass;
+import com.tus.cipher.dto.sheets.MccMnc;
+import com.tus.cipher.dto.sheets.Ue;
+import com.tus.cipher.services.sheets.SheetProcessor;
 
 @Service
 public class ImportService {
@@ -57,9 +58,8 @@ public class ImportService {
 			importSheet(importBaseData, sheet);
 
 		} catch (IOException e) {
-			// TODO: Improve Failure Response
 			e.printStackTrace();
-			throw new IOException("Error reading or processing Excel file: " + e.getMessage());
+			throw new IOException("Error processing Excel file: " + e.getMessage());
 		}
 	}
 

@@ -1,14 +1,14 @@
-package com.tus.cipher.services;
+package com.tus.cipher.services.sheets;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.UeDAO;
-import com.tus.cipher.dto.Ue;
+import com.tus.cipher.dto.sheets.Ue;
 
 @Component
-public class ImportUe implements SheetProcessor<Ue> {
+public class UeSheet implements SheetProcessor<Ue> {
 
 	private static final String SHEET_NAME = "UE Table";
 

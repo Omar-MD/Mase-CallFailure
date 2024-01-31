@@ -1,14 +1,14 @@
-package com.tus.cipher.services;
+package com.tus.cipher.services.sheets;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.FailureClassDAO;
-import com.tus.cipher.dto.FailureClass;
+import com.tus.cipher.dto.sheets.FailureClass;
 
 @Component
-public class ImportFailureClass implements SheetProcessor<FailureClass> {
+public class FailureClassSheet implements SheetProcessor<FailureClass> {
 
 	private static final String SHEET_NAME = "Failure Class Table";
 

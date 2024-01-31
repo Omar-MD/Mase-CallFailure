@@ -1,14 +1,14 @@
-package com.tus.cipher.services;
+package com.tus.cipher.services.sheets;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.MccMncDAO;
-import com.tus.cipher.dto.MccMnc;
+import com.tus.cipher.dto.sheets.MccMnc;
 
 @Component
-public class ImportMccMnc implements SheetProcessor<MccMnc> {
+public class MccMncSheet implements SheetProcessor<MccMnc> {
 
 	private static final String SHEET_NAME = "MCC - MNC Table";
 

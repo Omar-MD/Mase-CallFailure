@@ -1,4 +1,4 @@
-package com.tus.cipher.dto;
+package com.tus.cipher.dto.sheets;
 
 import java.time.LocalDateTime;
 
@@ -6,13 +6,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.tus.cipher.dto.BaseEntity;
+
 // TODO: Add Index's to speed up Querying
 // TODO: ADD ManyToOne mappings
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "call_failure")
 public class CallFailure extends BaseEntity {
+
+	private static final long serialVersionUID = 1L;
 
 	// Date
 	@Column(name = "date_time", nullable = false)
@@ -70,7 +73,7 @@ public class CallFailure extends BaseEntity {
 	@Column(nullable = false)
 	private Long hier321Id;
 
-	public CallFailure(LocalDateTime dateTime, Integer eventId, Integer causeCode, Integer failureCode, 			//NOSONAR
+	public CallFailure(LocalDateTime dateTime, Integer eventId, Integer causeCode, Integer failureCode, // NOSONAR
 			Integer duration, Integer cellId, Long tac, Integer mcc, Integer mnc, String neVersion, Long imsi,
 			Long hier3Id, Long hier32Id, Long hier321Id) {
 		this.dateTime = dateTime;
