@@ -22,15 +22,17 @@ public class LoginController {
 	@PostMapping("/login")
 	public ApiResponse<String> login(@RequestBody LoginRequest loginDetail) {
 
-		System.out.println(
-				"Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
+		System.out.println("Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
 
-		Optional<Account> account = accountRepository.findByUsername(loginDetail.getUsername());
+		String username = loginDetail.getUsername();
+		String password = loginDetail.getPassword();
+
+		Optional<Account> account = accountRepository.findByUsername(username);
 
 		if (account.isPresent()) {
 			Account loginAccount = account.get();
 
-			if (loginAccount.getPassword().equals(loginDetail.getPassword())) {
+			if (loginAccount.getPassword().equals(password)) {
 				// Success
 				System.out.println("Logged in successfully");
 				return ApiResponse.success(HttpStatus.OK.value(), loginAccount.getRole());
