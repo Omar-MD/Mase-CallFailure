@@ -38,7 +38,14 @@ class SysAdminControllerTest {
     private ArgumentCaptor<LoginRequest> captor;
 
     @Test
-    void testCreateNewSystemAdminAccount() {
+    void testCreateNewAccounts() {
+        testCreateNewSystemAdminAccount();
+        testCreateNewCustomerServiceRepAccount();
+        testCreateNewSupportEngineerAccount();
+        testCreateNewNetworkEngineerAccount();
+    }
+    
+    public void testCreateNewSystemAdminAccount() {
         Account newAccount = new Account("New System Admin", "Admin1234", EmployeeRole.SYSTEM_ADMINISTRATOR);
         Account newAccountWithID = new Account("New System Admin", "Admin1234", EmployeeRole.SYSTEM_ADMINISTRATOR);
         newAccountWithID.setId(new Long(1));
@@ -46,32 +53,29 @@ class SysAdminControllerTest {
         ResponseEntity<Account> response = sysAdminController.addAccount(newAccount);
         checkCreatedAccount(newAccountWithID, response);
     }
-
-    @Test
-    void testCreateNewCustomerServiceRepAccount() {
+    
+    public void testCreateNewCustomerServiceRepAccount() {
         Account newAccount = new Account("New Customer Service Rep", "CustRep1234", EmployeeRole.CUSTOMER_SERVICE_REP);
         Account newAccountWithID = new Account("New Customer Service Rep", "CustRep1234", EmployeeRole.CUSTOMER_SERVICE_REP);
-        newAccountWithID.setId(new Long(1));
+        newAccountWithID.setId(new Long(2));
         when(accountRepository.save(any())).thenReturn(newAccountWithID);
         ResponseEntity<Account> response = sysAdminController.addAccount(newAccount);
         checkCreatedAccount(newAccountWithID, response);
     }
-
-    @Test
-    void testCreateNewSupportEngineerAccount() {
+    
+    public void testCreateNewSupportEngineerAccount() {
         Account newAccount = new Account("New Support Engineer", "SuppEng1234", EmployeeRole.SUPPORT_ENGINEER);
         Account newAccountWithID = new Account("New Support Engineer", "SuppEng1234", EmployeeRole.SUPPORT_ENGINEER);
-        newAccountWithID.setId(new Long(1));
+        newAccountWithID.setId(new Long(3));
         when(accountRepository.save(any())).thenReturn(newAccountWithID);
         ResponseEntity<Account> response = sysAdminController.addAccount(newAccount);
         checkCreatedAccount(newAccountWithID, response);
     }
-
-    @Test
-    void testCreateNewNetworkEngineerAccount() {
+    
+    public void testCreateNewNetworkEngineerAccount() {
         Account newAccount = new Account("New Network Engineer", "CustRep1234", EmployeeRole.NETWORK_ENGINEER);
         Account newAccountWithID = new Account("New Network Engineer", "CustRep1234", EmployeeRole.NETWORK_ENGINEER);
-        newAccountWithID.setId(new Long(1));
+        newAccountWithID.setId(new Long(4));
         when(accountRepository.save(any())).thenReturn(newAccountWithID);
         ResponseEntity<Account> response = sysAdminController.addAccount(newAccount);
         checkCreatedAccount(newAccountWithID, response);
