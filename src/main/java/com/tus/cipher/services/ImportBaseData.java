@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.CallFailure;
-import com.tus.cipher.exceptions.DataParsingException;
 
 @Component
 public class ImportBaseData implements SheetProcessor<CallFailure> {
@@ -35,6 +34,7 @@ public class ImportBaseData implements SheetProcessor<CallFailure> {
 
 	@Override
 	public CallFailure processRow(Row r) {
+		CallFailure callFailure = null;
 		try {
 			LocalDateTime dateTime = r.getCell(0).getLocalDateTimeCellValue();
 			int eventId = (int) r.getCell(1).getNumericCellValue();
@@ -55,14 +55,18 @@ public class ImportBaseData implements SheetProcessor<CallFailure> {
 			if (isValidData(eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc, neVersion, imsi, hier3Id,
 					hier32Id, hier321Id)) {
 
-				return new CallFailure(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
-						neVersion, imsi, hier3Id, hier32Id, hier321Id);
+				callFailure = new CallFailure(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc,
+						mnc, neVersion, imsi, hier3Id, hier32Id, hier321Id);
 			} else {
-				throw new DataParsingException("Invalid data found in BaseData sheet");
+				// TODO: Log validation error
+
 			}
 		} catch (Exception e) {
-			throw new DataParsingException("Parsing error in BaseData sheet: " + e.getMessage());
+			// TODO: Error Log Parsing error
+
 		}
+
+		return callFailure;
 	}
 
 	private boolean isValidData(int eventId, int causeCode, int failureCode, int duration, int cellId, long tac, // NOSONAR

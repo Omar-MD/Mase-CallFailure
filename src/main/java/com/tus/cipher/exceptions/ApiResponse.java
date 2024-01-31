@@ -1,5 +1,8 @@
 package com.tus.cipher.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
     private int statusCode;
     private String status;
@@ -60,7 +63,9 @@ public class ApiResponse<T> {
             response.statusCode = statusCode;
             response.status = status;
             response.data = data;
-            response.error = error;
+            if (error != null) {
+                response.error = error;
+            }
             return response;
         }
     }
