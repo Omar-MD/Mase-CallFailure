@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.CallFailure;
+import com.tus.cipher.exceptions.DataParsingException;
 
 @Component
 public class ImportBaseData implements SheetProcessor<CallFailure> {
@@ -34,64 +35,41 @@ public class ImportBaseData implements SheetProcessor<CallFailure> {
 
 	@Override
 	public CallFailure processRow(Row r) {
-		CallFailure callFailure = null;
-
-		LocalDateTime dateTime = null;
-
-		// Failure Detail
-		Integer eventId = null;
-		Integer causeCode = null;
-		Integer failureCode = null;
-		Integer duration = null;
-
-		// Cell Detail
-		Integer cellId = null;
-		Long tac = null;
-		Integer mcc = null;
-		Integer mnc = null;
-		String neVersion = null;
-
-		// Subscriber Detail
-		Long imsi = null;
-		Long hier3Id = null;
-		Long hier32Id = null;
-		Long hier321Id = null;
-
 		try {
-			dateTime = r.getCell(0).getLocalDateTimeCellValue();
+			LocalDateTime dateTime = r.getCell(0).getLocalDateTimeCellValue();
+			int eventId = (int) r.getCell(1).getNumericCellValue();
+			int failureCode = (int) r.getCell(2).getNumericCellValue();
+			long tac = (long) r.getCell(3).getNumericCellValue();
+			int mcc = (int) r.getCell(4).getNumericCellValue();
+			int mnc = (int) r.getCell(5).getNumericCellValue();
+			int cellId = (int) r.getCell(6).getNumericCellValue();
+			int duration = (int) r.getCell(7).getNumericCellValue();
+			int causeCode = (int) r.getCell(8).getNumericCellValue();
+			String neVersion = r.getCell(9).getStringCellValue();
+			long imsi = (long) r.getCell(10).getNumericCellValue();
+			long hier3Id = (long) r.getCell(11).getNumericCellValue();
+			long hier32Id = (long) r.getCell(12).getNumericCellValue();
+			long hier321Id = (long) r.getCell(13).getNumericCellValue();
 
-			eventId = (int) r.getCell(1).getNumericCellValue();
-			failureCode = (int) r.getCell(2).getNumericCellValue();
+			// Perform Validation
+			if (isValidData(eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc, neVersion, imsi, hier3Id,
+					hier32Id, hier321Id)) {
 
-			tac = (long) r.getCell(3).getNumericCellValue();
-
-			mcc = (int) r.getCell(4).getNumericCellValue();
-			mnc = (int) r.getCell(5).getNumericCellValue();
-			cellId = (int) r.getCell(6).getNumericCellValue();
-			duration = (int) r.getCell(7).getNumericCellValue();
-			causeCode = (int) r.getCell(8).getNumericCellValue();
-
-			neVersion = r.getCell(9).getStringCellValue();
-
-			imsi = (long) r.getCell(10).getNumericCellValue();
-			hier3Id = (long) r.getCell(11).getNumericCellValue();
-			hier32Id = (long) r.getCell(12).getNumericCellValue();
-			hier321Id = (long) r.getCell(13).getNumericCellValue();
-
+				return new CallFailure(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
+						neVersion, imsi, hier3Id, hier32Id, hier321Id);
+			} else {
+				throw new DataParsingException("Invalid data found in BaseData sheet");
+			}
 		} catch (Exception e) {
-			return null;
+			throw new DataParsingException("Parsing error in BaseData sheet: " + e.getMessage());
 		}
-
-		// TODO: Perform Validation
-		if (eventId != null && causeCode != null && failureCode != null && duration != null && cellId != null
-				&& tac != null && mcc != null && mnc != null && neVersion != null && imsi != null && hier3Id != null
-				&& hier32Id != null && hier321Id != null) {
-
-			callFailure = new CallFailure(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
-					neVersion, imsi, hier3Id, hier32Id, hier321Id);
-		}
-
-		return callFailure;
 	}
 
+	private boolean isValidData(int eventId, int causeCode, int failureCode, int duration, int cellId, long tac, // NOSONAR
+			int mcc, int mnc, String neVersion, long imsi, long hier3Id, long hier32Id, long hier321Id) {
+
+		return eventId > 0 && causeCode > 0 && failureCode > 0 && duration > 0 && cellId > 0 && tac > 0 && mcc > 0
+				&& mnc > 0 && neVersion != null && !neVersion.isEmpty() && imsi > 0 && hier3Id > 0 && hier32Id > 0
+				&& hier321Id > 0;
+	}
 }
