@@ -1,0 +1,47 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+/* Hide login container */
+#login-container {
+	display: none;
+}
+
+#nav-bar {
+	height: 10vh;
+}
+
+#nav-aside-divider {
+	position: absolute;
+	margin: 0;
+	color: white;
+}
+
+#aside-container {
+	height: 90vh;
+}
+#aside {
+	height: inherit;
+	padding: 0;
+}
+
+.dashbd-btn {
+	padding-top: 2.5%;
+	padding-bottom: 2.5%;
+	width: 100%;
+	background-color: #212529;
+	color: white;
+	border-radius: none;
+	border: none;
+}
+
+.dashbd-btn:hover {
+	color: black;
+	background-color: #ebe6e6;
+	transition: background-color 2s ease;
+}
+
+#response-window {
+	background-color: white;
+}
