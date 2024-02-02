@@ -88,4 +88,27 @@ class SysAdminControllerTest {
         assertEquals(correctAccount.getPassword(), responseBody.getPassword());
         assertEquals(correctAccount.getRole(), responseBody.getRole());
     }
+
+    @Test 
+    void testBadPassword() {
+        Account newAccount = new Account("Test User", "short", EmployeeRole.NETWORK_ENGINEER);
+        ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
+        assertNull(response.getData());
+        assertEquals("password length must be at least 8 characters", response.getError().getDetails());
+        assertEquals("Password not secure", response.getError().getErrorMsg());
+    }
+
+    @Test 
+    void testExistingUsername() {
+        Account newAccount = new Account("Existing Username", "Val1d_Passw0rd!", EmployeeRole.SYSTEM_ADMINISTRATOR);
+
+        when(accountRepository.findByUsername(newAccount.getUsername())).thenReturn(Optional.of(newAccount));
+
+        ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+        assertNull(response.getData());
+        assertEquals("", response.getError().getDetails());
+        assertEquals("Username already exist", response.getError().getErrorMsg());
+    }
 }
