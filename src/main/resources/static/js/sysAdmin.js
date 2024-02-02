@@ -15,23 +15,32 @@ createAccount = function() {
         data: JSON.stringify({"username": username, "password": password, "role": role}),
         dataType: "json",
         success: function(data) {
+            
             console.log(data);
-            $('#create-user-form').after("<div id=\"accountMsg\" class=\"alert alert-success\"><strong>Success!</strong> New User Account Created</div>").show();
-            $('#created-users').append(`
-                <li class="list-group-item">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <strong>ID:</strong> ${data.id}
+            if(data.data != null) {
+                $('#create-user-form').after("<div id=\"accountMsg\" class=\"alert alert-success\"><strong>Success!</strong> New User Account Created</div>").show();
+                $('#created-users').append(`
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <strong>ID:</strong> ${data.data.id}
+                            </div>
+                            <div>
+                                <strong>Username:</strong> ${data.data.username}
+                            </div>
+                            <div>
+                                <strong>Role:</strong> ${data.data.role}
+                            </div>
                         </div>
-                        <div>
-                            <strong>Username:</strong> ${data.username}
-                        </div>
-                        <div>
-                            <strong>Role:</strong> ${data.role}
-                        </div>
-                    </div>
-                </li>`
-            )
+                    </li>`
+                )
+            }
+
+            if(data.error != null) {
+                $('#create-user-form').after(
+                    `<div id=\"accountMsg\" class=\"alert alert-danger\"><strong>Error!</strong> ${data.error.errorMsg}<br/>${data.error.details}</div>`
+                ).show();
+            }
         },
         error: function() {
             alert('Error during request.');
