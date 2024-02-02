@@ -44,4 +44,17 @@ body {
 
 #response-window {
 	background-color: white;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+#landing-page {
+	display: none;
+}
+
+#import-dialog {
+	padding: 2.5% 5%;
+}
+
+
