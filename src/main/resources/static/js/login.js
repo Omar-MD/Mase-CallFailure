@@ -1,4 +1,4 @@
-let rootUrl = "http://localhost:8081";  
+let rootUrl = "http://localhost:8081";
 
 
 login = function() {

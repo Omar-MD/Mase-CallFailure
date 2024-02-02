@@ -1,60 +1,73 @@
 body {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 /* Hide login container */
 #login-container {
-	display: none;
+    display: none;
 }
 
 #nav-bar {
-	height: 10vh;
+    height: 10vh;
 }
 
 #nav-aside-divider {
-	position: absolute;
-	margin: 0;
-	color: white;
+    position: absolute;
+    margin: 0;
+    color: white;
 }
 
 #aside-container {
-	height: 90vh;
+    height: 90vh;
 }
 #aside {
-	height: inherit;
-	padding: 0;
+    height: inherit;
+    padding: 0;
 }
 
 .dashbd-btn {
-	padding-top: 2.5%;
-	padding-bottom: 2.5%;
-	width: 100%;
-	background-color: #212529;
-	color: white;
-	border-radius: none;
-	border: none;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    width: 100%;
+    background-color: #212529;
+    color: white;
+    border-radius: none;
+    border: none;
 }
 
 .dashbd-btn:hover {
-	color: black;
-	background-color: #ebe6e6;
-	transition: background-color 2s ease;
+    color: black;
+    background-color: #ebe6e6;
+    transition: background-color 2s ease;
 }
 
 #response-window {
+<<<<<<< HEAD
 	background-color: white;
 	display: flex;
+=======
+    background-color: white;
+    display: flex;
+>>>>>>> 49734d15cc6ebf3deea238fac621ca0c9fc5ab2a
     justify-content: center;
     align-items: center;
 }
 
 #landing-page {
+<<<<<<< HEAD
 	display: none;
 }
 
 #import-dialog {
 	padding: 2.5% 5%;
+=======
+    display: none;
+}
+
+#import-dialog {
+    padding: 2.5% 5%;
+>>>>>>> 49734d15cc6ebf3deea238fac621ca0c9fc5ab2a
 }
 
 

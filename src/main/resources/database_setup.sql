@@ -1,5 +1,7 @@
 USE mase_group_project;
 
+DROP TABLE IF EXISTS accounts;
+
 CREATE TABLE IF NOT EXISTS accounts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
@@ -9,6 +11,6 @@ CREATE TABLE IF NOT EXISTS accounts (
 
 -- Insert test account
 INSERT INTO accounts (username, password, role) VALUES
-    ('admin', 'password', 'Admin');
+    ('admin', 'password', 'SYSTEM_ADMINISTRATOR');
 
 -- SELECT * FROM accounts;

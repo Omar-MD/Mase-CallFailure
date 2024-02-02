@@ -4,9 +4,7 @@ public class ApiError {
 	private String errorMsg;
 	private String details;
 
-	private ApiError() {
-	}
-
+	private ApiError() {}
 	public static ApiErrorBuilder builder() {
 		return new ApiErrorBuilder();
 	}
@@ -46,5 +44,4 @@ public class ApiError {
 	public static ApiError of(String errorMsg, String details) {
 		return ApiError.builder().errorMsg(errorMsg).details(details).build();
 	}
-
 }
