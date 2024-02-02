@@ -2,10 +2,6 @@ body {
     margin: 0;
     padding: 0;
 }
-/* Hide login container */
-#login-container {
-    display: none;
-}
 
 #nav-bar {
     height: 10vh;
@@ -65,6 +61,7 @@ body {
   background-color: #e6e5e3;
   border-radius: 15px;
   margin-top: 10%;
+  display: none;
 }
 
 #progressBarFG {
@@ -72,4 +69,5 @@ body {
   height: 0.5vh;
   background-color: black;
   border-radius: 15px;
+  display: none;
 }

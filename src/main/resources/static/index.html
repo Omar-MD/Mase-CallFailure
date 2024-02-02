@@ -9,6 +9,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/import.js"></script>
 </head>
 
 <body>
@@ -17,22 +18,11 @@
         <div class="container-fluid">
             <!-- text inside banner area id = banner-text -->
             <a class="navbar-brand" th:href="@{/index}" id="banner-text">Welcome To Login Page</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                    </li>
-                </ul>
-            </div>
         </div>
     </nav>
 
-    <!-- login dialog box id = login-container -->
-    <div class="container" id="login-container">
+    <!-- login dialog box id = login-section -->
+    <div class="container" id="login-section">
         <br /><br />
         <div class="row">
             <div class="col-md-6 offset-md-3">
@@ -62,63 +52,72 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
+
+    <!-- Home Section that'll hold all content-->
+    <div class="container-fluid" id="home-section">
+
         <!--  sidebar container id = aside-container -->
         <div class="row" id="aside-container">
             <!-- Aside Content -->
             <hr id="nav-aside-divider" />
-            
+
             <!--  sidebar id = aside -->
             <aside class="col-md-2 aside text-white bg-dark" id="aside">
                 <!--  dashboard import data button id = import-data -->
                 <button type="button" id="import-data" class="dashbd-btn" onclick="">Import Data</button>
             </aside>
-            
-            
+
+
             <!-- Main Content -->
             <!--  response window  id = response-window -->
             <main class="col-md-10 text-center" id="response-window">
+
                 <!--  container for landing/welcome page id = landing-page -->
                 <div class="container" id="landing-page"></div>
+
                 <!-- Import dialog box id = import-dialog -->
-                <div class="container col-sm-4 card" id="import-dialog">
-               
-        <h1 class="mb-4">Import Excel File</h1>
-        <form id="importForm">
-            <div class="mb-3">
-                <label for="selectFile" class="form-label">Select .xls File:</label>
-                <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
-            </div>
-            <div>
-            	<!-- Start import of excel file id = import-now -->
-                <button type="button" class="btn btn-dark" onclick="move()" id="import-now">Import</button>
-                 <div id="progressBarBG">
-                	<div id ="progressBarFG">
-                	</div>
+                <div class="container col-sm-6 card" id="import-dialog">
+                    <h1 class="mb-4">Import Call Failure Data</h1>
+                    <form id="importForm">
+                        <div class="mb-3">
+                            <label for="selectFile" class="form-label">Select .xls File:</label>
+                            <input type="hidden" id="filename" name="filename">
+                            <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx"
+                                onchange="handleFileSelection(this)" />
+                        </div>
+                        <div>
+                            <!-- Start import of excel file id = import-now -->
+                            <button type="button" class="btn btn-dark" onclick="move()" id="import-now">Import</button>
+                            <div id="progressBarBG">
+                                <div id="progressBarFG">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </div>
-        </form>
+            </main>
+        </div>
     </div>
     <script>
-		var i = 0;
-		function move() {
-  			if (i == 0) {
-    			i = 1;
-    			var elem = document.getElementById("progressBarFG");
-    			var width = 1;
-    			var id = setInterval(frame, 10);
-    			function frame() {
-      				if (width >= 100) {
-        				clearInterval(id);
-        				i = 0;
-      				} else {
-        				width++;
-        				elem.style.width = width + "%";
-      				}
-    			}
-  			}
-		}
-</script>
+        var i = 0;
+        function move() {
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("progressBarFG");
+                var width = 1;
+                var id = setInterval(frame, 10);
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        width++;
+                        elem.style.width = width + "%";
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 
 </html>
