@@ -62,30 +62,33 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid" >
-    <!--  sidebar container id = aside-container -->
+    <div class="container-fluid">
+        <!--  sidebar container id = aside-container -->
         <div class="row" id="aside-container">
-        	<!-- Aside Content -->
-        	<hr id="nav-aside-divider"/>
-        	<!--  sidebar id = aside -->
+            <!-- Aside Content -->
+            <hr id="nav-aside-divider" />
+            
+            <!--  sidebar id = aside -->
             <aside class="col-md-2 aside text-white bg-dark" id="aside">
-            <!--  dashboard import data button id = import-data -->
-				<button type="button" id="import-data" class="dashbd-btn" onclick="">Import Data</button>
+                <!--  dashboard import data button id = import-data -->
+                <button type="button" id="import-data" class="dashbd-btn" onclick="">Import Data</button>
             </aside>
+            
+            
             <!-- Main Content -->
             <!--  response window  id = response-window -->
             <main class="col-md-10 text-center" id="response-window">
-            <!--  container for landing/welcome page id = landing-page -->
-            	<div class="container" id="landing-page"></div>
-            <!-- Import dialog box id = import-dialog -->
+                <!--  container for landing/welcome page id = landing-page -->
+                <div class="container" id="landing-page"></div>
+                <!-- Import dialog box id = import-dialog -->
                 <div class="container col-sm-4 card" id="import-dialog">
                
         <h1 class="mb-4">Import Excel File</h1>
         <form id="importForm">
             <div class="mb-3">
                 <label for="selectFile" class="form-label">Select .xls File:</label>
-                <!-- <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
-            </div> -->
+                <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
+            </div>
             <div>
             	<!-- Start import of excel file id = import-now -->
                 <button type="button" class="btn btn-dark" onclick="move()" id="import-now">Import</button>
@@ -95,8 +98,6 @@
                 </div>
             </div>
         </form>
-        
-        
     </div>
     <script>
 		var i = 0;
