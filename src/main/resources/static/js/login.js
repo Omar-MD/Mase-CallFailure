@@ -14,18 +14,22 @@ login = function() {
         dataType: "json",
         success: function(data) {
             console.log(data);
-            alert('Admin login successful!');
-            if (data.role == 'Admin') {
-                alert('SYSTEM_ADMINISTRATOR login successful!');
-                // We can Redirect to another page or perform other actions
+            if (data.data == 'SYSTEM_ADMINISTRATOR') {
+                // alert('SYSTEM_ADMINISTRATOR login successful!');
+                $('#login-container').addClass("d-none");
+                $('#sys-adm-container').removeClass("d-none");
+            } else if(data.data == 'CUSTOMER_SERVICE_REP') {
+                alert('CUSTOMER_SERVICE_REP login successful!');
+            } else if(data.data == 'NETWORK_ENGINEER') {
+                alert('NETWORK_ENGINEER login successful!');
+            } else if(data.data == 'SUPPORT_ENGINEER') {   
+                alert('SUPPORT_ENGINEER login successful!');
             } else {
-                alert('Login successful!');
-                // $('#errorMsg').text('Invalid username or password.').show();
+                $('#login-card').append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
             }
         },
         error: function() {
-            alert('Error during request. Incorrect username or password');
-            // $('#errorMsg').text('Error during request.').show();
+            // alert('Error during request. Incorrect username or password');
         }
     });
 };
@@ -35,7 +39,6 @@ $(document).ready(function() {
     $('#loginSubmit').on('click', function(event) {
         console.log("Attempting login");
         event.preventDefault();
-        // hide error msg at new login attempt
         login();
     });
 });

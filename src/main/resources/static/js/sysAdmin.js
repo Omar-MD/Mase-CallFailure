@@ -1,21 +1,37 @@
-let rootUrl = "http://localhost:8081/accounts";  
+let sysAdminUrl = "http://localhost:8081/sysadmin/accounts";  
 
 
 createAccount = function() {
-    var username = $('#username').val();
-    var password = $('#password').val();
-    var role = $('#role').val();
+    var username = $('#new-user-username').val();
+    var password = $('#new-user-password').val();
+    var role = $('#new-user-role').val();
 
     console.log('Attempting account creation', username, password, role);
+    $('#accountMsg').remove();
     $.ajax({
         type: 'POST',
-        url: rootUrl,
+        url: sysAdminUrl,
         contentType: 'application/json',
-        data: JSON.stringify({"id": null, "username": username, "password": password, "role": role}),
+        data: JSON.stringify({"username": username, "password": password, "role": role}),
         dataType: "json",
         success: function(data) {
             console.log(data);
-            alert('New Account created successful');
+            $('#create-user-form').after("<div id=\"accountMsg\" class=\"alert alert-success\"><strong>Success!</strong> New User Account Created</div>").show();
+            $('#created-users').append(`
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>ID:</strong> ${data.id}
+                        </div>
+                        <div>
+                            <strong>Username:</strong> ${data.username}
+                        </div>
+                        <div>
+                            <strong>Role:</strong> ${data.role}
+                        </div>
+                    </div>
+                </li>`
+            )
         },
         error: function() {
             alert('Error during request.');
@@ -25,10 +41,21 @@ createAccount = function() {
 
 
 $(document).ready(function() {
-    $('#createAccount').on('click', function(event) {
+    $('#create-account-btn').on('click', function(event) {
         console.log("Account Creation");
         event.preventDefault();
-        // hide error msg at new login attempt
         createAccount();
+    });
+
+    $('#import-data-sidebar').click(function(event) {
+        console.log("Import Data");
+        $('#sys-adm-import-window').removeClass('d-none');
+        $('#sys-adm-create-user-window').addClass('d-none');
+    });
+
+    $('#create-user-sidebar').click(function(event) {
+        console.log("Create User");
+        $('#sys-adm-import-window').addClass('d-none');
+        $('#sys-adm-create-user-window').removeClass('d-none');
     });
 });

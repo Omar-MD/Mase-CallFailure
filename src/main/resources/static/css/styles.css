@@ -4,9 +4,9 @@ body {
 }
 
 /* Hide login container */
-#login-container {
+/* #login-container {
 	display: none;
-}
+} */
 
 #nav-bar {
 	height: 10vh;
