@@ -1,4 +1,4 @@
-let rootUrl = "http://localhost:8081/login";  
+let rootUrl = "http://localhost:8081";  
 
 
 login = function() {
@@ -8,7 +8,7 @@ login = function() {
     console.log('Attempting login', username, password);
     $.ajax({
         type: 'POST',
-        url: rootUrl,
+        url: rootUrl + "/login",
         contentType: 'application/json',
         data: JSON.stringify({ "username": username, "password": password }),
         dataType: "json",

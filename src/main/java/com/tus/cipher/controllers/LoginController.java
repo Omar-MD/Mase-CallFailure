@@ -2,6 +2,10 @@ package com.tus.cipher.controllers;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
@@ -13,42 +17,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-
-
+import com.tus.cipher.exceptions.ApiError;
+import com.tus.cipher.exceptions.ApiResponse;
 
 @RestController
 public class LoginController {
-    @Autowired
-    AccountRepository accountRepository;
+	@Autowired
+	AccountRepository accountRepository;
 
-    @PostMapping("/login")
-    public ResponseEntity<Account> login(@RequestBody LoginRequest loginDetail) {
+	@PostMapping("/login")
+	public ApiResponse<String> login(@RequestBody LoginRequest loginDetail) {
 
-        System.out.println("Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
-        
-        String username = loginDetail.getUsername();
-        String password = loginDetail.getPassword();
+		System.out.println(
+				"Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
 
-        Optional<Account> account = accountRepository.findByUsername(username);
+		String username = loginDetail.getUsername();
+		String password = loginDetail.getPassword();
 
-        if(account.isPresent()) {
-            Account loginAccount = account.get();
-            
+		Optional<Account> account = accountRepository.findByUsername(username);
 
-            if(loginAccount.getPassword().equals(password)) {
-                // Code for successful login
-                System.out.println("Logged in successfully");
-                return new ResponseEntity<Account>(loginAccount, HttpStatus.OK);
-            } else {
-                // Code for incorrect password
-                System.out.println("Wrong password");
-                return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
-            }
-        } else {
-            // Code for invalid username
-            System.out.println("Account not found");
-            return new ResponseEntity<Account>(HttpStatus.UNAUTHORIZED);
-            
-        }
-    }
+		if (account.isPresent()) {
+			Account loginAccount = account.get();
+
+			if (loginAccount.getPassword().equals(password)) {
+				// Success
+				System.out.println("Logged in successfully");
+				return ApiResponse.success(HttpStatus.OK.value(), loginAccount.getRole().name());
+
+			} else {
+				// Invalid Password
+				System.out.println("Wrong password");
+				ApiError error = ApiError.of("Invalid Credentials", "Username or Password is incorrect");
+				return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), error);
+			}
+		} else {
+			// Invalid Username
+			System.out.println("Account not found");
+			ApiError error = ApiError.of("Invalid Credentials", "Username or Password is incorrect");
+			return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), error);
+
+		}
+	}
 }

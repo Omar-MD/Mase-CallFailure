@@ -25,17 +25,15 @@ import com.tus.cipher.dto.accounts.EmployeeRole;
 import com.tus.cipher.dto.LoginRequest;
 
 // @ExtendWith(MockitoExtension.class)
-@SpringBootTest		
+// @SpringBootTest		
+@ExtendWith(MockitoExtension.class)
 class SysAdminControllerTest {
 
-    @Autowired
-	SysAdminController sysAdminController;
+    @InjectMocks
+    private SysAdminController sysAdminController;
 
-    @MockBean
+    @Mock
     private AccountRepository accountRepository;
-
-    @Captor
-    private ArgumentCaptor<LoginRequest> captor;
 
     @Test
     void testCreateNewAccounts() {

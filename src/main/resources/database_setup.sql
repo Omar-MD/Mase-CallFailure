@@ -1,6 +1,3 @@
-DROP DATABASE IF EXISTS mase_group_project;
-CREATE DATABASE IF NOT EXISTS mase_group_project;
-
 USE mase_group_project;
 
 DROP TABLE IF EXISTS accounts;

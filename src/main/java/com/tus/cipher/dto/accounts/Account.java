@@ -10,44 +10,34 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.tus.cipher.dto.BaseEntity;
+
 @Entity
-@Table(name="accounts")
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+@Table(name = "accounts")
+public class Account extends BaseEntity {
+
+	private static final long serialVersionUID = 1L;
 
 	@Column(name = "username")
 	@NotBlank
-    private String username;
+	private String username;
 
 	@Column(name = "password")
 	@NotBlank
-    private String password;
+	private String password;
 
 	@Enumerated(EnumType.STRING)
 	// @NotBlank
     private EmployeeRole role;
-	
 
-    public Account() {
-
-    }
+	public Account() {
+	}
 
 	public Account(String username, String password, EmployeeRole role) {
 		super();
 		this.username = username;
 		this.password = password;
-        this.role = role;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+		this.role = role;
 	}
 
 	public String getUsername() {
