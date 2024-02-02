@@ -13,16 +13,24 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tus.cipher.dao.EventCauseDAO;
+import com.tus.cipher.dao.FailureClassDAO;
+import com.tus.cipher.dao.MccMncDAO;
+import com.tus.cipher.dao.UeDAO;
 import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.dto.sheets.EventCause;
 import com.tus.cipher.dto.sheets.FailureClass;
 import com.tus.cipher.dto.sheets.MccMnc;
 import com.tus.cipher.dto.sheets.Ue;
+import com.tus.cipher.services.sheets.BaseDataSheet;
 import com.tus.cipher.services.sheets.SheetProcessor;
 
 @Service
 public class ImportService {
 	private static final String ROOT_PATH = "src/main/resources/";
+	private static final int MIN_BATCH_SIZE = 64;
+	private static final int MAX_BATCH_SIZE = 256;
+
 	private final SheetProcessor<MccMnc> importMccMnc;
 	private final SheetProcessor<Ue> importUe;
 	private final SheetProcessor<FailureClass> importFailureClass;
@@ -53,6 +61,11 @@ public class ImportService {
 				importSheet(proc, sheet);
 			}
 
+			// Set ValidationService
+			((BaseDataSheet) importBaseData).setValidator(
+					new ValidationService((EventCauseDAO) importEventCause.getDAO(), (MccMncDAO) importMccMnc.getDAO(),
+							(FailureClassDAO) importFailureClass.getDAO(), (UeDAO) importUe.getDAO()));
+
 			// Import BaseData
 			HSSFSheet sheet = workbook.getSheet(importBaseData.getSheetName());
 			importSheet(importBaseData, sheet);
@@ -63,22 +76,31 @@ public class ImportService {
 		}
 	}
 
-	public <T> void importSheet(SheetProcessor<T> processor, HSSFSheet sheet) {
+	private <T> void importSheet(SheetProcessor<T> processor, HSSFSheet sheet) {
 		List<T> entities = new ArrayList<>();
 
 		int totalRows = sheet.getPhysicalNumberOfRows();
-		System.out.println("=>" + sheet.getSheetName() + "\t\t\t\trow(s): " + totalRows);
+		System.out.println("=>" + sheet.getSheetName() + ", row(s): " + totalRows);
 
 		// Skip Header Row
 		for (int rowIndex = 1; rowIndex < totalRows; rowIndex++) {
 			Row r = sheet.getRow(rowIndex);
 			if (r != null) {
+				// Fetch Entity
 				T entity = processor.processRow(r);
 				if (entity != null) {
+					// Add to List
 					entities.add(entity);
 				}
 			}
 		}
-		processor.getDAO().saveAllAndFlush(entities);
+
+		int batchSize = MIN_BATCH_SIZE;
+		batchSize = Math.min(batchSize, MAX_BATCH_SIZE);
+
+		for (int i = 0; i < entities.size(); i += batchSize) {
+			List<T> batchEntities = entities.subList(i, Math.min(i + batchSize, entities.size()));
+			processor.getDAO().saveAll(batchEntities);
+		}
 	}
 }

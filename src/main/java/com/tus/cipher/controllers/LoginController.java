@@ -22,7 +22,8 @@ public class LoginController {
 	@PostMapping("/login")
 	public ApiResponse<String> login(@RequestBody LoginRequest loginDetail) {
 
-		System.out.println("Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
+		System.out.println(
+				"Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
 
 		String username = loginDetail.getUsername();
 		String password = loginDetail.getPassword();
