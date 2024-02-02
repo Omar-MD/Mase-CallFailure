@@ -1,7 +1,8 @@
 package com.tus.cipher.controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
@@ -13,14 +14,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import com.tus.cipher.dao.AccountRepository;
-import com.tus.cipher.dto.Account;
+import com.tus.cipher.dto.accounts.Account;
+import com.tus.cipher.dto.accounts.EmployeeRole;
 import com.tus.cipher.dto.LoginRequest;
+import com.tus.cipher.exceptions.ApiError;
+import com.tus.cipher.exceptions.ApiResponse;
 
-// @SpringBootTest
-@ExtendWith(MockitoExtension.class)					//	using this annotation, avoids running the spring boot container i.e. faster
+@ExtendWith(MockitoExtension.class)
 class LoginControllerTest {
 
     @InjectMocks
@@ -30,43 +32,51 @@ class LoginControllerTest {
     private AccountRepository accountRepository;
 
     @Captor
-    private ArgumentCaptor<LoginRequest> captor;  
+    private ArgumentCaptor<LoginRequest> captor;
 
     @Test
     void loginTestSuccess() {
-        // Mock login credentials and accountRepository behavior
+
         LoginRequest loginRequest = new LoginRequest("testUsername", "testPassword");
-        Account testAccount = new Account("testUsername", "testPassword", "testRole");
+        Account testAccount = new Account("testUsername", "testPassword", EmployeeRole.SYSTEM_ADMINISTRATOR);
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
-        // Call the SystemAdminHomepage method, verify http response status including body
-        ResponseEntity<Account> response = loginService.login(loginRequest);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        Account responseBody = response.getBody();
-        assertNotNull(responseBody);
-        assertEquals(testAccount.getId(), responseBody.getId());
-        assertEquals(testAccount.getUsername(), responseBody.getUsername());
-        assertEquals(testAccount.getPassword(), responseBody.getPassword());
-        assertEquals(testAccount.getRole(), responseBody.getRole());
+
+        ApiResponse<String> response = loginService.login(loginRequest);
+
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+        assertEquals(testAccount.getRole().name(), response.getData());
+        assertNull(response.getError());
     }
 
     @Test
     void loginTestIncorrectPassword() {
-        // Mock invalid password and accountRepository behavior
+
         LoginRequest loginRequest = new LoginRequest("testUsername", "incorrectPassword");
-        Account testAccount = new Account("testUsername", "testPassword", "testRole");
+        Account testAccount = new Account("testUsername", "testPassword", EmployeeRole.SYSTEM_ADMINISTRATOR);
+        ApiError error = ApiError.of("Invalid Credentials", "Username or Password is incorrect");
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
-        // Call the SystemAdminHomepage method, verify http response status
-        ResponseEntity<Account> response = loginService.login(loginRequest);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+
+        ApiResponse<String> response = loginService.login(loginRequest);
+
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatusCode());
+        assertEquals(error.getErrorMsg(), response.getError().getErrorMsg());
+        assertEquals(error.getDetails(), response.getError().getDetails());
+        assertNull(response.getData());
     }
 
     @Test
     void loginTestInvalidUsername() {
-        // Mock invalid username and accountRepository behavior
+
         LoginRequest loginRequest = new LoginRequest("nonExistentUser", "password");
+        ApiError error = ApiError.of("Invalid Credentials", "Username or Password is incorrect");
+
         when(accountRepository.findByUsername("nonExistentUser")).thenReturn(Optional.empty());
-        // Call the SystemAdminHomepage method, verify http response status
-        ResponseEntity<Account> response = loginService.login(loginRequest);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+
+        ApiResponse<String> response = loginService.login(loginRequest);
+
+        assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatusCode());
+        assertEquals(error.getErrorMsg(), response.getError().getErrorMsg());
+        assertEquals(error.getDetails(), response.getError().getDetails());
+        assertNull(response.getData());
     }
 }

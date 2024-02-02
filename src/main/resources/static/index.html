@@ -1,73 +1,131 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title> Login System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/sysAdmin.js"></script>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Welcome To Login Page</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-bar">
+        <div class="container-fluid">
+            <a class="navbar-brand" id="header-title" th:href="@{/index}">Welcome To Login Page</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-<br /><br />
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
+    </nav>
 
-           
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Login Form</h2>
-                </div>
-                <div class="card-body">
-                    <form
-                        class="form-horizontal"
-                    >
-                        <div class="form-group mb-3">
-                            <label class="control-label"> Username</label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                class="form-control"
-                                placeholder="Enter username"
-                            />
-                        </div>
+    <div class="container" id="login-container">
+        <br /><br />
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Login Form</h2>
+                    </div>
+                    <div class="card-body" id="login-card">
+                        <form class="form-horizontal">
+                            <div class="form-group mb-3">
+                                <label class="control-label"> Username</label>
+                                <input type="text" id="username" name="username" class="form-control"
+                                    placeholder="Enter username" />
+                            </div>
 
-                        <div class="form-group mb-3">
-                            <label class="control-label"> Password</label>
-                            <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    class="form-control"
-                                    placeholder="Enter password"
-                            />
-                        </div>
-                        <div class="form-group mb-3">
-                            <button class="btn btn-primary" id="loginSubmit">Submit</button>
-                        </div>
-                    </form>
+                            <div class="form-group mb-3">
+                                <label class="control-label"> Password</label>
+                                <input type="password" id="password" name="password" class="form-control"
+                                    placeholder="Enter password" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <button class="btn btn-primary" id="loginSubmit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="container-fluid d-none" id="sys-adm-container">
+        <div class="row" id="aside-container">
+            <!-- Aside Content -->
+            <hr id="nav-aside-divider" />
+            <aside class="col-md-2 aside text-white bg-dark" id="aside">
+                <button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="">Import Data</button>
+                <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="">Create User</button>
+            </aside>
+            <!-- Import Data Window -->
+            <main class="col-md-10 text-center" id="sys-adm-import-window">
+                <div style="border: 5px dashed;">
+                    <h1>Placeholder content...</h1>
+                    <p>This is what will be shown when the system administrator logs in..</p>
+                    <p>..before the Import Data button in the sidebar is clicked!</p>
+                </div>
+                <div class="container">
+                    <h1 class="mb-4">Import Excel File</h1>
+                    <form id="importForm">
+                        <div class="mb-3">
+                            <label for="selectFile" class="form-label">Select .xls File:</label>
+                            <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="">Import</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+
+            <!-- Create New User Window -->
+            <main class="col-md-10 text-center d-none" id="sys-adm-create-user-window">
+                <div class="container" id="create-user-container">
+                    <h1 class="mb-4">Create New User</h1>
+                    <form id="create-user-form">
+                        <div class="mb-3">
+                            <label class="control-label"> Username</label>
+                            <input type="text" id="new-user-username" name="username" class="form-control"
+                                placeholder="Enter username" />
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="control-label"> Password</label>
+                            <input type="password" id="new-user-password" name="password" class="form-control"
+                                placeholder="Enter password" />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="control-label"> Role</label>
+                            <select class="form-select" name="roles" id="new-user-role">
+                                <option value="SYSTEM_ADMINISTRATOR">System Administrator</option>
+                                <option value="CUSTOMER_SERVICE_REP">Customer Service Rep</option>
+                                <option value="NETWORK_ENGINEER">Network Engineer</option>
+                                <option value="SUPPORT_ENGINEER">Support Engineer</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button class="btn btn-primary" id="create-account-btn">Submit</button>
+                        </div>
+                    </form>
+                    <div class="overflow-auto" style="max-height: 30vh;">
+                        <ul class="list-group" id="created-users">
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 </body>
+
 </html>
