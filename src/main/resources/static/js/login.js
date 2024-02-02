@@ -19,6 +19,7 @@ login = function() {
                     case "SYSTEM_ADMINISTRATOR":
                         console.log("navigating to SysAdmin");
                         showHomeSection();
+                        $('#banner-text').text('System Admin Import Page');
                         break;
                     default:
                         break;
