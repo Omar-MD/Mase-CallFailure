@@ -79,18 +79,45 @@
             	<div class="container" id="landing-page"></div>
             <!-- Import dialog box id = import-dialog -->
                 <div class="container col-sm-4 card" id="import-dialog">
+               
         <h1 class="mb-4">Import Excel File</h1>
         <form id="importForm">
             <div class="mb-3">
                 <label for="selectFile" class="form-label">Select .xls File:</label>
-                <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
-            </div>
+                <!-- <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
+            </div> -->
             <div>
             	<!-- Start import of excel file id = import-now -->
-                <button type="button" class="btn btn-dark" onclick="" id="import-now">Import</button>
+                <button type="button" class="btn btn-dark" onclick="move()" id="import-now">Import</button>
+                 <div id="progressBarBG">
+                	<div id ="progressBarFG">
+                	</div>
+                </div>
             </div>
         </form>
+        
+        
     </div>
+    <script>
+		var i = 0;
+		function move() {
+  			if (i == 0) {
+    			i = 1;
+    			var elem = document.getElementById("progressBarFG");
+    			var width = 1;
+    			var id = setInterval(frame, 10);
+    			function frame() {
+      				if (width >= 100) {
+        				clearInterval(id);
+        				i = 0;
+      				} else {
+        				width++;
+        				elem.style.width = width + "%";
+      				}
+    			}
+  			}
+		}
+</script>
 </body>
 
 </html>
