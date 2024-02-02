@@ -12,9 +12,11 @@
     <script src="js/login.js"></script>
 </head>
 <body>
+<!-- banner at top of page id = nav-bar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-bar">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">Welcome To Login Page</a>
+    <!-- text inside banner area id = banner-text -->
+        <a class="navbar-brand" th:href="@{/index}" id="banner-text">Welcome To Login Page</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,6 +29,7 @@
     </div>
 </nav>
 
+<!-- login dialog box id = login-container -->
 <div class="container" id="login-container">
 <br /><br />
     <div class="row">
@@ -70,13 +73,17 @@
     </div>
 </div>
     <div class="container-fluid" >
+    <!--  sidebar container id = aside-container -->
         <div class="row" id="aside-container">
         	<!-- Aside Content -->
         	<hr id="nav-aside-divider"/>
+        	<!--  sidebar id = aside -->
             <aside class="col-md-2 aside text-white bg-dark" id="aside">
+            <!--  dashboard import data button id = import-data -->
 				<button type="button" id="import-data" class="dashbd-btn" onclick="">Import Data</button>
             </aside>
             <!-- Main Content -->
+            <!--  response window  id = response-window -->
             <main class="col-md-10 text-center" id="response-window">
             <div style= "border: 5px dashed;">
                 <h1>Placeholder content...</h1>
@@ -92,7 +99,8 @@
                 <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
             </div>
             <div>
-                <button type="button" class="btn btn-primary" onclick="">Import</button>
+            	<!-- Start import of excel file id = import-now -->
+                <button type="button" class="btn btn-primary" onclick="" id="import-now">Import</button>
             </div>
         </form>
     </div>
