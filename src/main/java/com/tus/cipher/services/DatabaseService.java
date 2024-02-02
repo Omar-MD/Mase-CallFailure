@@ -65,7 +65,7 @@ public class DatabaseService {
         
 
         String username = System.getProperty("user.name");
-        System.out.println("System Username: " + username);
+        // System.out.println("System Username: " + username);
 
         switch(username) {
             case "shaneneary":
@@ -92,7 +92,7 @@ public class DatabaseService {
 
     @EventListener
     public void onApplicationReadyEvent(ApplicationReadyEvent event) {
-        System.out.println("Populating database");
+        // System.out.println("Populating database");
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(
             false, 
             false, 

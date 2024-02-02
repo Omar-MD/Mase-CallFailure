@@ -6,7 +6,6 @@ createAccount = function() {
     var password = $('#new-user-password').val();
     var role = $('#new-user-role').val();
 
-    console.log('Attempting account creation', username, password, role);
     $('#accountMsg').remove();
     $.ajax({
         type: 'POST',
@@ -16,7 +15,6 @@ createAccount = function() {
         dataType: "json",
         success: function(data) {
             
-            console.log(data);
             if(data.data != null) {
                 $('#create-user-form').after("<div id=\"accountMsg\" class=\"alert alert-success\"><strong>Success!</strong> New User Account Created</div>").show();
                 $('#created-users').append(`
@@ -51,19 +49,16 @@ createAccount = function() {
 
 $(document).ready(function() {
     $('#create-account-btn').on('click', function(event) {
-        console.log("Account Creation");
         event.preventDefault();
         createAccount();
     });
 
     $('#import-data-sidebar').click(function(event) {
-        console.log("Import Data");
         $('#sys-adm-import-window').removeClass('d-none');
         $('#sys-adm-create-user-window').addClass('d-none');
     });
 
     $('#create-user-sidebar').click(function(event) {
-        console.log("Create User");
         $('#sys-adm-import-window').addClass('d-none');
         $('#sys-adm-create-user-window').removeClass('d-none');
     });

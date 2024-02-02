@@ -15,6 +15,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.junit.Ignore;
 
+
+// This test uses selenium and will likily only work on Shane's machine
+// It will be considered a manual test for Sprint#0
+
 @Disabled
 // @SpringBootTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

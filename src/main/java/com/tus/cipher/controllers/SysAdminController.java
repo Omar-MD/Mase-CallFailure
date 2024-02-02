@@ -1,6 +1,7 @@
 package com.tus.cipher.controllers;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -52,7 +53,8 @@ public class SysAdminController {
 			ApiError error = ApiError.of("Password not secure", "password length must be at least 8 characters");
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
-		if(accountRepository.exists(Example.of(account))) {
+		Optional<Account> accountOptional = accountRepository.findByUsername(account.getUsername());
+		if(accountOptional.isPresent()) {
 			// Account already exist in database already
 			ApiError error = ApiError.of("Username already exist", "");
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
