@@ -2,7 +2,6 @@ body {
     margin: 0;
     padding: 0;
 }
-
 /* Hide login container */
 #login-container {
     display: none;
@@ -43,31 +42,20 @@ body {
 }
 
 #response-window {
-<<<<<<< HEAD
 	background-color: white;
 	display: flex;
-=======
-    background-color: white;
-    display: flex;
->>>>>>> 49734d15cc6ebf3deea238fac621ca0c9fc5ab2a
     justify-content: center;
     align-items: center;
+    overflow: auto;
+    
 }
 
 #landing-page {
-<<<<<<< HEAD
 	display: none;
 }
 
 #import-dialog {
 	padding: 2.5% 5%;
-=======
-    display: none;
+	border: 2px solid;
+    /* display: none; */
 }
-
-#import-dialog {
-    padding: 2.5% 5%;
->>>>>>> 49734d15cc6ebf3deea238fac621ca0c9fc5ab2a
-}
-
-

@@ -4,63 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Team Cipher</title>
-<<<<<<< HEAD
-    <link rel="stylesheet" href="css/styles.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous"/>
-=======
     <link rel="stylesheet" href="css/styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
->>>>>>> 49734d15cc6ebf3deea238fac621ca0c9fc5ab2a
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/login.js"></script>
 </head>
 
 <body>
-<<<<<<< HEAD
-<!-- banner at top of page id = nav-bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-bar">
-    <div class="container-fluid">
-    <!-- text inside banner area id = banner-text -->
-        <a class="navbar-brand" th:href="@{/index}" id="banner-text">Welcome To Login Page</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- login dialog box id = login-container -->
-<div class="container" id="login-container">
-<br /><br />
-    <div class="row">
-        <div class="col-md-6 offset-md-3">           
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">Login Form</h2>
-                </div>
-                <div class="card-body">
-                    <form
-                        class="form-horizontal"
-                    >
-                        <div class="form-group mb-3">
-                            <label class="control-label"> Username</label>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                class="form-control"
-                                placeholder="Enter username"
-                            />
-=======
     <!-- banner at top of page id = nav-bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-bar">
         <div class="container-fluid">
@@ -103,7 +54,7 @@
                                     placeholder="Enter password" />
                             </div>
                             <div class="form-group mb-3">
-                                <button class="btn btn-primary" id="loginSubmit">Submit</button>
+                                <button class="btn btn-dark" id="loginSubmit">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -111,41 +62,6 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <!--  sidebar container id = aside-container -->
-        <div class="row" id="aside-container">
-            <!-- Aside Content -->
-            <hr id="nav-aside-divider" />
-            <!--  sidebar id = aside -->
-            <aside class="col-md-2 aside text-white bg-dark" id="aside">
-                <!--  dashboard import data button id = import-data -->
-                <button type="button" id="import-data" class="dashbd-btn" onclick="">Import Data</button>
-            </aside>
-            <!-- Main Content -->
-            <!--  response window  id = response-window -->
-            <main class="col-md-10 text-center" id="response-window">
-                <!--  container for landing/welcome page id = landing-page -->
-                <div class="container" id="landing-page"></div>
-                <!-- Import dialog box id = import-dialog -->
-                <div class="container col-sm-4 card" id="import-dialog">
-                    <h1 class="mb-4">Import Excel File</h1>
-                    <form id="importForm">
-                        <div class="mb-3">
-                            <label for="selectFile" class="form-label">Select .xls File:</label>
-                            <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx" />
->>>>>>> 49734d15cc6ebf3deea238fac621ca0c9fc5ab2a
-                        </div>
-                        <div>
-                            <!-- Start import of excel file id = import-now -->
-                            <button type="button" class="btn btn-primary" onclick="" id="import-now">Import</button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-        </div>
-    </div>
-<<<<<<< HEAD
-</div>
     <div class="container-fluid" >
     <!--  sidebar container id = aside-container -->
         <div class="row" id="aside-container">
@@ -171,11 +87,9 @@
             </div>
             <div>
             	<!-- Start import of excel file id = import-now -->
-                <button type="button" class="btn btn-primary" onclick="" id="import-now">Import</button>
+                <button type="button" class="btn btn-dark" onclick="" id="import-now">Import</button>
             </div>
         </form>
-=======
->>>>>>> 49734d15cc6ebf3deea238fac621ca0c9fc5ab2a
     </div>
 </body>
 
