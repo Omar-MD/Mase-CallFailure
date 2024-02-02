@@ -18,7 +18,6 @@ public class BaseDataSheet implements SheetProcessor<CallFailure> {
 	@Autowired
 	CallFailureDAO callFailureDAO;
 	ValidationService dataValidator;
-	String errorMsg = null;
 
 	public void setValidator(ValidationService dataValidator) {
 		this.dataValidator = dataValidator;
