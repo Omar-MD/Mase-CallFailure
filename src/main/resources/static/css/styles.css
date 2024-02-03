@@ -3,6 +3,11 @@ body {
     padding: 0;
 }
 
+/* Hide login container */
+/* #login-container {
+	display: none;
+} */
+
 #nav-bar {
     height: 10vh;
 }

@@ -63,7 +63,7 @@ public class DatabaseService {
         // dataSourceBuilder.driverClassName("org.h2.Driver");
 
         String username = System.getProperty("user.name");
-        System.out.println("System Username: " + username);
+        // System.out.println("System Username: " + username);
 
         switch(username) {
         	case "omarduadu":
@@ -74,8 +74,8 @@ public class DatabaseService {
                 dataSourceBuilder.password("root");
                 break;
             default:
-                testingMode = true;
-                dataSourceBuilder.url(H2_URL);
+            	testingMode = false;
+                dataSourceBuilder.url(MYSQL_URL);
                 dataSourceBuilder.username("root");
                 dataSourceBuilder.password("root");
                 break;
@@ -88,7 +88,7 @@ public class DatabaseService {
 
     @EventListener
     public void onApplicationReadyEvent(ApplicationReadyEvent event) {
-        System.out.println("Populating database");
+        // System.out.println("Populating database");
         ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(
             false,
             false,

@@ -22,9 +22,6 @@ public class LoginController {
 	@PostMapping("/login")
 	public ApiResponse<String> login(@RequestBody LoginRequest loginDetail) {
 
-		System.out.println(
-				"Login endpoint accessed: " + loginDetail.getUsername() + ", pass: " + loginDetail.getPassword());
-
 		String username = loginDetail.getUsername();
 		String password = loginDetail.getPassword();
 
@@ -35,18 +32,15 @@ public class LoginController {
 
 			if (loginAccount.getPassword().equals(password)) {
 				// Success
-				System.out.println("Logged in successfully");
 				return ApiResponse.success(HttpStatus.OK.value(), loginAccount.getRole().name());
 
 			} else {
 				// Invalid Password
-				System.out.println("Wrong password");
 				ApiError error = ApiError.of("Invalid Credentials", "Username or Password is incorrect");
 				return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), error);
 			}
 		} else {
 			// Invalid Username
-			System.out.println("Account not found");
 			ApiError error = ApiError.of("Invalid Credentials", "Username or Password is incorrect");
 			return ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), error);
 
