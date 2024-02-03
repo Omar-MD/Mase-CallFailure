@@ -46,7 +46,7 @@ public class SysAdminController {
 	@PostMapping("/accounts")
     public ApiResponse<Account> addAccount(@Valid @RequestBody Account account) {
         account = AccountFactory.createAccount(account);
-		if(securePassword(account)) {
+		if(!securePassword(account)) {
 			ApiError error = ApiError.of("Password not secure", "password length must be at least 8 characters");
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
