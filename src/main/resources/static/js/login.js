@@ -1,7 +1,7 @@
 let rootUrl = "http://localhost:8081";
 
 
-login = function() {
+const login = function() {
     let username = $('#username').val();
     let password = $('#password').val();
     
@@ -12,7 +12,6 @@ login = function() {
         data: JSON.stringify({ "username": username, "password": password }),
         dataType: "json",
         success: function(response) {
-            console.log(response);
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
                     $('#login-container').addClass("d-none");
@@ -38,29 +37,8 @@ login = function() {
     });
 };
 
-function showHomeSection() {
-    $('#login-section').hide();
-    $('#home-section').show();
-    sessionStorage.setItem('loggedIn', 'true');
-
-}
-
-function showLoginSection() {
-    $('#home-section').hide();
-    $('#login-section').show();
-    sessionStorage.setItem('loggedIn', 'false');
-}
-
 $(document).ready(function() {
-    // let loggedIn = sessionStorage.getItem('loggedIn');
-    // if (loggedIn === 'true') {
-    //     showHomeSection();      // Show SysAdmin section if logged in
-    // } else {
-    //     showLoginSection();     // Show login section if not logged in
-    // }
-
     $('#loginSubmit').on('click', function(event) {
-        console.log("Attempting login");
         event.preventDefault();
         login();
     });

@@ -19,9 +19,7 @@ import org.springframework.http.ResponseEntity;
 import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
-
 import com.tus.cipher.exceptions.ApiResponse;
-import com.tus.cipher.dto.LoginRequest;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -32,9 +30,9 @@ class SysAdminControllerTest {
 
     @Mock
     private AccountRepository accountRepository;
-    
+
     @Test
-    public void testCreateNewSystemAdminAccount() {
+    void testCreateNewSystemAdminAccount() {
         Account newAccount = new Account("New System Admin", "Admin1234", EmployeeRole.SYSTEM_ADMINISTRATOR);
         Account newAccountWithID = new Account("New System Admin", "Admin1234", EmployeeRole.SYSTEM_ADMINISTRATOR);
         newAccountWithID.setId(Long.valueOf(1));
@@ -42,9 +40,9 @@ class SysAdminControllerTest {
         ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
         checkCreatedAccount(newAccountWithID, response);
     }
-    
+
     @Test
-    public void testCreateNewCustomerServiceRepAccount() {
+    void testCreateNewCustomerServiceRepAccount() {
         Account newAccount = new Account("New Customer Service Rep", "CustRep1234", EmployeeRole.CUSTOMER_SERVICE_REP);
         Account newAccountWithID = new Account("New Customer Service Rep", "CustRep1234", EmployeeRole.CUSTOMER_SERVICE_REP);
         newAccountWithID.setId(Long.valueOf(2));
@@ -54,7 +52,7 @@ class SysAdminControllerTest {
     }
 
     @Test
-    public void testCreateNewSupportEngineerAccount() {
+    void testCreateNewSupportEngineerAccount() {
         Account newAccount = new Account("New Support Engineer", "SuppEng1234", EmployeeRole.SUPPORT_ENGINEER);
         Account newAccountWithID = new Account("New Support Engineer", "SuppEng1234", EmployeeRole.SUPPORT_ENGINEER);
         newAccountWithID.setId(Long.valueOf(3));
@@ -62,9 +60,9 @@ class SysAdminControllerTest {
         ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
         checkCreatedAccount(newAccountWithID, response);
     }
-    
+
     @Test
-    public void testCreateNewNetworkEngineerAccount() {
+    void testCreateNewNetworkEngineerAccount() {
         Account newAccount = new Account("New Network Engineer", "CustRep1234", EmployeeRole.NETWORK_ENGINEER);
         Account newAccountWithID = new Account("New Network Engineer", "CustRep1234", EmployeeRole.NETWORK_ENGINEER);
         newAccountWithID.setId(Long.valueOf(4));
@@ -73,28 +71,30 @@ class SysAdminControllerTest {
         checkCreatedAccount(newAccountWithID, response);
     }
 
-    public void checkCreatedAccount(Account correctAccount, ResponseEntity<Account> response) {
+    @Test
+    void checkCreatedAccount(Account correctAccount, ResponseEntity<Account> response) {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Account responseBody = response.getBody();
         System.out.println(responseBody);
         assertNotNull(responseBody);
         assertEquals(correctAccount.getId(), responseBody.getId());
     }
-    
-    public void checkCreatedAccount(Account correctAccount, ApiResponse<Account> response) {
+
+    @Test
+    void checkCreatedAccount(Account correctAccount, ApiResponse<Account> response) {
         assertNotNull(response);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         // assertEquals(HttpStatus.OK, response.getStatusCode());
         // Account responseBody = response.getBody();
         assertNull(response.getError());
         Account responseBody = response.getData();
-        assertEquals(correctAccount.getId(), responseBody.getId()); 
+        assertEquals(correctAccount.getId(), responseBody.getId());
         assertEquals(correctAccount.getUsername(), responseBody.getUsername());
         assertEquals(correctAccount.getPassword(), responseBody.getPassword());
         assertEquals(correctAccount.getRole(), responseBody.getRole());
     }
 
-    @Test 
+    @Test
     void testBadPassword() {
         Account newAccount = new Account("Test User", "short", EmployeeRole.NETWORK_ENGINEER);
         ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
@@ -103,7 +103,7 @@ class SysAdminControllerTest {
         assertEquals("Password not secure", response.getError().getErrorMsg());
     }
 
-    @Test 
+    @Test
     void testExistingUsername() {
         Account newAccount = new Account("Existing Username", "Val1d_Passw0rd!", EmployeeRole.SYSTEM_ADMINISTRATOR);
 

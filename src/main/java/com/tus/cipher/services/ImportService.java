@@ -28,7 +28,6 @@ import com.tus.cipher.services.sheets.SheetProcessor;
 @Service
 public class ImportService {
 	private static final String ROOT_PATH = "src/main/resources/";
-	private static final int MIN_BATCH_SIZE = 64;
 	private static final int MAX_BATCH_SIZE = 256;
 
 	private final SheetProcessor<MccMnc> importMccMnc;
@@ -95,12 +94,11 @@ public class ImportService {
 			}
 		}
 
-		int batchSize = MIN_BATCH_SIZE;
-		batchSize = Math.min(batchSize, MAX_BATCH_SIZE);
+		int batchSize = MAX_BATCH_SIZE;
 
-		for (int i = 0; i < entities.size(); i += batchSize) {
-			List<T> batchEntities = entities.subList(i, Math.min(i + batchSize, entities.size()));
-			processor.getDAO().saveAll(batchEntities);
-		}
+	    for (int i = 0; i < entities.size(); i += batchSize) {
+	        List<T> batchEntities = entities.subList(i, Math.min(i + batchSize, entities.size()));
+	        processor.getDAO().saveAll(batchEntities);
+	    }
 	}
 }

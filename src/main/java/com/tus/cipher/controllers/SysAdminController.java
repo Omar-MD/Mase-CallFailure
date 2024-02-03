@@ -6,19 +6,16 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
+import com.tus.cipher.dto.ImportRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.AccountFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.tus.cipher.dto.ImportRequest;
 import com.tus.cipher.exceptions.ApiError;
 import com.tus.cipher.exceptions.ApiResponse;
 import com.tus.cipher.services.ImportService;
@@ -49,7 +46,7 @@ public class SysAdminController {
 	@PostMapping("/accounts")
     public ApiResponse<Account> addAccount(@Valid @RequestBody Account account) {
         account = AccountFactory.createAccount(account);
-		if(securePassword(account) == false) {
+		if(securePassword(account)) {
 			ApiError error = ApiError.of("Password not secure", "password length must be at least 8 characters");
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
@@ -63,7 +60,7 @@ public class SysAdminController {
 			Account savedAccoount = accountRepository.save(account);
         	return ApiResponse.success(HttpStatus.OK.value(), savedAccoount);
 		}
-        
+
     }
 
 	private boolean securePassword(Account account) {

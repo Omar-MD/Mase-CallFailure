@@ -12,6 +12,7 @@
     <script src="js/import.js"></script>
     <script src="js/sysAdmin.js"></script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-bar">
         <div class="container-fluid">
@@ -76,13 +77,15 @@
                 <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="">Create User</button>
             </aside>
 
-
             <!-- Main Content -->
             <!--  response window  id = response-window -->
             <main class="col-md-10 text-center" id="sys-adm-import-window">
 
                 <!--  container for landing/welcome page id = landing-page -->
-                <div class="container" id="landing-page"></div>
+                <div class="container" id="landing-page">
+                    <br />
+                    <br />
+                </div>
 
                 <!-- Import dialog box id = import-dialog -->
                 <div class="container col-sm-6 card" id="import-dialog">
@@ -103,7 +106,8 @@
                             </div>
                         </div>
                     </form>
-                 </div>
+                    <div id="importMsg" style="display: none;"></div>
+                </div>
             </main>
             <!-- Create New User Window -->
             <main class="col-md-10 text-center d-none" id="sys-adm-create-user-window">

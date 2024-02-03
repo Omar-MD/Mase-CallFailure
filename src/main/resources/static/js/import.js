@@ -1,9 +1,8 @@
 
-importDataset = function() {
+const importDataset = function() {
     let filename = $('#filename').val();
-    console.log(filename)
-
-    console.log('Attempting File import', filename);
+    $('#importMsg').hide(); // Hide message div initially
+    showProgressBar();
     $.ajax({
         type: 'POST',
         url: rootUrl + "/sysadmin/import",
@@ -11,46 +10,43 @@ importDataset = function() {
         data: JSON.stringify({ "filename": filename }),
         dataType: "json",
         success: function(res) {
-            console.log(res);
-            if (res.status == "Success") {
-                alert('Import successful!');
-
-            } else {
-                alert('Import unsuccessful!');
-                err = res.error
-                console.log(err.errorMsg, err.details);
-            }
             hideProgressBar();
+            if (res.status == "Success") {
+                $('#importMsg').removeClass().addClass("alert alert-success").html("<strong>Success!</strong> Import Complete").show();
+            } else {
+                hideProgressBar();
+                $('#importMsg').removeClass().addClass("alert alert-danger").html(`<strong>Error!</strong> ${res.error.errorMsg}<br/>${res.error.details}`).show();
+
+            }
         },
         error: function() {
-            alert('Error during request.');
+            hideProgressBar();
+            $('#importMsg').removeClass().addClass("alert alert-danger").html("<strong>Error!</strong> Unexpected Import Error<br/>").show();
         }
     });
 };
 
 
 function handleFileSelection(input) {
-    if (input.files && input.files[0]) {
-        var filename = input.files[0].name;
+    if (input?.files[0]) {
+        let filename = input.files[0].name;
         $('#filename').val(filename);
     }
 }
 
-showProgressBar = function(){
-   $('#progressBarBG').show();
-   $('#progressBarFG').show();
+const showProgressBar = function() {
+    $('#progressBarBG').show();
+    $('#progressBarFG').show();
 }
 
-hideProgressBar = function(){
-   $('#progressBarBG').hide();
-   $('#progressBarFG').hide();
+const hideProgressBar = function() {
+    $('#progressBarBG').hide();
+    $('#progressBarFG').hide();
 }
 
 $(document).ready(function() {
     $('#import-now').on('click', function(event) {
-        console.log("Import Dataset...");
         event.preventDefault();
-        showProgressBar();
         importDataset();
     });
 });
