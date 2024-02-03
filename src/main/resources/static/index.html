@@ -62,7 +62,7 @@
     </div>
 
     <!-- Home Section that'll hold all content-->
-    <div class="container-fluid" id="home-section">
+    <div class="container-fluid d-none" id="home-section">
 
         <!--  sidebar container id = aside-container -->
         <div class="row" id="aside-container">
@@ -72,13 +72,14 @@
             <!--  sidebar id = aside -->
             <aside class="col-md-2 aside text-white bg-dark" id="aside">
                 <!--  dashboard import data button id = import-data -->
-                <button type="button" id="import-data" class="dashbd-btn" onclick="">Import Data</button>
+                <button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="">Import Data</button>
+                <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="">Create User</button>
             </aside>
 
 
             <!-- Main Content -->
             <!--  response window  id = response-window -->
-            <main class="col-md-10 text-center" id="response-window">
+            <main class="col-md-10 text-center" id="sys-adm-import-window">
 
                 <!--  container for landing/welcome page id = landing-page -->
                 <div class="container" id="landing-page"></div>

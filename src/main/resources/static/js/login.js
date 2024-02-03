@@ -16,7 +16,7 @@ login = function() {
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
                     $('#login-container').addClass("d-none");
-                    $('#sys-adm-container').removeClass("d-none");
+                    $('#home-section').removeClass("d-none");
                     break;
                 case 'CUSTOMER_SERVICE_REP':
                     alert('CUSTOMER_SERVICE_REP login successful!');
@@ -52,12 +52,12 @@ function showLoginSection() {
 }
 
 $(document).ready(function() {
-    let loggedIn = sessionStorage.getItem('loggedIn');
-    if (loggedIn === 'true') {
-        showHomeSection();      // Show SysAdmin section if logged in
-    } else {
-        showLoginSection();     // Show login section if not logged in
-    }
+    // let loggedIn = sessionStorage.getItem('loggedIn');
+    // if (loggedIn === 'true') {
+    //     showHomeSection();      // Show SysAdmin section if logged in
+    // } else {
+    //     showLoginSection();     // Show login section if not logged in
+    // }
 
     $('#loginSubmit').on('click', function(event) {
         console.log("Attempting login");
