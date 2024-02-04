@@ -27,6 +27,10 @@ public class ImportService {
 
 	@Transactional
 	public void importWorkBook(HSSFWorkbook workbook){
+			// Setup Logger
+			LoggerService.setLogFolderPath("logs");
+			LoggerService.setLogFilePath("logs/import_log");
+
 			importReferenceSheets(workbook);
 			importBaseData(workbook);
 	}

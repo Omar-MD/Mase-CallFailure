@@ -20,8 +20,10 @@ import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.AccountFactory;
 import com.tus.cipher.exceptions.ApiError;
 import com.tus.cipher.exceptions.ApiResponse;
+import com.tus.cipher.services.ErrorCountService;
 import com.tus.cipher.services.ImportParams;
 import com.tus.cipher.services.ImportService;
+import com.tus.cipher.services.LoggerService;
 
 @RestController
 @RequestMapping("/sysadmin")
@@ -32,7 +34,8 @@ public class SysAdminController {
 	private AccountRepository accountRepository;
 
 	public SysAdminController(ImportParams importParams, AccountRepository accountRepository) {
-		this.importService = new ImportService(importParams.getRefProcessors(), importParams.getDataValidator(), importParams.getBaseDataSheet());
+		this.importService = new ImportService(importParams.getRefProcessors(), importParams.getDataValidator(),
+				importParams.getBaseDataSheet());
 		this.accountRepository = accountRepository;
 	}
 
@@ -41,7 +44,10 @@ public class SysAdminController {
 		try (HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory
 				.create(new File(ROOT_PATH + importRequest.getFilename()))) {
 			importService.importWorkBook(workbook);
-			return ApiResponse.success(HttpStatus.OK.value(), "Import process complete");
+			String importSummary = ErrorCountService
+					.displaySummary(ErrorCountService.countErrors(LoggerService.getLogFilePath()));
+
+			return ApiResponse.success(HttpStatus.OK.value(), importSummary);
 
 		} catch (IOException e) {
 			ApiError error = ApiError.of("Import failed", e.getMessage());
@@ -74,6 +80,6 @@ public class SysAdminController {
 	}
 
 	void setImportService(ImportService importService) {
-	    this.importService = importService;
+		this.importService = importService;
 	}
 }

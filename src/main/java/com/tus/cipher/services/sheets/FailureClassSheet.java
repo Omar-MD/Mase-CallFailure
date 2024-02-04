@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.FailureClassDAO;
 import com.tus.cipher.dto.sheets.FailureClass;
+import com.tus.cipher.services.LoggerService;
 
 @Component
 public class FailureClassSheet extends BaseSheetProcessor{
@@ -33,7 +34,7 @@ public class FailureClassSheet extends BaseSheetProcessor{
 			validRows.add(failureClass);
 
 		} catch (Exception e) {
-			// TODO: Log Error
+			LoggerService.logInfo("sysadmin/import", "FailureClassSheet:processRow", e.getMessage());
 		}
 	}
 

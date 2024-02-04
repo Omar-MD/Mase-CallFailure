@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.UeDAO;
 import com.tus.cipher.dto.sheets.Ue;
+import com.tus.cipher.services.LoggerService;
 
 @Component
 public class UeSheet extends BaseSheetProcessor{
@@ -35,7 +36,7 @@ public class UeSheet extends BaseSheetProcessor{
 			validRows.add(ue);
 
 		} catch (Exception e) {
-			//TODO: Log Error
+			LoggerService.logInfo("sysadmin/import", "UeSheet:processRow", e.getMessage());
 		}
 	}
 

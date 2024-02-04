@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.EventCauseDAO;
 import com.tus.cipher.dto.sheets.EventCause;
+import com.tus.cipher.services.LoggerService;
 
 @Component
 public class EventCauseSheet extends BaseSheetProcessor{
@@ -34,7 +35,7 @@ public class EventCauseSheet extends BaseSheetProcessor{
 			validRows.add(eventCause);
 
 		} catch(Exception e) {
-			//TODO: Log Error
+			LoggerService.logInfo("sysadmin/import", "EventCauseSheet:processRow", e.getMessage());
 		}
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.MccMncDAO;
 import com.tus.cipher.dto.sheets.MccMnc;
+import com.tus.cipher.services.LoggerService;
 
 @Component
 public class MccMncSheet extends BaseSheetProcessor{
@@ -35,7 +36,7 @@ public class MccMncSheet extends BaseSheetProcessor{
 			validRows.add(mccMnc);
 
 		} catch (Exception e) {
-			// TODO: Log error
+			LoggerService.logInfo("sysadmin/import", "MccMncSheet:processRow", e.getMessage());
 		}
 	}
 

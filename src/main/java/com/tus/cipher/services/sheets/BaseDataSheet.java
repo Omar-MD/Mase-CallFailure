@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.services.DataValidator;
+import com.tus.cipher.services.LoggerService;
 
 @Component
 public class BaseDataSheet extends BaseSheetProcessor {
@@ -59,8 +60,7 @@ public class BaseDataSheet extends BaseSheetProcessor {
 			validRows.add(callFailure);
 
 		} catch (Exception e){
-			// TODO: Error: Log Parsing/Validation errors
-//			System.out.println("row: " + r.getRowNum() + ", error: " + e.getMessage());
+			LoggerService.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage());
 		}
 	}
 
