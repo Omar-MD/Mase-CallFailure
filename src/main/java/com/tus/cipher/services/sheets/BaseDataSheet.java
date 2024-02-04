@@ -19,7 +19,7 @@ public class BaseDataSheet extends BaseSheetProcessor {
 
 	private final CallFailureDAO callFailureDAO;
 	private DataValidator validator;
-	private List<CallFailure> validRows = new ArrayList<>();
+	List<CallFailure> validRows = new ArrayList<>();
 
 	public BaseDataSheet(CallFailureDAO callFailureDAO) {
 		this.callFailureDAO = callFailureDAO;
@@ -68,9 +68,10 @@ public class BaseDataSheet extends BaseSheetProcessor {
 	public void saveInBatchs() {
 		int totalRows = validRows.size();
 		System.out.println("Total size: " + totalRows);
+		List<CallFailure> rowsToSave = new ArrayList<>(validRows);
 
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
-			List<CallFailure> batchEntities = validRows.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
+			List<CallFailure> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
 			System.out.println("Batch size: " + batchEntities.size());
 			callFailureDAO.saveAll(batchEntities);
 		}
@@ -81,5 +82,10 @@ public class BaseDataSheet extends BaseSheetProcessor {
 	@Override
 	public String getSheetName() {
 		return SHEET_NAME;
+	}
+
+	@Override
+	public int getBatchSize() {
+		return MAX_BATCH_SIZE;
 	}
 }

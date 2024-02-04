@@ -16,7 +16,7 @@ public class MccMncSheet extends BaseSheetProcessor{
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private MccMncDAO mccMncDAO;
-	private List<MccMnc> validRows = new ArrayList<>();
+	List<MccMnc> validRows = new ArrayList<>();
 
 	public MccMncSheet(MccMncDAO mccMncDAO) {
 		this.mccMncDAO = mccMncDAO;
@@ -42,8 +42,10 @@ public class MccMncSheet extends BaseSheetProcessor{
 	@Override
 	public void saveInBatchs() {
 		int totalRows = validRows.size();
+		List<MccMnc> rowsToSave = new ArrayList<>(validRows);
+
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
-			List<MccMnc> batchEntities = validRows.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
+			List<MccMnc> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
 			mccMncDAO.saveAllAndFlush(batchEntities);
 		}
 		validRows.clear();
@@ -52,5 +54,10 @@ public class MccMncSheet extends BaseSheetProcessor{
 	@Override
 	public String getSheetName() {
 		return SHEET_NAME;
+	}
+
+	@Override
+	public int getBatchSize() {
+		return MAX_BATCH_SIZE;
 	}
 }

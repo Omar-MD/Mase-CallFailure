@@ -16,7 +16,7 @@ public class FailureClassSheet extends BaseSheetProcessor{
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private FailureClassDAO failureClassDAO;
-	private List<FailureClass> validRows = new ArrayList<>();
+	List<FailureClass> validRows = new ArrayList<>();
 
 	public FailureClassSheet(FailureClassDAO failureClassDAO) {
 		this.failureClassDAO = failureClassDAO;
@@ -40,8 +40,10 @@ public class FailureClassSheet extends BaseSheetProcessor{
 	@Override
 	public void saveInBatchs() {
 		int totalRows = validRows.size();
+		List<FailureClass> rowsToSave = new ArrayList<>(validRows);
+
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
-			List<FailureClass> batchEntities = validRows.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
+			List<FailureClass> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
 			failureClassDAO.saveAllAndFlush(batchEntities);
 		}
 		validRows.clear();
@@ -50,5 +52,10 @@ public class FailureClassSheet extends BaseSheetProcessor{
 	@Override
 	public String getSheetName() {
 		return SHEET_NAME;
+	}
+
+	@Override
+	public int getBatchSize() {
+		return MAX_BATCH_SIZE;
 	}
 }

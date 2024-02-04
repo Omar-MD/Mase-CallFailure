@@ -6,6 +6,8 @@ public abstract class BaseSheetProcessor {
 
 	public abstract String getSheetName();
 
+	public abstract int getBatchSize();
+
     public abstract void processRow(Row r);
 
     public abstract void saveInBatchs();

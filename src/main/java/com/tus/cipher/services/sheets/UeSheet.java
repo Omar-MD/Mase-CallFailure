@@ -16,7 +16,7 @@ public class UeSheet extends BaseSheetProcessor{
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private final UeDAO ueDAO;
-	private List<Ue> validRows = new ArrayList<>();
+	List<Ue> validRows = new ArrayList<>();
 
 	public UeSheet(UeDAO ueDAO) {
 		this.ueDAO = ueDAO;
@@ -42,8 +42,10 @@ public class UeSheet extends BaseSheetProcessor{
 	@Override
 	public void saveInBatchs() {
 		int totalRows = validRows.size();
+		List<Ue> rowsToSave = new ArrayList<>(validRows);
+
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
-			List<Ue> batchEntities = validRows.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
+			List<Ue> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
 			ueDAO.saveAllAndFlush(batchEntities);
 		}
 		validRows.clear();
@@ -52,5 +54,10 @@ public class UeSheet extends BaseSheetProcessor{
 	@Override
 	public String getSheetName() {
 		return SHEET_NAME;
+	}
+
+	@Override
+	public int getBatchSize() {
+		return MAX_BATCH_SIZE;
 	}
 }

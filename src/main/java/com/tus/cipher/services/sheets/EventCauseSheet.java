@@ -16,7 +16,7 @@ public class EventCauseSheet extends BaseSheetProcessor{
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private final EventCauseDAO eventCauseDAO;
-	private List<EventCause> validRows = new ArrayList<>();
+	List<EventCause> validRows = new ArrayList<>();
 
 	public EventCauseSheet(EventCauseDAO eventCauseDAO) {
 		this.eventCauseDAO = eventCauseDAO;
@@ -41,8 +41,10 @@ public class EventCauseSheet extends BaseSheetProcessor{
 	@Override
 	public void saveInBatchs() {
 		int totalRows = validRows.size();
+		List<EventCause> rowsToSave = new ArrayList<>(validRows);
+
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
-			List<EventCause> batchEntities = validRows.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
+			List<EventCause> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
 			eventCauseDAO.saveAllAndFlush(batchEntities);
 		}
 		validRows.clear();
@@ -51,5 +53,10 @@ public class EventCauseSheet extends BaseSheetProcessor{
 	@Override
 	public String getSheetName() {
 		return SHEET_NAME;
+	}
+
+	@Override
+	public int getBatchSize() {
+		return MAX_BATCH_SIZE;
 	}
 }
