@@ -21,6 +21,7 @@ public class EventCause extends BaseEntity {
 	@Column(nullable = false)
 	private String description;
 
+	public EventCause() {}
 	public EventCause(Integer causeCode, Integer eventId, String description) {
 		this.causeCode = causeCode;
 		this.eventId = eventId;

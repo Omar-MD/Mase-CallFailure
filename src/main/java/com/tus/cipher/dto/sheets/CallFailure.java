@@ -73,6 +73,7 @@ public class CallFailure extends BaseEntity {
 	@Column(nullable = false)
 	private Long hier321Id;
 
+	public CallFailure() {}
 	public CallFailure(LocalDateTime dateTime, Integer eventId, Integer causeCode, Integer failureCode, // NOSONAR
 			Integer duration, Integer cellId, Long tac, Integer mcc, Integer mnc, String neVersion, Long imsi,
 			Long hier3Id, Long hier32Id, Long hier321Id) {

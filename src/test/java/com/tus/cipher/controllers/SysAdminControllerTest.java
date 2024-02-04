@@ -1,8 +1,8 @@
 package com.tus.cipher.controllers;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -14,13 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
 import com.tus.cipher.exceptions.ApiResponse;
-
 
 @ExtendWith(MockitoExtension.class)
 class SysAdminControllerTest {
@@ -71,16 +69,6 @@ class SysAdminControllerTest {
         checkCreatedAccount(newAccountWithID, response);
     }
 
-    @Test
-    void checkCreatedAccount(Account correctAccount, ResponseEntity<Account> response) {
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        Account responseBody = response.getBody();
-        System.out.println(responseBody);
-        assertNotNull(responseBody);
-        assertEquals(correctAccount.getId(), responseBody.getId());
-    }
-
-    @Test
     void checkCreatedAccount(Account correctAccount, ApiResponse<Account> response) {
         assertNotNull(response);
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());

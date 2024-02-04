@@ -16,50 +16,34 @@ import com.tus.cipher.dao.UeDAO;
 
 public class ValidationService {
 
-	EventCauseDAO eventCauseDAO;
-	MccMncDAO mccMncDAO;
-	FailureClassDAO failureClassDAO;
-	UeDAO ueDAO;
+	private final EventCauseDAO eventCauseDAO;
+	private final MccMncDAO mccMncDAO;
+	private final FailureClassDAO failureClassDAO;
+	private final UeDAO ueDAO;
 
-	Map<Integer, Set<Integer>> validEventCauseMap;
-	Map<Integer, Set<Integer>> validMccMncMap;
-	Set<Integer> validFailureCodeSet;
-	Set<Long> validUeSet;
+	private Map<Integer, Set<Integer>> validEventCauseMap;
+	private Map<Integer, Set<Integer>> validMccMncMap;
+	private Set<Integer> validFailureCodeSet;
+	private Set<Long> validUeSet;
 
-	public ValidationService(EventCauseDAO eventCauseDAO, MccMncDAO mccMncDAO, FailureClassDAO failureClassDAO,
-			UeDAO ueDAO) {
-		this.eventCauseDAO = eventCauseDAO;
-		this.validEventCauseMap = createEventCauseMap(this.eventCauseDAO.findDistinctEventIdsAndCauseCodes());
+	public ValidationService(MccMncDAO mccMncDAO, UeDAO ueDAO, FailureClassDAO failureClassDAO,
+			EventCauseDAO eventCauseDAO) {
 		this.mccMncDAO = mccMncDAO;
-		this.validMccMncMap = createMccMncMap(this.mccMncDAO.findDistinctMccAndMnc());
-		this.failureClassDAO = failureClassDAO;
-		this.validFailureCodeSet = new HashSet<>(this.failureClassDAO.findDistinctFailureCodes());
 		this.ueDAO = ueDAO;
+		this.failureClassDAO = failureClassDAO;
+		this.eventCauseDAO = eventCauseDAO;
+	}
+
+	public void prepareValidator() {
+		this.validMccMncMap = createMccMncMap(this.mccMncDAO.findDistinctMccAndMnc());
 		this.validUeSet = new HashSet<>(this.ueDAO.findDistinctUe());
-	}
-
-	private Map<Integer, Set<Integer>> createEventCauseMap(List<Object[]> eventCauseList) {
-		Map<Integer, Set<Integer>> map = new HashMap<>();
-		for (Object[] ec : eventCauseList) {
-			int eventId = (int) ec[0];
-			int causeCode = (int) ec[1];
-			map.computeIfAbsent(eventId, k -> new HashSet<>()).add(causeCode);
-		}
-		return map;
-	}
-
-	private Map<Integer, Set<Integer>> createMccMncMap(List<Object[]> mccMncList) {
-		Map<Integer, Set<Integer>> map = new HashMap<>();
-		for (Object[] mccMnc : mccMncList) {
-			int mcc = (int) mccMnc[0];
-			int mnc = (int) mccMnc[1];
-			map.computeIfAbsent(mcc, k -> new HashSet<>()).add(mnc);
-		}
-		return map;
+		this.validFailureCodeSet = new HashSet<>(this.failureClassDAO.findDistinctFailureCodes());
+		this.validEventCauseMap = createEventCauseMap(this.eventCauseDAO.findDistinctEventIdsAndCauseCodes());
 	}
 
 	public void validate(LocalDateTime dateTime, int eventId, int causeCode, int failureCode, int duration, int cellId, // NOSONAR
-			long tac, int mcc, int mnc, String neVersion, long imsi, long hier3Id, long hier32Id, long hier321Id) {
+			long tac, int mcc, int mnc, String neVersion, long imsi, long hier3Id, long hier32Id, long hier321Id)
+			throws IllegalArgumentException {
 
 		validateNotNull(dateTime, neVersion);
 
@@ -93,11 +77,29 @@ public class ValidationService {
 		}
 	}
 
-	private void validateNotNull(Object... objects) {
-		for (Object obj : objects) {
-			if (obj == null) {
-				throw new IllegalArgumentException("Invalid Date/NE Version: Parameter cannot be null");
-			}
+	private Map<Integer, Set<Integer>> createEventCauseMap(List<Object[]> eventCauseList) {
+		Map<Integer, Set<Integer>> map = new HashMap<>();
+		for (Object[] ec : eventCauseList) {
+			int eventId = (int) ec[0];
+			int causeCode = (int) ec[1];
+			map.computeIfAbsent(causeCode, k -> new HashSet<>()).add(eventId);
+		}
+		return map;
+	}
+
+	private Map<Integer, Set<Integer>> createMccMncMap(List<Object[]> mccMncList) {
+		Map<Integer, Set<Integer>> map = new HashMap<>();
+		for (Object[] mccMnc : mccMncList) {
+			int mcc = (int) mccMnc[0];
+			int mnc = (int) mccMnc[1];
+			map.computeIfAbsent(mcc, k -> new HashSet<>()).add(mnc);
+		}
+		return map;
+	}
+
+	private void validateNotNull(LocalDateTime dateTime, String neVersion) {
+		if (dateTime == null || neVersion == null) {
+			throw new IllegalArgumentException("Invalid Date/NE Version: Parameter cannot be null");
 		}
 	}
 
@@ -113,8 +115,8 @@ public class ValidationService {
 	}
 
 	private boolean isValidEventCause(int eventId, int causeCode) {
-		Set<Integer> causeCodes = validEventCauseMap.get(eventId);
-		return causeCodes != null && causeCodes.contains(causeCode);
+		Set<Integer> eventIds = validEventCauseMap.get(causeCode);
+		return eventIds != null && eventIds.contains(eventId);
 	}
 
 	private boolean isValidMccMnc(int mcc, int mnc) {
