@@ -16,10 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 // It will be considered a manual test for Sprint#0
 
 @Disabled
-// @SpringBootTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-// @SpringBootTest
-// @AutoConfigureMockMvc
 @SpringJUnitConfig
 class LoginPageTest {
 

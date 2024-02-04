@@ -40,26 +40,6 @@ public class ImportParams {
         this.eventCauseDAO = eventCauseDAO;
     }
 
-	public CallFailureDAO getCallFailureDAO() {
-		return callFailureDAO;
-	}
-
-	public MccMncDAO getMccMncDAO() {
-		return mccMncDAO;
-	}
-
-	public UeDAO getUeDAO() {
-		return ueDAO;
-	}
-
-	public FailureClassDAO getFailureClassDAO() {
-		return failureClassDAO;
-	}
-
-	public EventCauseDAO getEventCauseDAO() {
-		return eventCauseDAO;
-	}
-
 	public BaseDataSheet getBaseDataSheet() {
 		return new BaseDataSheet(callFailureDAO);
 	}

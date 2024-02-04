@@ -1,106 +1,75 @@
 //package com.tus.cipher.services;
 //
-//import static org.junit.Assert.assertEquals;
-//import static org.mockito.ArgumentMatchers.anyString;
-//import static org.mockito.Mockito.inOrder;
+//import static org.mockito.Mockito.doNothing;
 //import static org.mockito.Mockito.mock;
-//import static org.mockito.Mockito.when;
+//import static org.mockito.Mockito.verify;
 //
-//import java.io.FileInputStream;
-//import java.io.IOException;
+//import java.util.ArrayList;
+//import java.util.List;
 //
-//import org.apache.poi.hssf.usermodel.HSSFSheet;
 //import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-//import org.apache.poi.ss.usermodel.WorkbookFactory;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.ArgumentCaptor;
-//import org.mockito.Captor;
-//import org.mockito.InOrder;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
 //
-//import com.tus.cipher.services.sheets.BaseDataSheet;
 //import com.tus.cipher.services.sheets.BaseSheetProcessor;
-//import com.tus.cipher.services.sheets.EventCauseSheet;
-//import com.tus.cipher.services.sheets.FailureClassSheet;
-//import com.tus.cipher.services.sheets.MccMncSheet;
-//import com.tus.cipher.services.sheets.UeSheet;
 //
-//@ExtendWith(MockitoExtension.class)
 //class ImportServiceTest {
 //
-//	@Mock
-//    private MccMncSheet mccMncSheet;
-//
-//    @Mock
-//    private UeSheet ueSheet;
-//
-//    @Mock
-//    private FailureClassSheet failureClassSheet;
-//
-//    @Mock
-//    private EventCauseSheet eventCauseSheet;
-//
-//    @Mock
-//    private BaseDataSheet baseDataSheet;
-//
-//    @InjectMocks
 //    private ImportService importService;
-//
-//    @Captor
-//    private ArgumentCaptor<HSSFSheet> sheetCaptor;
-//
-//    private HSSFWorkbook mockWorkbook;
-//    private HSSFSheet mockSheet;
-//    private static final String FILE = "TUSGroupProject_SampleDataset.xls";
+//    private DataValidator dataValidatorMock;
+//    private BaseSheetProcessor baseSheetProcessorMock;
+//    private List<BaseSheetProcessor> refProcessorsMock;
 //
 //    @BeforeEach
-//    public void setUp() {
-//        mockWorkbook = mock(HSSFWorkbook.class);
-//        mockSheet = mock(HSSFSheet.class);
+//    void setUp() {
+//        dataValidatorMock = mock(DataValidator.class);
+//        baseSheetProcessorMock = mock(BaseSheetProcessor.class);
+//        refProcessorsMock = new ArrayList<>();
+//        refProcessorsMock.add(mock(BaseSheetProcessor.class)); // Add a mock processor
+//
+//        importService = new ImportService(refProcessorsMock, dataValidatorMock, baseSheetProcessorMock);
 //    }
 //
 //    @Test
-//    void testImportFile_Successful() throws IOException {
+//    void testImportWorkBook() {
+//        HSSFWorkbook workbookMock = mock(HSSFWorkbook.class);
 //
-//        when(WorkbookFactory.create(new FileInputStream(FILE))).thenReturn(mockWorkbook);
-//        when(mockWorkbook.getSheet(anyString())).thenReturn(mockSheet);
-//        importService.importFile(FILE);
+//        doNothing().when(importService).importReferenceSheets(workbookMock);
+//        doNothing().when(importService).importBaseData(workbookMock);
 //
-//        // Verify the order and content of sheets passed to importSheet method
-//        InOrder inOrder = inOrder(mccMncSheet, ueSheet, failureClassSheet, eventCauseSheet, baseDataSheet);
+//        importService.importWorkBook(workbookMock);
 //
-//        inOrder.verify(importService).importSheet(BaseSheetProcessor.class, sheetCaptor.capture());
+//        verify(importService).importReferenceSheets(workbookMock);
+//        verify(importService).importBaseData(workbookMock);
+//    }
+//
+////    @Test
+////    void testImportReferenceSheets() {
+////        HSSFWorkbook workbookMock = mock(HSSFWorkbook.class);
+////        HSSFSheet sheetMock = mock(HSSFSheet.class);
 ////
-////        inOrder.verify(importUe).importSheet(any(), sheetCaptor.capture());
-////        inOrder.verify(importFailureClass).importSheet(any(), sheetCaptor.capture());
-////        inOrder.verify(importEventCause).importSheet(any(), sheetCaptor.capture());
-////        inOrder.verify(importBaseData).importSheet(any(), sheetCaptor.capture());
-//
-//        // Assert the order and content of the sheets
-//        assertEquals("MccMncSheet", sheetCaptor.getAllValues().get(0).getSheetName());
-////        assertEquals("UeSheet", sheetCaptor.getAllValues().get(1).getSheetName());
-////        assertEquals("FailureClassSheet", sheetCaptor.getAllValues().get(2).getSheetName());
-////        assertEquals("EventCauseSheet", sheetCaptor.getAllValues().get(3).getSheetName());
-////        assertEquals("BaseDataSheet", sheetCaptor.getAllValues().get(4).getSheetName());
-//
-//    }
-//
-//    @Test
-//    void testImportFile_IOException() throws IOException {
-//        // Write your test case for IOException handling
-//    }
-//
-//    @Test
-//    void testImportSheet_BatchProcessing() {
-//        // Write your test case for batch processing of entities
-//    }
-//
-//    @Test
-//    void testValidationService_Setting() {
-//        // Write your test case for validation service setting
-//    }
+////        when(baseSheetProcessorMock.getSheetName()).thenReturn("SheetName");
+////
+////        importService.importReferenceSheets(workbookMock);
+////
+////        // Verify that importSheet was called for each processor
+////        for (BaseSheetProcessor processor : refProcessorsMock) {
+////            verify(importService).importSheet(processor, sheetMock);
+////        }
+////    }
+////
+////    @Test
+////    void testImportBaseData() {
+////        HSSFWorkbook workbookMock = mock(HSSFWorkbook.class);
+////        HSSFSheet sheetMock = mock(HSSFSheet.class);
+////
+////        // Mock the behavior of the base sheet processor
+////        when(baseSheetProcessorMock.getSheetName()).thenReturn("SheetName");
+////
+////        // Test the importBaseData method
+////        importService.importBaseData(workbookMock);
+////
+////        // Verify that importSheet was called with the correct processor and sheet
+////        verify(importService).importSheet(baseSheetProcessorMock, sheetMock);
+////    }
 //}

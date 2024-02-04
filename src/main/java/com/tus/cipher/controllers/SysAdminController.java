@@ -28,23 +28,18 @@ import com.tus.cipher.services.ImportService;
 public class SysAdminController {
 	private static final String ROOT_PATH = "src/main/resources/";
 
-	ImportParams importParams;
-	AccountRepository accountRepository;
+	private ImportService importService;
+	private AccountRepository accountRepository;
 
 	public SysAdminController(ImportParams importParams, AccountRepository accountRepository) {
-		this.importParams = importParams;
+		this.importService = new ImportService(importParams.getRefProcessors(), importParams.getDataValidator(), importParams.getBaseDataSheet());
 		this.accountRepository = accountRepository;
 	}
 
 	@PostMapping("/import")
 	public ApiResponse<String> importData(@Valid @RequestBody ImportRequest importRequest) {
-
 		try (HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory
 				.create(new File(ROOT_PATH + importRequest.getFilename()))) {
-
-			ImportService importService = new ImportService(importParams.getRefProcessors(),
-					importParams.getDataValidator(), importParams.getBaseDataSheet());
-
 			importService.importWorkBook(workbook);
 			return ApiResponse.success(HttpStatus.OK.value(), "Import process complete");
 
@@ -76,5 +71,9 @@ public class SysAdminController {
 
 	private boolean securePassword(Account account) {
 		return account.getPassword().length() >= 8;
+	}
+
+	void setImportService(ImportService importService) {
+	    this.importService = importService;
 	}
 }
