@@ -24,10 +24,10 @@ public class DataValidator {
 	private final FailureClassDAO failureClassDAO;
 	private final UeDAO ueDAO;
 
-	private Map<Integer, Set<Integer>> validEventCauseMap;
-	private Map<Integer, Set<Integer>> validMccMncMap;
-	private Set<Integer> validFailureCodeSet;
-	private Set<Long> validUeSet;
+	Map<Integer, Set<Integer>> validEventCauseMap;
+	Map<Integer, Set<Integer>> validMccMncMap;
+	Set<Integer> validFailureCodeSet;
+	Set<Long> validUeSet;
 
 	public DataValidator(MccMncDAO mccMncDAO, UeDAO ueDAO, FailureClassDAO failureClassDAO,
 			EventCauseDAO eventCauseDAO) {
@@ -80,7 +80,7 @@ public class DataValidator {
 		}
 	}
 
-	private Map<Integer, Set<Integer>> createEventCauseMap(List<Object[]> eventCauseList) {
+	Map<Integer, Set<Integer>> createEventCauseMap(List<Object[]> eventCauseList) {
 		Map<Integer, Set<Integer>> map = new HashMap<>();
 		for (Object[] ec : eventCauseList) {
 			int eventId = (int) ec[0];
@@ -90,7 +90,7 @@ public class DataValidator {
 		return map;
 	}
 
-	private Map<Integer, Set<Integer>> createMccMncMap(List<Object[]> mccMncList) {
+	Map<Integer, Set<Integer>> createMccMncMap(List<Object[]> mccMncList) {
 		Map<Integer, Set<Integer>> map = new HashMap<>();
 		for (Object[] mccMnc : mccMncList) {
 			int mcc = (int) mccMnc[0];
@@ -100,13 +100,16 @@ public class DataValidator {
 		return map;
 	}
 
-	private void validateNotNull(LocalDateTime dateTime, String neVersion) {
+	void validateNotNull(LocalDateTime dateTime, String neVersion) {
 		if (dateTime == null || neVersion == null) {
 			throw new IllegalArgumentException("Invalid Date/NE Version: Parameter cannot be null");
 		}
 	}
 
-	private boolean isValidDateTime(LocalDateTime dateTime) {
+	boolean isValidDateTime(LocalDateTime dateTime) {
+		if (dateTime == null) {
+	        return false;
+	    }
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 			String formattedDateTime = dateTime.format(formatter);
@@ -117,26 +120,51 @@ public class DataValidator {
 		}
 	}
 
-	private boolean isValidEventCause(int eventId, int causeCode) {
+	boolean isValidEventCause(int eventId, int causeCode) {
 		Set<Integer> eventIds = validEventCauseMap.get(causeCode);
 		return eventIds != null && eventIds.contains(eventId);
 	}
 
-	private boolean isValidMccMnc(int mcc, int mnc) {
+	boolean isValidMccMnc(int mcc, int mnc) {
 		Set<Integer> mncs = validMccMncMap.get(mcc);
 		return mncs != null && mncs.contains(mnc);
 	}
 
-	private boolean isValidFailureCode(int failureCode) {
+	boolean isValidFailureCode(int failureCode) {
 		return validFailureCodeSet.contains(failureCode);
 	}
 
-	private boolean isValidUeType(Long tac) {
+	boolean isValidUeType(Long tac) {
 		return validUeSet.contains(tac);
 	}
 
-	private boolean isValidIMSI(String imsi) {
+	boolean isValidIMSI(String imsi) {
 		int length = imsi.length();
-		return length == 14 || length == 15;
+		if( !(length == 14 || length == 15)) {
+			return false;
+		}
+	    // Check if all characters in the string are digits
+	    for (int i = 0; i < length; i++) {
+	        if (!Character.isDigit(imsi.charAt(i))) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+
+	public void setValidUeSet(List<Long> mockUeData) {
+		this.validUeSet = new HashSet<>(mockUeData);
+	}
+
+	public void setValidEventCauseMap(List<Object[]> mockEventCauseData) {
+		this.validEventCauseMap = createEventCauseMap(mockEventCauseData);
+	}
+
+	public void setValidMccMncMap(List<Object[]> mockMccMncData) {
+		this.validMccMncMap = createMccMncMap(mockMccMncData);
+	}
+
+	public void setValidFailureCodeSet(List<Integer> mockFailureCodeData) {
+		this.validFailureCodeSet = new HashSet<>(mockFailureCodeData);
 	}
 }
