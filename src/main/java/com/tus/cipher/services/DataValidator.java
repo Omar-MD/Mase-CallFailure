@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import com.tus.cipher.dao.EventCauseDAO;
 import com.tus.cipher.dao.FailureClassDAO;
 import com.tus.cipher.dao.MccMncDAO;
 import com.tus.cipher.dao.UeDAO;
 
-public class ValidationService {
+@Component
+public class DataValidator {
 
 	private final EventCauseDAO eventCauseDAO;
 	private final MccMncDAO mccMncDAO;
@@ -26,7 +29,7 @@ public class ValidationService {
 	private Set<Integer> validFailureCodeSet;
 	private Set<Long> validUeSet;
 
-	public ValidationService(MccMncDAO mccMncDAO, UeDAO ueDAO, FailureClassDAO failureClassDAO,
+	public DataValidator(MccMncDAO mccMncDAO, UeDAO ueDAO, FailureClassDAO failureClassDAO,
 			EventCauseDAO eventCauseDAO) {
 		this.mccMncDAO = mccMncDAO;
 		this.ueDAO = ueDAO;

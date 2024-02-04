@@ -2,7 +2,6 @@ package com.tus.cipher.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -12,35 +11,22 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.dao.EventCauseDAO;
-import com.tus.cipher.dao.FailureClassDAO;
-import com.tus.cipher.dao.MccMncDAO;
-import com.tus.cipher.dao.UeDAO;
 import com.tus.cipher.services.sheets.BaseDataSheet;
 import com.tus.cipher.services.sheets.BaseSheetProcessor;
-import com.tus.cipher.services.sheets.EventCauseSheet;
-import com.tus.cipher.services.sheets.FailureClassSheet;
-import com.tus.cipher.services.sheets.MccMncSheet;
-import com.tus.cipher.services.sheets.UeSheet;
 
 @Service
 public class ImportService {
 	private static final String ROOT_PATH = "src/main/resources/";
 
-	// Sheet Processors
 	private BaseSheetProcessor baseDataSheet;
-	private List<BaseSheetProcessor> refProcessors = new ArrayList<>();
+	private List<BaseSheetProcessor> refProcessors;
+	private DataValidator validator;
 
-	private ValidationService validator;
-
-	public ImportService(CallFailureDAO callFailureDAO, MccMncDAO mccMncDAO, UeDAO ueDAO, FailureClassDAO failureClassDAO, EventCauseDAO eventCauseDAO) {
-		this.baseDataSheet = new BaseDataSheet(callFailureDAO);
-		this.refProcessors.add(new MccMncSheet(mccMncDAO));
-		this.refProcessors.add(new UeSheet(ueDAO));
-		this.refProcessors.add(new FailureClassSheet(failureClassDAO));
-		this.refProcessors.add(new EventCauseSheet(eventCauseDAO));
-		this.validator = new ValidationService(mccMncDAO, ueDAO, failureClassDAO, eventCauseDAO);
+	public ImportService(List<BaseSheetProcessor> refProcessors, DataValidator validator,
+			BaseSheetProcessor baseDataSheet) {
+		this.refProcessors = refProcessors;
+		this.validator = validator;
+		this.baseDataSheet = baseDataSheet;
 	}
 
 	@Transactional
@@ -48,19 +34,8 @@ public class ImportService {
 
 		try (HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory.create(new File(ROOT_PATH + filename))) {
 
-			// Import Reference Sheets
-			for (BaseSheetProcessor proc : refProcessors) {
-				HSSFSheet sheet = workbook.getSheet(proc.getSheetName());
-				importSheet(proc, sheet);
-			}
-
-			// Prepare & Set Base Data Sheet Validator
-			validator.prepareValidator();
-			((BaseDataSheet) baseDataSheet).setValidator(validator);
-
-			// Import BaseData
-			HSSFSheet sheet = workbook.getSheet(baseDataSheet.getSheetName());
-			importSheet(baseDataSheet, sheet);
+			importReferenceSheets(workbook);
+			importBaseData(workbook);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -68,10 +43,25 @@ public class ImportService {
 		}
 	}
 
-	private void importSheet(BaseSheetProcessor proc, HSSFSheet sheet) {
+	void importReferenceSheets(HSSFWorkbook workbook) {
+		for (BaseSheetProcessor proc : refProcessors) {
+			HSSFSheet sheet = workbook.getSheet(proc.getSheetName());
+			importSheet(proc, sheet);
+		}
+	}
 
+	void importBaseData(HSSFWorkbook workbook) {
+		validator.prepareValidator();								// Prepare & Set Validation
+		((BaseDataSheet) baseDataSheet).setValidator(validator);
+		HSSFSheet sheet = workbook.getSheet(baseDataSheet.getSheetName());
+		importSheet(baseDataSheet, sheet);
+	}
+
+	void importSheet(BaseSheetProcessor proc, HSSFSheet sheet) {
 		int totalRows = sheet.getPhysicalNumberOfRows();
-		System.out.println("=>" + sheet.getSheetName() + ", row(s): " + totalRows);
+
+		System.out.println("\nSheet: "+ sheet.getSheetName());
+		System.out.println("=> row(s): " + totalRows);
 
 		// Skip Header Row
 		for (int rowIndex = 1; rowIndex < totalRows; rowIndex++) {
@@ -80,7 +70,6 @@ public class ImportService {
 				proc.processRow(r);
 			}
 		}
-		// SaveBatches
 		proc.saveInBatchs();
 	}
 }

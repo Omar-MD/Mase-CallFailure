@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.sheets.CallFailure;
-import com.tus.cipher.services.ValidationService;
+import com.tus.cipher.services.DataValidator;
 
 @Component
 public class BaseDataSheet extends BaseSheetProcessor {
@@ -18,14 +18,14 @@ public class BaseDataSheet extends BaseSheetProcessor {
 	private static final int MAX_BATCH_SIZE = 512;
 
 	private final CallFailureDAO callFailureDAO;
-	private ValidationService validator;
+	private DataValidator validator;
 	private List<CallFailure> validRows = new ArrayList<>();
 
 	public BaseDataSheet(CallFailureDAO callFailureDAO) {
 		this.callFailureDAO = callFailureDAO;
 	}
 
-	public void setValidator(ValidationService validator) {
+	public void setValidator(DataValidator validator) {
 		this.validator = validator;
 	}
 
