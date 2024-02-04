@@ -65,7 +65,11 @@ class SysAdminControllerTest {
 		// Verify response
 		assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode());
 		assertEquals("Success", responseEntity.getStatus());
-		assertEquals("Import process complete", responseEntity.getData());
+		assertEquals("\n"
+				+ "****Import Summary****\n"
+				+ "\n"
+				+ "Total Count of Errors: 0\n"
+				+ "Import successful. No errors found.", responseEntity.getData());
 	}
 
 	@Test

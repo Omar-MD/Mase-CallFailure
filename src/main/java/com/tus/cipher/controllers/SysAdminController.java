@@ -41,11 +41,15 @@ public class SysAdminController {
 
 	@PostMapping("/import")
 	public ApiResponse<String> importData(@Valid @RequestBody ImportRequest importRequest) {
+		// Setup Logger
+		LoggerService.setLogFolderPath("logs");
+		LoggerService.setLogFilePath("logs/import_log");
+
 		try (HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory
 				.create(new File(ROOT_PATH + importRequest.getFilename()))) {
+
 			importService.importWorkBook(workbook);
-			String importSummary = ErrorCountService
-					.displaySummary(ErrorCountService.countErrors(LoggerService.getLogFilePath()));
+			String importSummary = ErrorCountService.displaySummary(ErrorCountService.countErrors(LoggerService.getLogFilePath()));
 
 			return ApiResponse.success(HttpStatus.OK.value(), importSummary);
 
