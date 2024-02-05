@@ -12,7 +12,7 @@ const importDataset = function() {
         success: function(res) {
             hideProgressBar();
             if (res.status == "Success") {
-                $('#importMsg').removeClass().addClass("alert alert-success").html("<strong>Success!</strong> Import Complete").show();
+                $('#importMsg').removeClass().addClass("alert alert-success").html(`<strong>Success!</strong><br/>${res.data}`).show();
             } else {
                 hideProgressBar();
                 $('#importMsg').removeClass().addClass("alert alert-danger").html(`<strong>Error!</strong> ${res.error.errorMsg}<br/>${res.error.details}`).show();
