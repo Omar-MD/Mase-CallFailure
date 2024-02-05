@@ -1,10 +1,10 @@
 let sysAdminUrl = "http://localhost:8081/sysadmin/accounts";  
 
 
-createAccount = function() {
-    var username = $('#new-user-username').val();
-    var password = $('#new-user-password').val();
-    var role = $('#new-user-role').val();
+const createAccount = function() {
+    let username = $('#new-user-username').val();
+    let password = $('#new-user-password').val();
+    let role = $('#new-user-role').val();
 
     $('#accountMsg').remove();
     $.ajax({
@@ -36,7 +36,7 @@ createAccount = function() {
 
             if(data.error != null) {
                 $('#create-user-form').after(
-                    `<div id=\"accountMsg\" class=\"alert alert-danger\"><strong>Error!</strong> ${data.error.errorMsg}<br/>${data.error.details}</div>`
+                    `<div id="accountMsg" class="alert alert-danger"><strong>Error!</strong> ${data.error.errorMsg}<br/>${data.error.details}</div>`
                 ).show();
             }
         },
@@ -53,12 +53,12 @@ $(document).ready(function() {
         createAccount();
     });
 
-    $('#import-data-sidebar').click(function(event) {
+    $('#import-data-sidebar').click(function() {
         $('#sys-adm-import-window').removeClass('d-none');
         $('#sys-adm-create-user-window').addClass('d-none');
     });
 
-    $('#create-user-sidebar').click(function(event) {
+    $('#create-user-sidebar').click(function() {
         $('#sys-adm-import-window').addClass('d-none');
         $('#sys-adm-create-user-window').removeClass('d-none');
     });

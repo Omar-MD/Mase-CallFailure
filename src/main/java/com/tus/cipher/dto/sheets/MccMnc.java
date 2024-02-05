@@ -24,6 +24,7 @@ public class MccMnc extends BaseEntity {
 	@Column(nullable = false)
 	private String operator;
 
+	public MccMnc() {}
 	public MccMnc(Integer mcc, Integer mnc, String country, String operator) {
 		this.mcc = mcc;
 		this.mnc = mnc;

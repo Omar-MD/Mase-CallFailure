@@ -1,11 +1,10 @@
-let rootUrl = "http://localhost:8081";  
+let rootUrl = "http://localhost:8081";
 
 
-login = function() {
-    var username = $('#username').val();
-    var password = $('#password').val();
-
-    console.log('Attempting login', username, password);
+const login = function() {
+    let username = $('#username').val();
+    let password = $('#password').val();
+    
     $.ajax({
         type: 'POST',
         url: rootUrl + "/login",
@@ -13,11 +12,10 @@ login = function() {
         data: JSON.stringify({ "username": username, "password": password }),
         dataType: "json",
         success: function(response) {
-            console.log(response);
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
                     $('#login-container').addClass("d-none");
-                    $('#sys-adm-container').removeClass("d-none");
+                    $('#home-section').removeClass("d-none");
                     break;
                 case 'CUSTOMER_SERVICE_REP':
                     alert('CUSTOMER_SERVICE_REP login successful!');
@@ -39,10 +37,8 @@ login = function() {
     });
 };
 
-
 $(document).ready(function() {
     $('#loginSubmit').on('click', function(event) {
-        console.log("Attempting login");
         event.preventDefault();
         login();
     });

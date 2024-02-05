@@ -1,29 +1,22 @@
 package com.tus.cipher.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.junit.Ignore;
 
 
 // This test uses selenium and will likily only work on Shane's machine
 // It will be considered a manual test for Sprint#0
 
 @Disabled
-// @SpringBootTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-// @SpringBootTest
-// @AutoConfigureMockMvc
 @SpringJUnitConfig
 class LoginPageTest {
 
@@ -32,7 +25,7 @@ class LoginPageTest {
 
     // @Value("${webdriver.path}")
     // private String webdriverPath;
-    
+
     // @Test
     // void testAdminLogin() {
     //     // Set the path to the chromedriver executable (make sure you have it downloaded)
@@ -62,9 +55,9 @@ class LoginPageTest {
 
     @Ignore("Selenium test configuration only work for Shane's machine, and will likily not work elsewhere")
     @Test
-    public void testLoginPage() {
+    void testLoginPage() {
         // Set the path to the chromedriver executable
-        
+
         System.setProperty("webdriver.chrome.driver", "chromedriver");
         System.setProperty("webdriver.http.factory", "jdk-http-client");
 
