@@ -55,12 +55,17 @@ body {
 	display: flex;
     justify-content: center;
     align-items: center;
-    overflow: auto;   
+}
+
+.scrollable-content {
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .card {
-	padding: 2.5% 2.5% 2.5% 2.5% !important;
-	border: 2px solid black !important; 
+	padding: 1% 2.5% 1% 2.5% !important;
+	border: 2px solid black !important;
+	margin: 2.5% 0 2.5% 0;
 }
 
 #progressBarBG {
