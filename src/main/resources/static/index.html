@@ -75,23 +75,23 @@
             <!--  sidebar id = aside -->
             <aside class="col-md-2 aside text-white bg-dark" id="aside">
                 <!--  dashboard import data button id = import-data -->
-                <button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="">Import Data</button>
-                <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="">Create User</button>
-                <button type="button" id="imsi-failures-query" class="dashbd-btn" onclick="">Retrieve IMSI
+                <button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Import Data</button>
+                <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Create User</button>
+                <button type="button" id="imsi-failures-query" class="dashbd-btn" onclick="handleButtonClick(this)">Retrieve IMSI
                     Failures</button>
             </aside>
 
             <!-- Main Content -->
 
             <!-- Landing Window -->
-            <main class="col-md-10 text-center" id="landing-window">
+            <main class="col-md-10 text-center response-window" id="landing-window">
                 <div class="container col-sm-6 card" id="landing-container">
                     <h1 class="mb-4">Landing Page</h1>
                 </div>
             </main>
 
             <!--  response window  id = response-window -->
-            <main class="col-md-10 text-center d-none" id="sys-adm-import-window">
+            <main class="col-md-10 text-center d-none response-window" id="sys-adm-import-window">
                 <!-- Import dialog box id = import-dialog -->
                 <div class="container col-sm-6 card" id="import-dialog">
                     <h1 class="mb-4">Import Call Failure Data</h1>
@@ -117,23 +117,23 @@
                 </div>
             </main>
             <!-- Create New User Window -->
-            <main class="col-md-10 text-center d-none" id="sys-adm-create-user-window">
-                <div class="container" id="create-user-container">
+            <main class="col-md-10 text-center d-none response-window" id="sys-adm-create-user-window">
+                <div class="container col-sm-6 card" id="create-user-container">
                     <h1 class="mb-4">Create New User</h1>
                     <form id="create-user-form">
                         <div class="mb-3">
-                            <label class="control-label"> Username</label>
+                            <label class="control-label">Username</label>
                             <input type="text" id="new-user-username" name="username" class="form-control"
                                 placeholder="Enter username" />
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="control-label"> Password</label>
+                            <label class="control-label">Password</label>
                             <input type="password" id="new-user-password" name="password" class="form-control"
                                 placeholder="Enter password" />
                         </div>
                         <div class="form-group mb-3">
-                            <label class="control-label"> Role</label>
+                            <label class="control-label">Role</label>
                             <select class="form-select" name="roles" id="new-user-role">
                                 <option value="SYSTEM_ADMINISTRATOR">System Administrator</option>
                                 <option value="CUSTOMER_SERVICE_REP">Customer Service Rep</option>
@@ -142,7 +142,7 @@
                             </select>
                         </div>
                         <div class="form-group mb-3">
-                            <button class="btn btn-primary" id="create-account-btn">Submit</button>
+                            <button class="btn btn-dark" id="create-account-btn">Submit</button>
                         </div>
                     </form>
                     <div class="overflow-auto" style="max-height: 30vh;">
@@ -152,7 +152,7 @@
                 </div>
             </main>
             <!-- IMSI Failure Query Window -->
-            <main class="col-md-10 text-center d-none" id="imsi-query-failure-window">
+            <main class="col-md-10 text-center d-none response-window" id="imsi-query-failure-window">
                 <div class="container col-sm-6 card" id="imsi-failure-container">
                     <h1 class="mb-4"></h1>
                     <form id="imsiQueryForm">
@@ -200,6 +200,16 @@
             }
         }
     </script>
+    <script>
+    let selectedButton = null;
+    function handleButtonClick(button) {
+        if (selectedButton) {
+            selectedButton.classList.remove('selected');
+        }
+        button.classList.add('selected');
+        selectedButton = button;
+    }
+	</script>
 </body>
 
 </html>

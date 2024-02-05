@@ -3,6 +3,10 @@ body {
     padding: 0;
 }
 
+#header-title {
+	font-size: 175%;
+}
+
 #nav-bar {
     height: 10vh;
 }
@@ -27,33 +31,36 @@ body {
     width: 100%;
     background-color: #212529;
     color: white;
-    border-radius: none;
+    border-radius: 0;
     border: none;
 }
 
 .dashbd-btn:hover {
     color: black;
     background-color: #ebe6e6;
-    transition: background-color 2s ease;
+/*     border-right: 1px solid black; */
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    transition: background-color 1s ease;
 }
 
-#sys-adm-import-window {
+.dashbd-btn:active, .selected {
+    color: black !important;
+    background-color: #ebe6e6 !important;
+    border-right: 1px solid black !important;
+}
+
+.response-window {
 	background-color: white;
 	display: flex;
     justify-content: center;
     align-items: center;
-    overflow: auto;
-    
+    overflow: auto;   
 }
 
-#landing-page {
-    padding-top: 2.5%;
-    padding-bottom: 2.5%;
-}
-
-#import-dialog {
-	padding: 2.5% 2.5% 2.5% 2.5%;
-	border: 2px solid;
+.card {
+	padding: 2.5% 2.5% 2.5% 2.5% !important;
+	border: 2px solid black !important; 
 }
 
 #progressBarBG {
