@@ -16,7 +16,7 @@ class ErrorCountServiceTest {
 	@Test
 	void testCountErrors() throws IOException {
 		String testLogFilePath = "logs/error_log.txt";
-		String testLogContent = "This is a test log\nInvalidData\nAnother error\nInvalidData";
+		String testLogContent = "This is a test log\nErroneusRecord\nAnother error\nErroneusRecord";
 		createTestLogFile(testLogFilePath, testLogContent);
 		int errorCount = ErrorCountService.countErrors(testLogFilePath);
 		assertEquals(2, errorCount);

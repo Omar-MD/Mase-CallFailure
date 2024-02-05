@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public class ErrorCountService {
 
@@ -11,7 +12,7 @@ public class ErrorCountService {
 	}
 
 	public static void countError() {
-		String logFilePath = "logs\\error_log.txt";
+		String logFilePath = "logs/import_log.txt";
 
 		try {
 			int errorCount = countErrors(logFilePath);
@@ -23,11 +24,19 @@ public class ErrorCountService {
 
 	public static int countErrors(String logFilePath) throws IOException {
 		Path path = Paths.get(logFilePath);
-		int errorCount = 0;
-		try (var lines = Files.lines(path)) {
-			errorCount = (int) lines.filter(line -> line.contains("InvalidData")).count();
+		long errorCount = 0;
+		try {
+			if (!Files.exists(path)) {
+				return 0;
+			}
+			Stream<String> lines = Files.lines(path);
+			errorCount = lines.filter(line -> line.contains("ErroneusRecord")).count();
+			lines.close();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+			throw new IOException(ioe);
 		}
-		return errorCount;
+		return (int) errorCount;
 	}
 
 	public static String displaySummary(int errorCount) {
