@@ -44,9 +44,3 @@ const hideProgressBar = function() {
     $('#progressBarFG').hide();
 }
 
-$(document).ready(function() {
-    $('#import-now').on('click', function(event) {
-        event.preventDefault();
-        importDataset();
-    });
-});

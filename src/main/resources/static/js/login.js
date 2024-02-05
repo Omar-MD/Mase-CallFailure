@@ -4,7 +4,7 @@ let rootUrl = "http://localhost:8081";
 const login = function() {
     let username = $('#username').val();
     let password = $('#password').val();
-    
+
     $.ajax({
         type: 'POST',
         url: rootUrl + "/login",
@@ -14,11 +14,13 @@ const login = function() {
         success: function(response) {
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
-                    $('#login-container').addClass("d-none");
-                    $('#home-section').removeClass("d-none");
+                    console.log("At switch..")
+                    loadContentForRole(RoleType.ADMIN);
+                    showHome();
                     break;
                 case 'CUSTOMER_SERVICE_REP':
-                    alert('CUSTOMER_SERVICE_REP login successful!');
+                    loadContentForRole(RoleType.CUSTOMER_SERVICE_REP);
+                    showHome();
                     break;
                 case 'NETWORK_ENGINEER':
                     alert('NETWORK_ENGINEER login successful!');
@@ -37,9 +39,7 @@ const login = function() {
     });
 };
 
-$(document).ready(function() {
-    $('#loginSubmit').on('click', function(event) {
-        event.preventDefault();
-        login();
-    });
-});
+const showHome = function() {
+    $('#login-container').addClass("d-none");
+    $('#home-section').removeClass("d-none");
+}
