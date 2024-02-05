@@ -3,12 +3,14 @@ package com.tus.cipher.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.exceptions.ApiError;
 import com.tus.cipher.exceptions.ApiResponse;
 
 @RestController
+@RequestMapping("/query")
 public class QueriesController {
 	
 	@GetMapping("/imsi-failures/{imsi}")
