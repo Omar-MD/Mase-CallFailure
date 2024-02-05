@@ -3,11 +3,6 @@ body {
     padding: 0;
 }
 
-/* Hide login container */
-/* #login-container {
-	display: none;
-} */
-
 #nav-bar {
     height: 10vh;
 }
@@ -52,13 +47,13 @@ body {
 }
 
 #landing-page {
-	display: none;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
 }
 
 #import-dialog {
-	padding: 2.5% 5%;
+	padding: 2.5% 2.5% 2.5% 2.5%;
 	border: 2px solid;
-    /* display: none; */
 }
 
 #progressBarBG {

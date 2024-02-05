@@ -27,8 +27,7 @@ public class Account extends BaseEntity {
 	// @NotBlank
     private EmployeeRole role;
 
-	public Account() {
-	}
+	public Account() {}
 
 	public Account(String username, String password, EmployeeRole role) {
 		super();

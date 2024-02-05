@@ -24,6 +24,7 @@ public class Ue extends BaseEntity {
 	@Column(nullable = false, columnDefinition = "TEXT")
 	private String accessCapability;
 
+	public Ue() {}
 	public Ue(Long tac, String marketingName, String manufacturer, String accessCapability) {
 		this.tac = tac;
 		this.marketingName = marketingName;

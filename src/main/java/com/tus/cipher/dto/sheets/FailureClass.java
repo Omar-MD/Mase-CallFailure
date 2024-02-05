@@ -18,6 +18,7 @@ public class FailureClass extends BaseEntity {
 	@Column(nullable = false)
 	private String description;
 
+	public FailureClass() {}
 	public FailureClass(Integer failureCode, String description) {
 		this.failureCode = failureCode;
 		this.description = description;

@@ -1,47 +1,37 @@
 package com.tus.cipher.services.sheets;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Row;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.sheets.CallFailure;
-import com.tus.cipher.services.ValidationService;
+import com.tus.cipher.services.DataValidator;
+import com.tus.cipher.services.LoggerService;
 
 @Component
-public class BaseDataSheet implements SheetProcessor<CallFailure> {
+public class BaseDataSheet extends BaseSheetProcessor {
 
 	private static final String SHEET_NAME = "Base Data";
+	private static final int MAX_BATCH_SIZE = 512;
 
-	@Autowired
-	CallFailureDAO callFailureDAO;
-	ValidationService dataValidator;
+	private final CallFailureDAO callFailureDAO;
+	private DataValidator validator;
+	List<CallFailure> validRows = new ArrayList<>();
 
-	public void setValidator(ValidationService dataValidator) {
-		this.dataValidator = dataValidator;
+	public BaseDataSheet(CallFailureDAO callFailureDAO) {
+		this.callFailureDAO = callFailureDAO;
+	}
+
+	public void setValidator(DataValidator validator) {
+		this.validator = validator;
 	}
 
 	@Override
-	public String getSheetName() {
-		return SHEET_NAME;
-	}
-
-	@Override
-	public CallFailureDAO getDAO() {
-		return callFailureDAO;
-	}
-
-	@Override
-	public Class<CallFailure> getType() {
-		return CallFailure.class;
-	}
-
-	@Override
-	public CallFailure processRow(Row r) {
-
-		CallFailure callFailure = null;
+	public void processRow(Row r) {
 
 		try {
 			LocalDateTime dateTime = r.getCell(0).getLocalDateTimeCellValue();
@@ -60,16 +50,42 @@ public class BaseDataSheet implements SheetProcessor<CallFailure> {
 			long hier321Id = (long) r.getCell(13).getNumericCellValue();
 
 			// Perform Validation
-			this.dataValidator.validate(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
+			this.validator.validate(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
 					neVersion, imsi, hier3Id, hier32Id, hier321Id);
 
-			callFailure = new CallFailure(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
+			// Create new Call Failure Entry
+			CallFailure callFailure = new CallFailure(dateTime, eventId, causeCode, failureCode, duration, cellId, tac, mcc, mnc,
 					neVersion, imsi, hier3Id, hier32Id, hier321Id);
+
+			validRows.add(callFailure);
 
 		} catch (Exception e){
-			// TODO: Error: Log Parsing/Validation errors
-
+			LoggerService.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage());
 		}
-		return callFailure;
+	}
+
+	@Override
+	public void saveInBatchs() {
+		int totalRows = validRows.size();
+		System.out.println("Total size: " + totalRows);
+		List<CallFailure> rowsToSave = new ArrayList<>(validRows);
+
+		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
+			List<CallFailure> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
+			System.out.println("Batch size: " + batchEntities.size());
+			callFailureDAO.saveAll(batchEntities);
+		}
+
+		validRows.clear();
+	}
+
+	@Override
+	public String getSheetName() {
+		return SHEET_NAME;
+	}
+
+	@Override
+	public int getBatchSize() {
+		return MAX_BATCH_SIZE;
 	}
 }

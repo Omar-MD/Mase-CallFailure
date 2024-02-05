@@ -12,8 +12,9 @@
     <script src="js/login.js"></script>
     <script src="js/import.js"></script>
     <script src="js/sysAdmin.js"></script>
-    
+
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-bar">
         <div class="container-fluid">
@@ -62,9 +63,9 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Home Section that'll hold all content-->
-    <div class="container-fluid" id="home-section">
+    <div class="container-fluid d-none" id="home-section">
 
         <!--  sidebar container id = aside-container -->
         <div class="row" id="aside-container">
@@ -74,20 +75,23 @@
             <!--  sidebar id = aside -->
             <aside class="col-md-2 aside text-white bg-dark" id="aside">
                 <!--  dashboard import data button id = import-data -->
-                <button type="button" id="import-data" class="dashbd-btn" onclick="">Import Data</button>
-                <button type="button" id="imsi-failures-query" class="dashbd-btn" onclick="">Retrieve IMSI Failures</button>
+                <button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="">Import Data</button>
+                <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="">Create User</button>
+                <button type="button" id="imsi-failures-query" class="dashbd-btn" onclick="">Retrieve IMSI
+                    Failures</button>
             </aside>
 
-
             <!-- Main Content -->
+
             <!-- Landing Window -->
             <main class="col-md-10 text-center" id="landing-window">
                 <div class="container col-sm-6 card" id="landing-container">
                     <h1 class="mb-4">Landing Page</h1>
-                 </div>
+                </div>
             </main>
-            <!-- Import Data Window -->
-            <main class="col-md-10 text-center" id="sys-adm-import-window">
+
+            <!--  response window  id = response-window -->
+            <main class="col-md-10 text-center d-none" id="sys-adm-import-window">
                 <!-- Import dialog box id = import-dialog -->
                 <div class="container col-sm-6 card" id="import-dialog">
                     <h1 class="mb-4">Import Call Failure Data</h1>
@@ -101,13 +105,16 @@
                         <div>
                             <!-- Start import of excel file id = import-now -->
                             <button type="button" class="btn btn-dark" onclick="move()" id="import-now">Import</button>
+                            <br />
                             <div id="progressBarBG">
                                 <div id="progressBarFG">
                                 </div>
                             </div>
                         </div>
                     </form>
-                 </div>
+                    <br />
+                    <div id="importMsg" style="display: none;"></div>
+                </div>
             </main>
             <!-- Create New User Window -->
             <main class="col-md-10 text-center d-none" id="sys-adm-create-user-window">
@@ -145,34 +152,34 @@
                 </div>
             </main>
             <!-- IMSI Failure Query Window -->
-                <main class="col-md-10 text-center d-none" id="imsi-query-failure-window">
+            <main class="col-md-10 text-center d-none" id="imsi-query-failure-window">
                 <div class="container col-sm-6 card" id="imsi-failure-container">
                     <h1 class="mb-4"></h1>
                     <form id="imsiQueryForm">
                         <div class="mb-3">
-                        	<label class="control-label">Enter IMSI</label>
+                            <label class="control-label">Enter IMSI</label>
                             <input type="number" class="form-control" id="imsiQueryInput" />
                         </div>
                         <div>
                             <button type="button" class="btn btn-dark" onclick="" id="import-now">Search</button>
                         </div>
                     </form>
-               </div>
-               </main>
-               <main class="col-md-10 text-center d-none" id="imsi-failure-datatable-window">
-               <div class="container col-sm-6 card" id="imsi-failure-datatable-container">
-               		<table id="imsi-failure-datatable" class="display table-condensed">
-						<thead>
-							<tr>
-								<td>Event ID</td>
-								<td>Cause Code</td>
-								<td>Description</td>
-							</tr>
-						</thead>
-						<tbody id="imsi-failure-datatable-body"></tbody>
-					</table>
-				</div>
-			</main>
+                </div>
+            </main>
+            <main class="col-md-10 text-center d-none" id="imsi-failure-datatable-window">
+                <div class="container col-sm-6 card" id="imsi-failure-datatable-container">
+                    <table id="imsi-failure-datatable" class="display table-condensed">
+                        <thead>
+                            <tr>
+                                <td>Event ID</td>
+                                <td>Cause Code</td>
+                                <td>Description</td>
+                            </tr>
+                        </thead>
+                        <tbody id="imsi-failure-datatable-body"></tbody>
+                    </table>
+                </div>
+            </main>
         </div>
     </div>
     <script>

@@ -16,9 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.AccountRepository;
+import com.tus.cipher.dto.LoginRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
-import com.tus.cipher.dto.LoginRequest;
 import com.tus.cipher.exceptions.ApiError;
 import com.tus.cipher.exceptions.ApiResponse;
 
@@ -37,7 +37,10 @@ class LoginControllerTest {
     @Test
     void loginTestSuccess() {
 
-        LoginRequest loginRequest = new LoginRequest("testUsername", "testPassword");
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("testUsername");
+        loginRequest.setPassword("testPassword");
+
         Account testAccount = new Account("testUsername", "testPassword", EmployeeRole.SYSTEM_ADMINISTRATOR);
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
 
@@ -51,7 +54,10 @@ class LoginControllerTest {
     @Test
     void loginTestIncorrectPassword() {
 
-        LoginRequest loginRequest = new LoginRequest("testUsername", "incorrectPassword");
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUsername("testUsername");
+        loginRequest.setPassword("incorrectPassword");
+
         Account testAccount = new Account("testUsername", "testPassword", EmployeeRole.SYSTEM_ADMINISTRATOR);
         ApiError error = ApiError.of("Invalid Credentials", "Username or Password is incorrect");
         when(accountRepository.findByUsername("testUsername")).thenReturn(Optional.of(testAccount));
