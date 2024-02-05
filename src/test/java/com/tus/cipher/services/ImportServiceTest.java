@@ -35,6 +35,7 @@ class ImportServiceTest {
     private FailureClassSheet failureClassSheetMock;
     private EventCauseSheet eventCauseSheetMock;
 
+    private ImportParams importParamsMock;
     @BeforeEach
     void setUp() {
         dataValidatorMock = mock(DataValidator.class);
@@ -61,7 +62,12 @@ class ImportServiceTest {
         refSheetsMock.add(eventCauseSheetMock);
 
         // Create a new instance of ImportService
-        importService = new ImportService(refSheetsMock, dataValidatorMock, baseDataSheetMock);
+        importParamsMock = mock(ImportParams.class);
+        when(importParamsMock.getBaseDataSheet()).thenReturn(baseDataSheetMock);
+        when(importParamsMock.getDataValidator()).thenReturn(dataValidatorMock);
+        when(importParamsMock.getRefProcessors()).thenReturn(refSheetsMock);
+
+        importService = new ImportService(importParamsMock);
     }
 
     @Test

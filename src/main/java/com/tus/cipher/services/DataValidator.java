@@ -108,8 +108,8 @@ public class DataValidator {
 
 	boolean isValidDateTime(LocalDateTime dateTime) {
 		if (dateTime == null) {
-	        return false;
-	    }
+			return false;
+		}
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 			String formattedDateTime = dateTime.format(formatter);
@@ -140,31 +140,15 @@ public class DataValidator {
 
 	boolean isValidIMSI(String imsi) {
 		int length = imsi.length();
-		if( !(length == 14 || length == 15)) {
+		if (!(length == 14 || length == 15)) {
 			return false;
 		}
-	    // Check if all characters in the string are digits
-	    for (int i = 0; i < length; i++) {
-	        if (!Character.isDigit(imsi.charAt(i))) {
-	            return false;
-	        }
-	    }
-	    return true;
-	}
-
-	public void setValidUeSet(List<Long> mockUeData) {
-		this.validUeSet = new HashSet<>(mockUeData);
-	}
-
-	public void setValidEventCauseMap(List<Object[]> mockEventCauseData) {
-		this.validEventCauseMap = createEventCauseMap(mockEventCauseData);
-	}
-
-	public void setValidMccMncMap(List<Object[]> mockMccMncData) {
-		this.validMccMncMap = createMccMncMap(mockMccMncData);
-	}
-
-	public void setValidFailureCodeSet(List<Integer> mockFailureCodeData) {
-		this.validFailureCodeSet = new HashSet<>(mockFailureCodeData);
+		// Check if all characters in the string are digits
+		for (int i = 0; i < length; i++) {
+			if (!Character.isDigit(imsi.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

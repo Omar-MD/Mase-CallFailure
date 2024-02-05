@@ -50,8 +50,7 @@ class SysAdminControllerTest {
 
 		doNothing().when(dataValidatorMock).prepareValidator();
 
-		sysAdminController = new SysAdminController(importParamsMock, accountRepository);
-	    sysAdminController.setImportService(importServiceMock);
+		sysAdminController = new SysAdminController(importServiceMock, accountRepository);
 	}
 
 	@Test
@@ -65,11 +64,7 @@ class SysAdminControllerTest {
 		// Verify response
 		assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode());
 		assertEquals("Success", responseEntity.getStatus());
-		assertEquals("\n"
-				+ "****Import Summary****\n"
-				+ "\n"
-				+ "Total Count of Errors: 0\n"
-				+ "Import successful. No errors found.", responseEntity.getData());
+		assertEquals("<strong>Import Summary</strong><br/>Total Count of Errors: 0<br/>Import successful. No errors found.", responseEntity.getData());
 	}
 
 	@Test

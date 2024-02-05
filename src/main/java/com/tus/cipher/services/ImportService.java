@@ -14,15 +14,14 @@ import com.tus.cipher.services.sheets.BaseSheetProcessor;
 @Service
 public class ImportService {
 
-	private BaseSheetProcessor baseDataSheet;
-	private List<BaseSheetProcessor> refProcessors;
-	private DataValidator validator;
+	BaseSheetProcessor baseDataSheet;
+	List<BaseSheetProcessor> refProcessors;
+	DataValidator validator;
 
-	public ImportService(List<BaseSheetProcessor> refProcessors, DataValidator validator,
-			BaseSheetProcessor baseDataSheet) {
-		this.refProcessors = refProcessors;
-		this.validator = validator;
-		this.baseDataSheet = baseDataSheet;
+	public ImportService(ImportParams importParams) {
+		this.refProcessors = importParams.getRefProcessors();
+		this.validator = importParams.getDataValidator();
+		this.baseDataSheet = importParams.getBaseDataSheet();
 	}
 
 	@Transactional

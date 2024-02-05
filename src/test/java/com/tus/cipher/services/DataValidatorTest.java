@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +59,7 @@ class DataValidatorTest {
 	@Test
 	void testIsValidEventCause() {
 		List<Object[]> mockEventCauseData = List.of(new Object[][] { { 1, 100 } });
-		validator.setValidEventCauseMap(mockEventCauseData);
+		validator.validEventCauseMap = validator.createEventCauseMap(mockEventCauseData);
 
 		assertTrue(validator.isValidEventCause(1, 100));
 		assertFalse(validator.isValidEventCause(1, 101));
@@ -67,7 +68,7 @@ class DataValidatorTest {
 	@Test
 	void testIsValidMccMnc() {
 		List<Object[]> mockMccMncData = List.of(new Object[][] { { 260, 2 } });
-		validator.setValidMccMncMap(mockMccMncData);
+		validator.validMccMncMap = validator.createMccMncMap(mockMccMncData);
 
 		assertTrue(validator.isValidMccMnc(260, 2));
 		assertFalse(validator.isValidMccMnc(999, 99));
@@ -76,7 +77,7 @@ class DataValidatorTest {
 	@Test
 	void testIsValidFailureCode() {
 		List<Integer> mockFailureCodeData = List.of(0, 1);
-		validator.setValidFailureCodeSet(mockFailureCodeData);
+		validator.validFailureCodeSet = new HashSet<>(mockFailureCodeData);
 
 		assertTrue(validator.isValidFailureCode(0));
 		assertFalse(validator.isValidFailureCode(2));
@@ -85,7 +86,7 @@ class DataValidatorTest {
 	@Test
 	void testIsValidUeType() {
 		List<Long> mockUeData = List.of(100200L, 100500L);
-		validator.setValidUeSet(mockUeData);
+		validator.validUeSet = new HashSet<>(mockUeData);
 
 		assertTrue(validator.isValidUeType(100200L));
 		assertFalse(validator.isValidUeType(111111L));
@@ -107,7 +108,7 @@ class DataValidatorTest {
 	@Test
 	void testValidateWithInvalidEventCause() {
 		List<Object[]> mockEventCauseData = List.of(new Object[][] { { 1, 99 } });
-		validator.setValidEventCauseMap(mockEventCauseData);
+		validator.validEventCauseMap = validator.createEventCauseMap(mockEventCauseData);
 
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> validator.validate(validDateTime, 1,
 				100, 0, 10, 1, 100000L, 260, 2, "NE-Version", 12345678901234L, 1L, 1L, 1L));
@@ -117,10 +118,10 @@ class DataValidatorTest {
 	@Test
 	void testValidateWithInvalidMccMnc() {
 		List<Object[]> mockEventCauseData = List.of(new Object[][] { { 1, 100 } });
-		validator.setValidEventCauseMap(mockEventCauseData);
+		validator.validEventCauseMap = validator.createEventCauseMap(mockEventCauseData);
 
 		List<Object[]> mockMccMncData = List.of(new Object[][] { { 260, 1 } }); // Ensure this doesn't match the test
-		validator.setValidMccMncMap(mockMccMncData);																		// MCC/MNC
+		validator.validMccMncMap = validator.createMccMncMap(mockMccMncData);																	// MCC/MNC
 
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> validator.validate(validDateTime, 1,
 				100, 0, 10, 1, 100000L, 999, 99, "NE-Version", 12345678901234L, 1L, 1L, 1L));

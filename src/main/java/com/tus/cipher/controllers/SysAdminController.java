@@ -21,7 +21,6 @@ import com.tus.cipher.dto.accounts.AccountFactory;
 import com.tus.cipher.exceptions.ApiError;
 import com.tus.cipher.exceptions.ApiResponse;
 import com.tus.cipher.services.ErrorCountService;
-import com.tus.cipher.services.ImportParams;
 import com.tus.cipher.services.ImportService;
 import com.tus.cipher.services.LoggerService;
 
@@ -33,9 +32,8 @@ public class SysAdminController {
 	private ImportService importService;
 	private AccountRepository accountRepository;
 
-	public SysAdminController(ImportParams importParams, AccountRepository accountRepository) {
-		this.importService = new ImportService(importParams.getRefProcessors(), importParams.getDataValidator(),
-				importParams.getBaseDataSheet());
+	public SysAdminController(ImportService importService, AccountRepository accountRepository) {
+		this.importService = importService;
 		this.accountRepository = accountRepository;
 	}
 
@@ -83,9 +81,5 @@ public class SysAdminController {
 
 	private boolean securePassword(Account account) {
 		return account.getPassword().length() >= 8;
-	}
-
-	void setImportService(ImportService importService) {
-		this.importService = importService;
 	}
 }

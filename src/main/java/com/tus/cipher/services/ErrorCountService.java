@@ -8,19 +8,7 @@ import java.util.stream.Stream;
 
 public class ErrorCountService {
 
-	private ErrorCountService() {
-	}
-
-	public static void countError() {
-		String logFilePath = "logs/import_log.txt";
-
-		try {
-			int errorCount = countErrors(logFilePath);
-			displaySummary(errorCount);
-		} catch (IOException e) {
-			System.err.println("Error reading log file: " + e.getMessage());
-		}
-	}
+	private ErrorCountService() {}
 
 	public static int countErrors(String logFilePath) throws IOException {
 		Path path = Paths.get(logFilePath);
@@ -41,13 +29,13 @@ public class ErrorCountService {
 
 	public static String displaySummary(int errorCount) {
 		StringBuilder summary = new StringBuilder();
-		summary.append("\n****Import Summary****\n");
-		summary.append("\nTotal Count of Errors: ").append(errorCount);
+		summary.append("<strong>Import Summary</strong>");
+		summary.append("<br/>Total Count of Errors: ").append(errorCount);
 
 		if (errorCount > 0) {
-			summary.append("\n\nPlease review the log file for details.");
+			summary.append("<br/>Please review the log file for details.");
 		} else {
-			summary.append("\nImport successful. No errors found.");
+			summary.append("<br/>Import successful. No errors found.");
 		}
 
 		return summary.toString();
