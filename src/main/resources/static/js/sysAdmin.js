@@ -1,4 +1,4 @@
-let sysAdminUrl = "http://localhost:8081/sysadmin/accounts";  
+let sysAdminUrl = "http://localhost:8081/sysadmin/accounts";
 
 
 const createAccount = function() {
@@ -11,11 +11,11 @@ const createAccount = function() {
         type: 'POST',
         url: sysAdminUrl,
         contentType: 'application/json',
-        data: JSON.stringify({"username": username, "password": password, "role": role}),
+        data: JSON.stringify({ "username": username, "password": password, "role": role }),
         dataType: "json",
         success: function(data) {
-            
-            if(data.data != null) {
+
+            if (data.data != null) {
                 $('#create-user-form').after("<div id=\"accountMsg\" class=\"alert alert-success\"><strong>Success!</strong> New User Account Created</div>").show();
                 $('#created-users').append(`
                     <li class="list-group-item">
@@ -34,34 +34,19 @@ const createAccount = function() {
                 )
             }
 
-            if(data.error != null) {
+            if (data.error != null) {
                 $('#create-user-form').after(
                     `<div id="accountMsg" class="alert alert-danger"><strong>Error!</strong> ${data.error.errorMsg}<br/>${data.error.details}</div>`
                 ).show();
             }
         },
         error: function() {
-            alert('Error during request.');
+            $('#create-user-form').after(
+                `<div id="accountMsg" class="alert alert-danger"><strong>Error!</strong> ${data.error.errorMsg}<br/>${data.error.details}</div>`
+            ).show();
         }
     });
 };
 
 
-$(document).ready(function() {
-    $('#create-account-btn').on('click', function(event) {
-        event.preventDefault();
-        createAccount();
-    });
 
-    $('#import-data-sidebar').click(function() {
-        $('#sys-adm-import-window').removeClass('d-none');
-        $('#landing-window').addClass('d-none');
-        $('#sys-adm-create-user-window').addClass('d-none');
-    });
-
-    $('#create-user-sidebar').click(function() {
-        $('#sys-adm-import-window').addClass('d-none');
-        $('#landing-window').addClass('d-none');
-        $('#sys-adm-create-user-window').removeClass('d-none');
-    });
-});

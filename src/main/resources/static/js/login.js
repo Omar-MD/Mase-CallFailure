@@ -1,10 +1,10 @@
-let rootUrl = "http://localhost:8081";
+const rootUrl = "http://localhost:8081";
 
 
 const login = function() {
     let username = $('#username').val();
     let password = $('#password').val();
-    
+
     $.ajax({
         type: 'POST',
         url: rootUrl + "/login",
@@ -17,8 +17,12 @@ const login = function() {
                     $('#login-container').addClass("d-none");
                     $('#home-section').removeClass("d-none");
 					break;
+                    loadContentForRole(RoleType.ADMIN);
+                    showHome();
+                    break;
                 case 'CUSTOMER_SERVICE_REP':
-                    alert('CUSTOMER_SERVICE_REP login successful!');
+                    loadContentForRole(RoleType.CUSTOMER_SERVICE_REP);
+                    showHome();
                     break;
                 case 'NETWORK_ENGINEER':
                     alert('NETWORK_ENGINEER login successful!');
@@ -27,7 +31,8 @@ const login = function() {
                     alert('SUPPORT_ENGINEER login successful!');
                     break;
                 default:
-                    $('#login-card').append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
+                    $('#login-card')
+                    .append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
                     break;
             }
         },
@@ -37,9 +42,7 @@ const login = function() {
     });
 };
 
-$(document).ready(function() {
-    $('#loginSubmit').on('click', function(event) {
-        event.preventDefault();
-        login();
-    });
-});
+const showHome = function() {
+    $('#login-container').addClass("d-none");
+    $('#home-section').removeClass("d-none");
+}
