@@ -28,6 +28,8 @@ import com.tus.cipher.services.LoggerService;
 @RequestMapping("/sysadmin")
 public class SysAdminController {
 	private static final String ROOT_PATH = "src/main/resources/";
+	private static final String LOG_FOLDER_PATH = "logs";
+	private static final String LOG_FILE_PATH = "logs/import_log.txt";
 
 	private ImportService importService;
 	private AccountRepository accountRepository;
@@ -38,18 +40,21 @@ public class SysAdminController {
 	}
 
 	@PostMapping("/import")
-	public ApiResponse<String> importData(@Valid @RequestBody ImportRequest importRequest) {
-		// Setup Logger
-		LoggerService.setLogFolderPath("logs");
-		LoggerService.setLogFilePath("logs/import_log.txt");
+	public ApiResponse<String> importData(@Valid @RequestBody ImportRequest importRequest) throws IOException {
 
 		try (HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory
 				.create(new File(ROOT_PATH + importRequest.getFilename()))) {
 
+			// Setup Logger
+			LoggerService.setLogFolderPath(LOG_FOLDER_PATH);
+			LoggerService.setLogFilePath(LOG_FILE_PATH);
+			LoggerService.resetLogFile();
+
+			// Execute Import
 			importService.importWorkBook(workbook);
-			String logPath = LoggerService.getLogFilePath();
-			int errorCount = ErrorCountService.countErrors(logPath);
-			String importSummary = ErrorCountService.displaySummary(errorCount);
+
+			// Prepare Summary
+			String importSummary = ErrorCountService.displaySummaryFromLog(LOG_FILE_PATH);
 
 			return ApiResponse.success(HttpStatus.OK.value(), importSummary);
 

@@ -9,16 +9,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 class ErrorCountServiceTest {
 
+	private static final String TEST_LOG_FILE = "logs/error_log.txt";
+
+	@AfterEach
+	void tearDown() throws IOException {
+		// Delete the test log file after each test
+		Files.deleteIfExists(Paths.get(TEST_LOG_FILE));
+	}
+
 	@Test
 	void testCountErrors() throws IOException {
-		String testLogFilePath = "logs/error_log.txt";
 		String testLogContent = "This is a test log\nErroneusRecord\nAnother error\nErroneusRecord";
-		createTestLogFile(testLogFilePath, testLogContent);
-		int errorCount = ErrorCountService.countErrors(testLogFilePath);
+		createTestLogFile(TEST_LOG_FILE, testLogContent);
+		int errorCount = ErrorCountService.countErrors(TEST_LOG_FILE);
 		assertEquals(2, errorCount);
 	}
 

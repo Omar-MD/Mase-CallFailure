@@ -1,6 +1,9 @@
 // import DataTable from 'datatables.net-dt';
 
 const addImsiDropdown = function() {
+    let imsi_dropdown = $("#imsi-dropdown");
+    imsi_dropdown.empty()
+    
     $.ajax({
         type: 'GET',
         url: rootUrl + "/query/imsi-failures",
@@ -9,8 +12,6 @@ const addImsiDropdown = function() {
         success: function(res) {
             console.log(res);
             if (res.status == "Success") {
-                let imsi_dropdown = $("#imsi-dropdown");
-                // updateTable(res.data);
                 res.data.forEach(imsi => {
                     imsi_dropdown.append("<option value="+imsi+">"+imsi+"</option>");
                 });

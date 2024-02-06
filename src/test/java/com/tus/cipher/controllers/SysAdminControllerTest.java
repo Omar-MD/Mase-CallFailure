@@ -8,7 +8,6 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -130,7 +129,7 @@ class SysAdminControllerTest {
 		// Account responseBody = response.getBody();
 		assertNull(response.getError());
 		Account responseBody = response.getData();
-		assertEquals(correctAccount.getId(), responseBody.getId()); 
+		assertEquals(correctAccount.getId(), responseBody.getId());
 		assertEquals(correctAccount.getUsername(), responseBody.getUsername());
 		assertEquals(correctAccount.getPassword(), responseBody.getPassword());
 		assertEquals(correctAccount.getRole(), responseBody.getRole());

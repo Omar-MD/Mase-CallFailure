@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 class LoggerServiceTest {
 
 	private static final String TEST_LOG_FOLDER_PATH = "logs";
-	private static final String TEST_LOG_FILE_PATH = "logs/test_error_log.txt";
+	private static final String TEST_LOG_FILE_PATH = "logs/import_log.txt";
 
 	@BeforeEach
 	void setUp() {
@@ -30,6 +30,16 @@ class LoggerServiceTest {
 		if (Files.exists(testFolderPath)) {
 			Files.walk(testFolderPath).map(Path::toFile).forEach(File::delete);
 		}
+	}
+
+	@Test
+	void resetLogFileTest() throws IOException {
+		String errorMessage = "Test error message";
+		LoggerService.logInvalidData(errorMessage);
+		Path filePath = Paths.get(TEST_LOG_FILE_PATH);
+		LoggerService.resetLogFile();
+		assertTrue(Files.exists(filePath), "Log file should exist");
+		assertEquals("", Files.readString(filePath).trim(), "Log file should be empty");
 	}
 
 	@Test

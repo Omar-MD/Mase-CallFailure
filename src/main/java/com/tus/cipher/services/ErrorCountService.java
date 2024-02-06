@@ -27,6 +27,11 @@ public class ErrorCountService {
 		return (int) errorCount;
 	}
 
+	public static String displaySummaryFromLog(String logFilePath) throws IOException {
+		int errorCount = countErrors(logFilePath);
+		return displaySummary(errorCount);
+	}
+
 	public static String displaySummary(int errorCount) {
 		StringBuilder summary = new StringBuilder();
 		summary.append("<strong>Import Summary</strong>");

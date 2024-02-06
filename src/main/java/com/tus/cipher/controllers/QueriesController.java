@@ -25,6 +25,12 @@ public class QueriesController {
 		this.callFailureDAO = callFailureDAO;
 	}
 
+	@GetMapping("/imsi-failures")
+	public ApiResponse<Object> getImsiFailures() {
+		List<Long> listValidImsi = callFailureDAO.listImsi();
+		return ApiResponse.success(HttpStatus.OK.value(), listValidImsi);
+	}
+
 	@GetMapping("/imsi-failures/{imsi}")
 	public ApiResponse<Object> findImsiFailures(@PathVariable("imsi") long imsi) {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
@@ -34,8 +40,6 @@ public class QueriesController {
 
 			List<Map<String, Object>> responseList = new ArrayList<>();
 			for (Object[] entry : imsiEventCauseDescriptions) {
-				System.out.println(entry);
-
 				Map<String, Object> result = new HashMap<>();
 				result.put("causeCode", entry[0]);
 				result.put("eventId", entry[1]);
@@ -48,11 +52,5 @@ public class QueriesController {
 
 		ApiError error = ApiError.of("Invalid Imsi", "IMSI not in database");
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
-	}
-	@GetMapping("/imsi-failures")
-	public ApiResponse<Object> getImsiFailures() {
-		List<Long> listValidImsi = callFailureDAO.listImsi();
-
-		return ApiResponse.success(HttpStatus.OK.value(), listValidImsi);
 	}
 }
