@@ -1,4 +1,4 @@
-let rootUrl = "http://localhost:8081";
+const rootUrl = "http://localhost:8081";
 
 
 const login = function() {
@@ -14,7 +14,6 @@ const login = function() {
         success: function(response) {
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
-                    console.log("At switch..")
                     loadContentForRole(RoleType.ADMIN);
                     showHome();
                     break;
@@ -29,7 +28,8 @@ const login = function() {
                     alert('SUPPORT_ENGINEER login successful!');
                     break;
                 default:
-                    $('#login-card').append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
+                    $('#login-card')
+                    .append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
                     break;
             }
         },

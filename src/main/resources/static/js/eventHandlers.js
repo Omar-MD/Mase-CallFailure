@@ -42,11 +42,3 @@ $(document).ready(function() {
     });
 });
 
-
-const getIMSIFailures = function() {
-    console.log("At getIMSIFailures btn");
-    let imsi = $("#imsiQueryInput").val();
-    console.log("IMSI: " + imsi);
-};
-
-
