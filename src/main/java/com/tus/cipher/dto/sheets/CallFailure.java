@@ -4,21 +4,25 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import com.tus.cipher.dto.BaseEntity;
 
-// TODO: Add Index's to speed up Querying
-// TODO: ADD ManyToOne mappings
-
 @Entity
-@Table(name = "call_failure")
+@Table(name = "call_failure", indexes = {
+	@Index(name = "idx_imsi", columnList = "imsi"), 					// Q1: IMSI
+	@Index(name = "idx_imsi_dateTime", columnList = "imsi, dateTime"),	// Q2: IMSI given time
+	@Index(name = "idx_dateTime_tac", columnList = "dateTime, tac"),	// Q3: Model given time
+	@Index(name = "idx_tac_event_cause", columnList = "tac, eventId, causeCode"),// Q4: Model,Event,Cause combination
+	@Index(name = "idx_dateTime_mcc_mnc_cell", columnList = "dateTime, mcc, mnc, cellId")// Q5: Market,Operator,Cell, given time
+})
 public class CallFailure extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	// Date
-	@Column(name = "date_time", nullable = false)
+	@Column(nullable = false)
 	private LocalDateTime dateTime;
 
 	// Event ID
