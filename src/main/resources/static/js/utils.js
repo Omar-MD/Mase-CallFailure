@@ -7,45 +7,58 @@ const RoleType = {
 };
 
 
-const loadContentForRole = function(role) {
+const loadContentForRole = function(role, username) {
 
-    // Get references to the Sidebar and LandingContent
-    const sidebarContent = $('#sidebar-content');
-    const landingContent = $('#landing-content');
-    const header_content = $('#header-content');
+    // Get references to the dynamic elements
+    const header = $('#header-content');
+    const sidebar = $('#sidebar-content');
+    const userRole = $('#user-role')
+    const rolePermissions = $('#role-permissions');
 
-    // Clear existing content
-    sidebarContent.html('');
-    landingContent.html('');
+    // Set the User Content
+    $('#landing-username').html($('<h3>').addClass('mb-1').text(`Welcome ` + username + `...`))
 
+    // Set Role Content
     switch (role) {
         case RoleType.ADMIN:
-            sidebarContent.html(
+            header.html(
+                `System Admin Control Panel`
+            );
+
+            sidebar.html(
                 `<button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Import Data</button>
                  <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Create User</button>`
             );
 
-            landingContent.html(
-                `<h1>Welcome Admin!</h1>
-            `);
+            userRole.html(
+                `<h4 class="mb-1" id="user-role">System Administrator</h4>`
+            );
 
-            header_content.html(
-                `System Admin Control Panel`
+            rolePermissions.html(
+                `<h4 class="mb-1">1. Import Data</h4>
+                 <h4 class="mb-1">2. Create New User</h4>
+                `
             );
 
             break;
 
         case RoleType.CUSTOMER_SERVICE_REP:
-            sidebarContent.html(
+            header.html(
+                `Customer Service Representive Control Panel`
+            );
+
+            sidebar.html(
                 ` <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures</button>
             `);
 
-            landingContent.html(
-                `<h1>Welcome Customer Service Rep!</h1>
-            `);
+            userRole.html(
+                `<h4 class="mb-1" id="user-role">Customer Service Rep</h4>`
+            );
 
-            header_content.html(
-                `Customer Service Representive Control Panel`
+            rolePermissions.html(
+                `<h4 class="mb-1">1. Import Data</h4>
+                 <h4 class="mb-1">2. Create New User</h4>
+                `
             );
             break;
     }

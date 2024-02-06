@@ -14,13 +14,11 @@ const login = function() {
         success: function(response) {
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
-                    $('#login-container').addClass("d-none");
-                    $('#home-section').removeClass("d-none");
-                    loadContentForRole(RoleType.ADMIN);
+                    loadContentForRole(RoleType.ADMIN, username);
                     showHome();
                     break;
                 case 'CUSTOMER_SERVICE_REP':
-                    loadContentForRole(RoleType.CUSTOMER_SERVICE_REP);
+                    loadContentForRole(RoleType.CUSTOMER_SERVICE_REP, username);
                     showHome();
                     break;
                 case 'NETWORK_ENGINEER':
@@ -42,6 +40,6 @@ const login = function() {
 };
 
 const showHome = function() {
-    $('#login-container').addClass("d-none");
+    $('#login-section').addClass("d-none");
     $('#home-section').removeClass("d-none");
 }

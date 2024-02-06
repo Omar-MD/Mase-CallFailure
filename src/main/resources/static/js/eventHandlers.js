@@ -7,6 +7,11 @@ $(document).ready(function() {
         login();
     });
     
+    // Landing Page
+    $('#nav-bar').on('click', '#header-content', function() {
+        $('#landing-window').removeClass('d-none');
+    });
+    
     // Import
     $('#sidebar-content').on('click', '#import-data-sidebar', function() {
         $('#landing-window').addClass('d-none');
