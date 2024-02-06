@@ -14,6 +14,9 @@ const login = function() {
         success: function(response) {
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
+                    $('#login-container').addClass("d-none");
+                    $('#home-section').removeClass("d-none");
+					break;
                     loadContentForRole(RoleType.ADMIN);
                     showHome();
                     break;
