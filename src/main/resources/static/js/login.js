@@ -16,7 +16,7 @@ const login = function() {
                 case 'SYSTEM_ADMINISTRATOR':
                     $('#login-container').addClass("d-none");
                     $('#home-section').removeClass("d-none");
-                    break;
+					break;
                 case 'CUSTOMER_SERVICE_REP':
                     alert('CUSTOMER_SERVICE_REP login successful!');
                     break;
