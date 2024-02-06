@@ -35,8 +35,11 @@ $(document).ready(function() {
         $('#sys-adm-import-window').addClass('d-none');
         $('#sys-adm-create-user-window').addClass('d-none');
         $('#imsi-query-failure-window').removeClass('d-none');
+        addImsiDropdown();
     });
     $('#imsiFailures-btn').on('click', function(event) {
+        $('#imsi-query-failure-window').addClass('d-none');
+        $('#imsi-datatable-failure-window').removeClass('d-none');
         event.preventDefault();
         getIMSIFailures();
     });

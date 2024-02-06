@@ -49,4 +49,10 @@ public class QueriesController {
 		ApiError error = ApiError.of("Invalid Imsi", "IMSI not in database");
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
+	@GetMapping("/imsi-failures")
+	public ApiResponse<Object> getImsiFailures() {
+		List<Long> listValidImsi = callFailureDAO.listImsi();
+
+		return ApiResponse.success(HttpStatus.OK.value(), listValidImsi);
+	}
 }

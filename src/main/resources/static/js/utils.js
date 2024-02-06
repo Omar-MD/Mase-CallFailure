@@ -12,6 +12,7 @@ const loadContentForRole = function(role) {
     // Get references to the Sidebar and LandingContent
     const sidebarContent = $('#sidebar-content');
     const landingContent = $('#landing-content');
+    const header_content = $('#header-content');
 
     // Clear existing content
     sidebarContent.html('');
@@ -28,6 +29,10 @@ const loadContentForRole = function(role) {
                 `<h1>Welcome Admin!</h1>
             `);
 
+            header_content.html(
+                `System Admin Control Panel`
+            );
+
             break;
 
         case RoleType.CUSTOMER_SERVICE_REP:
@@ -38,6 +43,10 @@ const loadContentForRole = function(role) {
             landingContent.html(
                 `<h1>Welcome Customer Service Rep!</h1>
             `);
+
+            header_content.html(
+                `Customer Service Representive Control Panel`
+            );
             break;
     }
 }

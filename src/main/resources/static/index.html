@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav-bar">
         <div class="container-fluid">
-            <a class="navbar-brand" id="header-title" th:href="@{/index}">Welcome To Login Page</a>
+            <a class="navbar-brand" id="header-content" th:href="@{/index}">Welcome To Login Page</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -150,17 +152,21 @@
                     <h1 class="mb-4"></h1>
                     <form id="imsiQueryForm">
                         <div class="mb-3">
-                            <label class="control-label">Enter IMSI</label>
-                            <input type="number" class="form-control" id="imsiQueryInput" />
+                            <label class="control-label">Select IMSI</label>
+                            <select class="form-select" name="imsi-dropdown" id="imsi-dropdown">
+
+                            </select>
                         </div>
                         <div>
                             <button type="button" class="btn btn-dark" id="imsiFailures-btn">Search</button>
                         </div>
                     </form>
                 </div>
+            </main>
+            <main class="col-md-10 text-center d-none response-window" id="imsi-datatable-failure-window">
                 <div class="container col-sm-6 card" id="imsi-failure-datatable-container">
+                    <caption>IMSI Failure Events</caption>
                     <table id="imsi-failure-datatable" class="display table-condensed">
-                        <caption>IMSI Failure Events</caption>
                         <thead>
                             <tr>
                                 <th>Event ID</th>
@@ -177,6 +183,7 @@
     </div>
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/jquery.dataTables.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script> -->
     <script src="js/login.js"></script>
     <script src="js/import.js"></script>
     <script src="js/sysAdmin.js"></script>
