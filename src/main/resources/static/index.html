@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
 
 </head>
 
@@ -75,167 +75,176 @@
             </aside>
 
             <!-- Main Content -->
-            <!-- Landing Window System Administrator -->
-            <main class="col-md-10 text-center response-window" id="sys-adm-landing-window">
-            	<div class="container col-sm-12" id="landing-container">
-            		<div class="row">
-            			<h1 class="mb-3">Welcome <span id="username"></span>...</h1>
-            			<div class="col-md-4 align-items-stretch">
-            				<div class="card text-dark h-100">
-            					<div class="card-body">
-            						<h6 class="mb-3">Logged in as:</h6>
-									<h3 class="mb-1">System Administrator</h2>
-            					</div>
-            				</div>
-            			</div>
-            		<div class="col-md-4 align-items-stretch">
-            			<div class="card text-dark h-100">
-            				<div class="card-body">
-            					<h6 class="mb-3">Role Permissions:</h6>
-            					<h3 class="mb-1">Import Data</h2>
-            					<h3 class="mb-1">Create Users</h2>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 align-items-stretch">
-						<div class="card text-dark h-100">
-							<div class="card-body">
-							<h6 class="mb-3">Team Cipher Project:</h6>
-							<h3 class="mb-1">Adijat, Daniel, Omar, Rabia, Shane</h2>
-						</div>
-					</div>
-				</div>
-			</div>
-            	</div>
+            <!-- Landing Window -->
+            <main class="col-md-10 text-center response-window" id="landing-window">
+                <div class="container col-sm-6 card" id="landing-container">
+                    <h1 class="mb-4">Landing Page</h1>
+                </div>
             </main>
-            <!-- Landing Window Customer Service Rep-->
-            <main class="col-md-10 text-center response-window d-none" id="csr-landing-window">
-            	<div class="container col-sm-12" id="landing-container">
-            		<div class="row">
-            			<h1 class="mb-3">Welcome <span id="username"></span>...</h1>
-            			<div class="col-md-4 align-items-stretch">
-            				<div class="card text-dark h-100">
-            					<div class="card-body">
-            						<h6 class="mb-3">Logged in as:</h6>
-									<h3 class="mb-1">Customer Service Rep</h2>
-            					</div>
-            				</div>
-            			</div>
-            		<div class="col-md-4 align-items-stretch">
-            			<div class="card text-dark h-100">
-            				<div class="card-body">
-            					<h6 class="mb-3">Role Permissions:</h6>
-            					<h3 class="mb-1">1. Import Data</h2>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 align-items-stretch">
-						<div class="card text-dark h-100">
-							<div class="card-body">
-							<h6 class="mb-3">Team Cipher Project:</h6>
-							<h3 class="mb-1">Adijat, Daniel, Omar, Rabia, Shane</h2>
-						</div>
-					</div>
-				</div>
-			</div>
-            	</div>
 
-            <!--  response window  id = response-window -->
-            <main class="col-md-10 text-center d-none response-window" id="sys-adm-import-window">
-                <!-- Import dialog box id = import-dialog -->
-                <div class="container col-sm-6 card" id="import-dialog">
-                    <h1 class="mb-4">Import Call Failure Data</h1>
-                    <form id="importForm">
-                        <div class="mb-3">
-                            <label for="selectFile" class="form-label">Select .xls File:</label>
-                            <input type="hidden" id="filename" name="filename">
-                            <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx"
-                                onchange="handleFileSelection(this)" />
-                        </div>
-                        <div>
-                            <!-- Start import of excel file id = import-now -->
-                            <button type="button" class="btn btn-dark" onclick="move()" id="import-btn">Import</button>
-                            <br />
-                            <div id="progressBarBG">
-                                <div id="progressBarFG">
+            <!-- Landing Window System Administrator -->
+            <main class="col-md-10 text-center response-window d-none" id="sys-adm-landing-window">
+                <div class="container col-sm-12" id="landing-container">
+                    <div class="row">
+                        <h1 class="mb-3">Welcome <span id="username"></span>...</h1>
+                        <div class="col-md-4 align-items-stretch">
+                            <div class="card text-dark h-100">
+                                <div class="card-body">
+                                    <h6 class="mb-3">Logged in as:</h6>
+                                    <h3 class="mb-1">System Administrator</h2>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                    <br />
-                    <div id="importMsg" style="display: none;"></div>
+                        <div class="col-md-4 align-items-stretch">
+                            <div class="card text-dark h-100">
+                                <div class="card-body">
+                                    <h6 class="mb-3">Role Permissions:</h6>
+                                    <h3 class="mb-1">Import Data</h2>
+                                        <h3 class="mb-1">Create Users</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 align-items-stretch">
+                            <div class="card text-dark h-100">
+                                <div class="card-body">
+                                    <h6 class="mb-3">Team Cipher Project:</h6>
+                                    <h3 class="mb-1">Adijat, Daniel, Omar, Rabia, Shane</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
-            <!-- Create New User Window -->
-            <main class="col-md-10 text-center d-none scrollable-content response-window"
-                id="sys-adm-create-user-window">
-                <div class="container col-sm-6 card" id="create-user-container">
-                    <h1 class="mb-4">Create New User</h1>
-                    <form id="create-user-form">
-                        <div class="mb-3">
-                            <label class="control-label">Username</label>
-                            <input type="text" id="new-user-username" name="username" class="form-control"
-                                placeholder="Enter username" />
+            <!-- Landing Window Customer Service Rep-->
+            <main class="col-md-10 text-center response-window d-none" id="csr-landing-window">
+                <div class="container col-sm-12" id="landing-container">
+                    <div class="row">
+                        <h1 class="mb-3">Welcome <span id="username"></span>...</h1>
+                        <div class="col-md-4 align-items-stretch">
+                            <div class="card text-dark h-100">
+                                <div class="card-body">
+                                    <h6 class="mb-3">Logged in as:</h6>
+                                    <h3 class="mb-1">Customer Service Rep</h2>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="form-group mb-3">
-                            <label class="control-label">Password</label>
-                            <input type="password" id="new-user-password" name="password" class="form-control"
-                                placeholder="Enter password" />
+                        <div class="col-md-4 align-items-stretch">
+                            <div class="card text-dark h-100">
+                                <div class="card-body">
+                                    <h6 class="mb-3">Role Permissions:</h6>
+                                    <h3 class="mb-1">1. Import Data</h2>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label class="control-label">Role</label>
-                            <select class="form-select" name="roles" id="new-user-role">
-                                <option value="SYSTEM_ADMINISTRATOR">System Administrator</option>
-                                <option value="CUSTOMER_SERVICE_REP">Customer Service Rep</option>
-                                <option value="NETWORK_ENGINEER">Network Engineer</option>
-                                <option value="SUPPORT_ENGINEER">Support Engineer</option>
-                            </select>
+                        <div class="col-md-4 align-items-stretch">
+                            <div class="card text-dark h-100">
+                                <div class="card-body">
+                                    <h6 class="mb-3">Team Cipher Project:</h6>
+                                    <h3 class="mb-1">Adijat, Daniel, Omar, Rabia, Shane</h2>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <button class="btn btn-dark" id="create-account-btn">Submit</button>
-                        </div>
-                    </form>
-                    <div class="overflow-auto" style="max-height: 30vh;">
-                        <ul class="list-group" id="created-users">
-                        </ul>
                     </div>
                 </div>
             </main>
 
-            <!-- IMSI Failure Query Window -->
-            <main class="col-md-10 text-center d-none response-window" id="imsi-query-failure-window">
-                <div class="container col-sm-6 card" id="imsi-failure-container">
-                    <h1 class="mb-4"></h1>
-                    <form id="imsiQueryForm">
-                        <div class="mb-3">
-                            <label class="control-label">Select IMSI</label>
-                            <select class="form-select" name="imsi-dropdown" id="imsi-dropdown">
+                <!--  response window  id = response-window -->
+                <main class="col-md-10 text-center d-none response-window" id="sys-adm-import-window">
+                    <!-- Import dialog box id = import-dialog -->
+                    <div class="container col-sm-6 card" id="import-dialog">
+                        <h1 class="mb-4">Import Call Failure Data</h1>
+                        <form id="importForm">
+                            <div class="mb-3">
+                                <label for="selectFile" class="form-label">Select .xls File:</label>
+                                <input type="hidden" id="filename" name="filename">
+                                <input type="file" class="form-control" id="selectFile" accept=".xls, .xlsx"
+                                    onchange="handleFileSelection(this)" />
+                            </div>
+                            <div>
+                                <!-- Start import of excel file id = import-now -->
+                                <button type="button" class="btn btn-dark" onclick="move()"
+                                    id="import-btn">Import</button>
+                                <br />
+                                <div id="progressBarBG">
+                                    <div id="progressBarFG">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <div id="importMsg" style="display: none;"></div>
+                    </div>
+                </main>
+                <!-- Create New User Window -->
+                <main class="col-md-10 text-center d-none scrollable-content response-window"
+                    id="sys-adm-create-user-window">
+                    <div class="container col-sm-6 card" id="create-user-container">
+                        <h1 class="mb-4">Create New User</h1>
+                        <form id="create-user-form">
+                            <div class="mb-3">
+                                <label class="control-label">Username</label>
+                                <input type="text" id="new-user-username" name="username" class="form-control"
+                                    placeholder="Enter username" />
+                            </div>
 
-                            </select>
+                            <div class="form-group mb-3">
+                                <label class="control-label">Password</label>
+                                <input type="password" id="new-user-password" name="password" class="form-control"
+                                    placeholder="Enter password" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="control-label">Role</label>
+                                <select class="form-select" name="roles" id="new-user-role">
+                                    <option value="SYSTEM_ADMINISTRATOR">System Administrator</option>
+                                    <option value="CUSTOMER_SERVICE_REP">Customer Service Rep</option>
+                                    <option value="NETWORK_ENGINEER">Network Engineer</option>
+                                    <option value="SUPPORT_ENGINEER">Support Engineer</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <button class="btn btn-dark" id="create-account-btn">Submit</button>
+                            </div>
+                        </form>
+                        <div class="overflow-auto" style="max-height: 30vh;">
+                            <ul class="list-group" id="created-users">
+                            </ul>
                         </div>
-                        <div>
-                            <button type="button" class="btn btn-dark" id="imsiFailures-btn">Search</button>
-                        </div>
-                    </form>
-                </div>
-            </main>
-            <main class="col-md-10 text-center d-none response-window" id="imsi-datatable-failure-window">
-                <div class="container col-sm-6 card" id="imsi-failure-datatable-container">
-                    <caption>IMSI Failure Events</caption>
-                    <table id="imsi-failure-datatable" class="display table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Event ID</th>
-                                <th>Cause Code</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody id="imsi-failure-datatable-body">
-                        </tbody>
-                    </table>
-                </div>
-            </main>
+                    </div>
+                </main>
+
+                <!-- IMSI Failure Query Window -->
+                <main class="col-md-10 text-center d-none response-window" id="imsi-query-failure-window">
+                    <div class="container col-sm-6 card" id="imsi-failure-container">
+                        <h1 class="mb-4"></h1>
+                        <form id="imsiQueryForm">
+                            <div class="mb-3">
+                                <label class="control-label">Select IMSI</label>
+                                <select class="form-select" name="imsi-dropdown" id="imsi-dropdown">
+
+                                </select>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-dark" id="imsiFailures-btn">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </main>
+                <main class="col-md-10 text-center d-none response-window" id="imsi-datatable-failure-window">
+                    <div class="container col-sm-6 card" id="imsi-failure-datatable-container">
+                        <caption>IMSI Failure Events</caption>
+                        <table id="imsi-failure-datatable" class="display table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Event ID</th>
+                                    <th>Cause Code</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="imsi-failure-datatable-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </main>
         </div>
     </div>
     <script src="js/jquery-3.4.1.js"></script>
