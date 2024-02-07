@@ -11,43 +11,33 @@ import java.time.format.DateTimeFormatter;
 public class LoggerService {
 
 	private static String logFolderPath = "logs";
-	private static String logFilePath = "logs/error_log.txt";
+	private static String logFilePath = "logs/import_log.txt";
 
 	private LoggerService() {
 	}
 
 	static void checkLogPath() {
+		// Folder
 		Path folderPath = Paths.get(logFolderPath);
 		try {
 			if (!Files.exists(folderPath)) {
 				// Create Folder if doesn't exist
-				createFolder(logFolderPath);
+				Files.createDirectories(folderPath);
 			}
 		} catch (IOException e) {
 			System.err.println(getTimeStamp() + "  Error checking or creating log folder ( " + folderPath + " ): "
 					+ e.getMessage());
 		}
-
+		// File
 		Path filePath = Paths.get(logFilePath);
 		try {
 			if (!Files.exists(filePath)) {
-				// Create the file if it doesn't exist
-				createFile(logFilePath);
+				// Create file if it doesn't exist
+				Files.createFile(filePath);
 			}
 		} catch (IOException e) {
-			System.err.println(
-					getTimeStamp() + "  Error checking or creating log file ( " + filePath + " ): " + e.getMessage());
+			System.err.println(getTimeStamp() + "  Error recreating log file ( " + filePath + " ): " + e.getMessage());
 		}
-	}
-
-	static void createFolder(String folderPath) throws IOException {
-		Path path = Paths.get(folderPath);
-		Files.createDirectories(path);
-	}
-
-	static void createFile(String filePath) throws IOException {
-		Path path = Paths.get(filePath);
-		Files.createFile(path);
 	}
 
 	static String getTimeStamp() {
@@ -94,5 +84,23 @@ public class LoggerService {
 
 	public static void setLogFilePath(String logFilePath) {
 		LoggerService.logFilePath = logFilePath;
+	}
+
+	public static void createFolder(String folderPath) throws IOException {
+		Path path = Paths.get(folderPath);
+		Files.createDirectories(path);
+	}
+
+	public static void createFile(String filePath) throws IOException {
+		Path path = Paths.get(filePath);
+		Files.createFile(path);
+	}
+
+	public static void resetLogFile() throws IOException {
+		Path filePath = Paths.get(logFilePath);
+		if(Files.exists(filePath)) {
+			Files.delete(filePath);
+		}
+		Files.createFile(filePath);
 	}
 }

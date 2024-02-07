@@ -122,8 +122,7 @@ class SysAdminControllerTest {
 		ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
 		checkCreatedAccount(newAccountWithID, response);
 	}
-
-	void checkCreatedAccount(Account correctAccount, ApiResponse<Account> response) {
+	public void checkCreatedAccount(Account correctAccount, ApiResponse<Account> response) {
 		assertNotNull(response);
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		// assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -158,4 +157,5 @@ class SysAdminControllerTest {
 		assertEquals("", response.getError().getDetails());
 		assertEquals("Username already exist", response.getError().getErrorMsg());
 	}
+
 }
