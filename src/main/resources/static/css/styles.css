@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#header-title {
+	font-size: 175%;
+}
+
+#nav-bar {
+    height: 10vh;
+}
+
+#nav-aside-divider {
+    position: absolute;
+    margin: 0;
+    color: white;
+}
+
+#aside-container {
+    height: 90vh;
+}
+#aside {
+    height: inherit;
+    padding: 0;
+}
+
+.dashbd-btn {
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    width: 100%;
+    background-color: #212529;
+    color: white;
+    border-radius: 0;
+    border: none;
+}
+
+.dashbd-btn:hover {
+    color: black;
+    background-color: #ebe6e6;
+/*     border-right: 1px solid black; */
+/*     border-top: 1px solid black;
+    border-bottom: 1px solid black; */
+    transition: background-color 1s ease;
+}
+
+.dashbd-btn:active, .selected {
+    color: black !important;
+    background-color: #ebe6e6 !important;
+    border-right: 1px solid black !important;
+}
+
+.response-window {
+	background-color: white;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scrollable-content {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.card {
+	padding: 1% 2.5% 1% 2.5% !important;
+	border: 2px solid black !important;
+	margin: 2.5% 0 2.5% 0;
+	
+}
+
+#progressBarBG {
+  width: 100%;
+  background-color: #e6e5e3;
+  border-radius: 15px;
+  margin-top: 10%;
+  display: none;
+}
+
+#progressBarFG {
+  width: 1%;
+  height: 0.5vh;
+  background-color: black;
+  border-radius: 15px;
+  display: none;
+}
