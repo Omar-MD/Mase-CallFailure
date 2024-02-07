@@ -49,6 +49,7 @@ const getIMSIFailures = function() {
     });
 };
 
+let datatable;
 function updateTable(data) {
     $('#imsi-failure-datatable-body').empty();
     data.forEach(function(item) {
@@ -58,5 +59,11 @@ function updateTable(data) {
             <td>${item.description}</td>
         </tr>`);
     });
-    $("#imsi-failure-datatable").DataTable();
+    if(datatable) {
+        datatable.destroy();
+    }
+    datatable = $("#imsi-failure-datatable").DataTable({
+        "sScrollY": "50vh",
+        "bScrollCollapse": true
+    });
 }
