@@ -55,7 +55,7 @@ public class QueriesController {
 	}
 
 	@GetMapping("/model-failures")
-	public ApiResponse<Object> getModels() {
+	public ApiResponse<Object> getModelsWithFailure() {
 		List<Long> listValidTac = callFailureDAO.listTac();
 		return ApiResponse.success(HttpStatus.OK.value(), listValidTac);
 	}

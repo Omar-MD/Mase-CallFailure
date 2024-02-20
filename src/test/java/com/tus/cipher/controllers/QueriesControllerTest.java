@@ -68,4 +68,48 @@ class QueriesControllerTest {
 		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
 		assertTrue(response.getError() != null && response.getError().getErrorMsg().equals("Invalid Imsi"));
 	}
+
+	 @Test
+	    void testGetModels() {
+	        List<Long> validTacList = Arrays.asList(123456L, 789012L);
+	        when(callFailureDAOMock.listTac()).thenReturn(validTacList);
+
+	        ApiResponse<Object> response = queriesController.getModelsWithFailure();
+
+	        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+	        assertTrue(response.getData() instanceof List);
+	        assertEquals(validTacList, response.getData());
+	    }
+
+	    @Test
+	    void testFindModelsFailureTypesWithCountValidTac() {
+	        long tac = 123456L;
+	        List<Long> validTacList = Arrays.asList(123456L, 789012L);
+	        List<Object[]> modelsFailureTypesWithCount = new ArrayList<>();
+	        modelsFailureTypesWithCount.add(new Object[]{1, 100, 10});
+	        modelsFailureTypesWithCount.add(new Object[]{2, 200, 5});
+
+	        when(callFailureDAOMock.listTac()).thenReturn(validTacList);
+	        when(callFailureDAOMock.findModelsFailureTypesWithCount(tac)).thenReturn(modelsFailureTypesWithCount);
+
+	        ApiResponse<Object> response = queriesController.findModelsFailureTypesWithCount(tac);
+
+	        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+	        assertTrue(response.getData() instanceof List);
+	        List<?> responseData = (List<?>) response.getData();
+	        assertEquals(modelsFailureTypesWithCount.size(), responseData.size());
+	    }
+
+	    @Test
+	    void testFindModelsFailureTypesWithCountInvalidTac() {
+	        long tac = 987654L;
+	        List<Long> validTacList = Arrays.asList(123456L, 789012L);
+
+	        when(callFailureDAOMock.listTac()).thenReturn(validTacList);
+
+	        ApiResponse<Object> response = queriesController.findModelsFailureTypesWithCount(tac);
+
+	        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+	        assertTrue(response.getError() != null && response.getError().getErrorMsg().equals("Invalid Tac"));
+	    }
 }
