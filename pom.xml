@@ -89,6 +89,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <dependency>
+        	<groupId>com.tus.webtech</groupId>
+        	<artifactId>school-service</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
