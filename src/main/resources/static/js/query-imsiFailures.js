@@ -15,7 +15,7 @@ const addImsiDropdown = function(dropdownId) {
         placeholder: "Begin typing IMSI to search..",
         allowClear: true,
         width: '100%',
-        minimumInputLength: 2
+        minimumInputLength: 1
     });
     
     $.ajax({
