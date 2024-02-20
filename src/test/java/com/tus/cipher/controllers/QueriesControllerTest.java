@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.exceptions.ApiResponse;
+import com.tus.cipher.responses.ApiResponse;
 
 class QueriesControllerTest {
 

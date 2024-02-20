@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.exceptions.ApiError;
-import com.tus.cipher.exceptions.ApiResponse;
+import com.tus.cipher.responses.ApiError;
+import com.tus.cipher.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/query")

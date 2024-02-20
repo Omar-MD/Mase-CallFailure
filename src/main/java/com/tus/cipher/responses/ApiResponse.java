@@ -1,4 +1,4 @@
-package com.tus.cipher.exceptions;
+package com.tus.cipher.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
