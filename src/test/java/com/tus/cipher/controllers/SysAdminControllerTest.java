@@ -20,7 +20,7 @@ import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.ImportRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
-import com.tus.cipher.exceptions.ApiResponse;
+import com.tus.cipher.responses.ApiResponse;
 import com.tus.cipher.services.DataValidator;
 import com.tus.cipher.services.ImportParams;
 import com.tus.cipher.services.ImportService;

@@ -19,8 +19,8 @@ import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.LoginRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
-import com.tus.cipher.exceptions.ApiError;
-import com.tus.cipher.exceptions.ApiResponse;
+import com.tus.cipher.responses.ApiError;
+import com.tus.cipher.responses.ApiResponse;
 
 @ExtendWith(MockitoExtension.class)
 class LoginControllerTest {
