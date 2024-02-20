@@ -13,8 +13,6 @@ const loadContentForRole = function(role, username) {
     const header = $('#header-content');
     const sidebar = $('#sidebar-content');
     const userRole = $('#user-role')
-    const rolePermissions = $('#role-permissions');
-
     // Set the User Content
     $('#landing-username').html($('<h3>').addClass('mb-1').text(`Welcome ` + username + `...`))
 
@@ -22,7 +20,7 @@ const loadContentForRole = function(role, username) {
     switch (role) {
         case RoleType.ADMIN:
             header.html(
-                `System Admin Control Panel`
+                `<h2>System Admin Control Panel<h2>`
             );
 
             sidebar.html(
@@ -32,12 +30,6 @@ const loadContentForRole = function(role, username) {
 
             userRole.html(
                 `<h4 class="mb-1" id="user-role">System Administrator</h4>`
-            );
-
-            rolePermissions.html(
-                `<h4 class="mb-1">1. Import Data</h4>
-                 <h4 class="mb-1">2. Create New User</h4>
-                `
             );
 
             break;
@@ -54,11 +46,19 @@ const loadContentForRole = function(role, username) {
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Customer Service Rep</h4>`
             );
+            break;
+        
+        case RoleType.SUPPORT_ENGINEER:
+            header.html(
+                `Support Engineer Control Panel`
+            );
 
-            rolePermissions.html(
-                `<h4 class="mb-1">1. Import Data</h4>
-                 <h4 class="mb-1">2. Create New User</h4>
-                `
+            sidebar.html(
+                ` <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
+            `);
+
+            userRole.html(
+                `<h4 class="mb-1" id="user-role">Support Engineer</h4>`
             );
             break;
     }

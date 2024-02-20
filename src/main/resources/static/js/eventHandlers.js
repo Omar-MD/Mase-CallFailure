@@ -14,8 +14,9 @@ $(document).ready(function() {
     
     // Import
     $('#sidebar-content').on('click', '#import-data-sidebar', function() {
-        $('#landing-window').addClass('d-none');
-        $('#sys-adm-create-user-window').addClass('d-none');
+        $('.response-window').addClass('d-none');
+        // $('#landing-window').addClass('d-none');
+        // $('#sys-adm-create-user-window').addClass('d-none');
         $('#sys-adm-import-window').removeClass('d-none');
     });
     $('#import-btn').on('click', function(event) {
@@ -25,8 +26,9 @@ $(document).ready(function() {
     
     // Create User
     $('#sidebar-content').on('click', '#create-user-sidebar', function() {
-        $('#sys-adm-import-window').addClass('d-none');
-        $('#landing-window').addClass('d-none');
+        $('.response-window').addClass('d-none');
+        // $('#sys-adm-import-window').addClass('d-none');
+        // $('#landing-window').addClass('d-none');
         $('#sys-adm-create-user-window').removeClass('d-none');
     });
     $('#create-account-btn').on('click', function(event) {
@@ -36,17 +38,33 @@ $(document).ready(function() {
     
     // IMSI Failures
     $('#sidebar-content').on('click', '#imsi-failures-sidebar', function() {
-        $('#landing-window').addClass('d-none');
-        $('#sys-adm-import-window').addClass('d-none');
-        $('#sys-adm-create-user-window').addClass('d-none');
+        $('.response-window').addClass('d-none');
+        // $('#landing-window').addClass('d-none');
+        // $('#sys-adm-import-window').addClass('d-none');
+        // $('#sys-adm-create-user-window').addClass('d-none');
         $('#imsi-query-failure-window').removeClass('d-none');
         addImsiDropdown();
     });
     $('#imsiFailures-btn').on('click', function(event) {
-        $('#imsi-query-failure-window').addClass('d-none');
+        $('.response-window').addClass('d-none');
+        // $('#imsi-query-failure-window').addClass('d-none');
         $('#imsi-datatable-failure-window').removeClass('d-none');
         event.preventDefault();
         getIMSIFailures();
+    });
+
+
+
+
+
+
+
+    $('#sidebar-content').on('click', '#imsi-failures-time-sidebar', function() {
+        $('.response-window').addClass('d-none');
+        // $('#landing-window').addClass('d-none');
+        // $('#sys-adm-import-window').addClass('d-none');
+        // $('#sys-adm-create-user-window').addClass('d-none');
+        $('#imsi-failure-time-window').removeClass('d-none');
     });
 });
 
