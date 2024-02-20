@@ -70,9 +70,9 @@ public class QueriesController {
 			List<Map<String, Object>> responseList = new ArrayList<>();
 			for (Object[] entry : modelsFailureTypesWithCount) {
 				Map<String, Object> result = new HashMap<>();
-				result.put("Cause Code", entry[0]);
-				result.put("Event Id", entry[1]);
-				result.put("Failure Count", entry[2]);
+				result.put("causeCode", entry[0]);
+				result.put("eventId", entry[1]);
+				result.put("failureCount", entry[2]);
 				responseList.add(result);
 			}
 

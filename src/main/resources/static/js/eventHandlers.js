@@ -49,7 +49,7 @@ $(document).ready(function() {
     $('#modelFailureTypesCount-btn').on('click', function(event) {
         homeNav('#modelFailureTypesCount-datatable-window');
         event.preventDefault();
-        getFailureTypesWithCount();
+        getModelFailureTypesWithCount();
     });
 
 });
