@@ -60,7 +60,26 @@ const loadContentForRole = function(role, username) {
                  <h4 class="mb-1">2. Create New User</h4>
                 `
             );
+
             break;
+
+        case RoleType.NETWORK_ENGINEER:
+            header.html(
+                `Network Engineer Control Panel`
+            );
+
+            sidebar.html(
+                ` <button type="button" id="modelFailureTypesCount-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types With Count</button>
+            `);
+
+            userRole.html(
+                `<h4 class="mb-1" id="user-role">Network Engineer</h4>`
+            );
+
+            rolePermissions.html(
+                `<h4 class="mb-1">1. Model Failure Types With Count</h4>
+                `
+            );
     }
 }
 
