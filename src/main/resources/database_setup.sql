@@ -9,9 +9,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     role VARCHAR(255) NOT NULL
 );
 
--- Insert test account
+-- Insert Admin account
 INSERT INTO accounts (username, password, role) VALUES
     ('admin', 'password', 'SYSTEM_ADMINISTRATOR'),
     ('customer', 'password', 'CUSTOMER_SERVICE_REP');
-
--- SELECT * FROM accounts;

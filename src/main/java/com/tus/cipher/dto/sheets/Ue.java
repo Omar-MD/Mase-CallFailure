@@ -21,7 +21,7 @@ public class Ue extends BaseEntity {
 	@Column(nullable = false)
 	private String manufacturer;
 
-	@Column(nullable = false, columnDefinition = "TEXT")
+	@Column(nullable = false)
 	private String accessCapability;
 
 	public Ue() {}
