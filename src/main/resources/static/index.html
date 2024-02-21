@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -73,7 +73,7 @@
             </aside>
 
             <!-- Landing Window -->
-            <main class="col-md-10 text-center response-window" id="landing-window">
+            <main class="col-md-10 text-center response-window home-content" id="landing-window">
                 <div class="container col-sm-10">
                     <h1 class="mb-3" id="landing-username">Welcome...</h1>
                     <div class="row d-flex justify-content-center">
@@ -85,16 +85,6 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="col-md-4 align-items-stretch">
-                            <div class="card text-dark h-100">
-                                <div class="card-body">
-                                    <h6 class="mb-3">Role Permissions:</h6>
-                                    <div id="role-permissions">
-                                        <h3 class="mb-1">1. Import Data</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="col-md-4 align-items-stretch">
                             <div class="card text-dark h-100">
                                 <div class="card-body">
@@ -104,11 +94,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </main>
 
             <!--  Import window -->
-            <main class="col-md-10 text-center d-none response-window" id="sys-adm-import-window">
+            <main class="col-md-10 text-center d-none response-window home-content" id="sys-adm-import-window">
                 <!-- Import dialog box id = import-dialog -->
                 <div class="container col-sm-6 card" id="import-dialog">
                     <h1 class="mb-4">Import Call Failure Data</h1>
@@ -135,7 +124,7 @@
             </main>
             
             <!-- Create New User Window -->
-            <main class="col-md-10 text-center d-none scrollable-content response-window"
+            <main class="col-md-10 text-center d-none scrollable-content response-window home-content"
                 id="sys-adm-create-user-window">
                 <div class="container col-sm-6 card" id="create-user-container">
                     <h1 class="mb-4">Create New User</h1>
@@ -172,9 +161,9 @@
             </main>
 
             <!-- IMSI Failure Query Window -->
-            <main class="col-md-10 text-center d-none response-window" id="imsi-query-failure-window">
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-query-failure-window">
                 <div class="container col-sm-6 card" id="imsi-failure-container">
-                    <h1 class="mb-4"></h1>
+                    <h1 class="mb-4">IMSI Failures</h1>
                     <form id="imsiQueryForm">
                         <div class="mb-3">
                             <label class="control-label">Select IMSI</label>
@@ -189,8 +178,9 @@
                 </div>
             </main>
             <!-- IMSI Failure Query DataTable Window -->
-            <main class="col-md-10 text-center d-none response-window" id="imsi-datatable-failure-window">
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-datatable-failure-window">
                 <div class="container col-sm-10 card" id="imsi-failure-datatable-container">
+                     <h2 class="mb-4">Model Failure Types And Count</h2>
                     <table id="imsi-failure-datatable" class="display table-condensed">
                         <caption>IMSI Failure Events</caption>
                         <thead>
@@ -205,14 +195,55 @@
                     </table>
                 </div>
             </main>
+            
+            <!-- Models Failure Types with Count Query Window -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="modelFailureTypesCount-window">
+                <div class="container col-sm-6 card" id="modelFailureTypesCount-container">
+                    <form id="modelFailureTypesCountForm">
+                        <div class="mb-3">
+                            <h2>Select a Model to view more details..</h2>
+                            <label class="control-label">Search Model</label>
+                            <select class="form-select" name="modelFailureTypesCount-dropdown" id="modelFailureTypesCount-dropdown">
+                            </select>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-dark" id="modelFailureTypesCount-btn">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+            <!-- Models Failure Types with Count Query DataTable Window -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="modelFailureTypesCount-datatable-window">
+                <div class="container col-sm-10 card" id="modelFailureTypesCount-container">
+                    <h2 class="mb-4">Model Failure Types And Count</h2>
+                    <table id="modelFailureTypesCount-datatable" class="display table-condensed">
+                        <caption>Model Failures With Count Per Type</caption>
+                        <thead>
+                            <tr>
+                                <th>Cause Code</th>
+                                <th>Event Id</th>
+                                <th>Failure Count</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modelFailureTypesCount-datatable-body">
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+           
         </div>
     </div>
+    
+    
+
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/jquery.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="js/login.js"></script>
     <script src="js/import.js"></script>
     <script src="js/sysAdmin.js"></script>
     <script src="js/query-imsiFailures.js"></script>
+    <script src="js/query-modelFailureTypesCount.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/eventHandlers.js"></script>
 </body>

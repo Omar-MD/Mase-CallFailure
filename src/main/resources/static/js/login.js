@@ -22,7 +22,8 @@ const login = function() {
                     showHome();
                     break;
                 case 'NETWORK_ENGINEER':
-                    alert('NETWORK_ENGINEER login successful!');
+                    loadContentForRole(RoleType.NETWORK_ENGINEER, username);
+                    showHome();
                     break;
                 case 'SUPPORT_ENGINEER':
                     alert('SUPPORT_ENGINEER login successful!');
