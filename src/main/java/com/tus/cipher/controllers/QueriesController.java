@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.exceptions.ApiError;
-import com.tus.cipher.exceptions.ApiResponse;
+import com.tus.cipher.responses.ApiError;
+import com.tus.cipher.responses.ApiResponse;
 
 @RestController
 @RequestMapping("/query")
@@ -51,6 +51,35 @@ public class QueriesController {
 		}
 
 		ApiError error = ApiError.of("Invalid Imsi", "IMSI not in database");
+		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
+	}
+
+	@GetMapping("/model-failures")
+	public ApiResponse<Object> getModelsWithFailure() {
+		List<Long> listValidTac = callFailureDAO.listTac();
+		return ApiResponse.success(HttpStatus.OK.value(), listValidTac);
+	}
+
+	@GetMapping("/model-failures/{tac}")
+	public ApiResponse<Object> findModelsFailureTypesWithCount(@PathVariable("tac") long tac) {
+		List<Long> listValidTac = callFailureDAO.listTac();
+
+		if(listValidTac.contains(tac)) {
+			List<Object[]> modelsFailureTypesWithCount = callFailureDAO.findModelsFailureTypesWithCount(tac);
+
+			List<Map<String, Object>> responseList = new ArrayList<>();
+			for (Object[] entry : modelsFailureTypesWithCount) {
+				Map<String, Object> result = new HashMap<>();
+				result.put("causeCode", entry[0]);
+				result.put("eventId", entry[1]);
+				result.put("failureCount", entry[2]);
+				responseList.add(result);
+			}
+
+			return ApiResponse.success(HttpStatus.OK.value(), responseList);
+		}
+
+		ApiError error = ApiError.of("Invalid Tac", "Tac not in database");
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
 }

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +19,8 @@ import com.tus.cipher.dao.AccountRepository;
 import com.tus.cipher.dto.ImportRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.AccountFactory;
-import com.tus.cipher.exceptions.ApiError;
-import com.tus.cipher.exceptions.ApiResponse;
+import com.tus.cipher.responses.ApiError;
+import com.tus.cipher.responses.ApiResponse;
 import com.tus.cipher.services.ErrorCountService;
 import com.tus.cipher.services.ImportService;
 import com.tus.cipher.services.LoggerService;
@@ -34,16 +35,27 @@ public class SysAdminController {
 	private ImportService importService;
 	private AccountRepository accountRepository;
 
+	@Autowired
 	public SysAdminController(ImportService importService, AccountRepository accountRepository) {
 		this.importService = importService;
+		this.accountRepository = accountRepository;
+	}
+
+	SysAdminController() {}
+
+	void setImportService(ImportService importService) {
+		this.importService = importService;
+	}
+	void setAccountRepository(AccountRepository accountRepository) {
 		this.accountRepository = accountRepository;
 	}
 
 	@PostMapping("/import")
 	public ApiResponse<String> importData(@Valid @RequestBody ImportRequest importRequest) throws IOException {
 
-		try (HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory
-				.create(new File(ROOT_PATH + importRequest.getFilename()))) {
+		try {
+			// Prepare Workbook
+			HSSFWorkbook workbook = createWorkbook(importRequest.getFilename());
 
 			// Setup Logger
 			LoggerService.setLogFolderPath(LOG_FOLDER_PATH);
@@ -84,7 +96,11 @@ public class SysAdminController {
 
 	}
 
-	private boolean securePassword(Account account) {
+	HSSFWorkbook createWorkbook(String filename) throws IOException {
+		return  (HSSFWorkbook) WorkbookFactory.create(new File(ROOT_PATH + filename));
+	}
+
+	boolean securePassword(Account account) {
 		return account.getPassword().length() >= 8;
 	}
 }
