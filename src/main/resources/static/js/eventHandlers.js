@@ -41,12 +41,6 @@ $(document).ready(function() {
         getIMSIFailures();
     });
 
-    $('#sidebar-content').on('click', '#imsi-failures-time-sidebar', function() {
-        // $('.response-window').addClass('d-none');
-        // $('#imsi-failure-time-window').removeClass('d-none');
-        homeNav('#imsi-failure-time-window');
-    });
-
     // modelFailureTypesCount
     $('#sidebar-content').on('click', '#modelFailureTypesCount-sidebar', function() {
         homeNav('#modelFailureTypesCount-window');
@@ -56,6 +50,18 @@ $(document).ready(function() {
         homeNav('#modelFailureTypesCount-datatable-window');
         event.preventDefault();
         getModelFailureTypesWithCount();
+    });
+    
+    // Load the input page geettign IMSI failure in datae range
+    $('#sidebar-content').on('click', '#imsi-failures-time-sidebar', function() {
+        homeNav('#imsi-failure-time-window');
+    });
+
+    // Load the datatable for getting the IMSI failure in a given date range
+    $("#imsi-failure-time-btn").on('click', function(event) {
+        homeNav('#imsi-failure-time-datatable-window');
+        event.preventDefault();
+        getIMSIFailuresTime();
     });
 
 });

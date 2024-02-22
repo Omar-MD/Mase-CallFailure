@@ -1,5 +1,8 @@
 package com.tus.cipher.dao;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,4 +37,7 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 
 	@Query(value = "SELECT DISTINCT cf.tac FROM call_failure cf ", nativeQuery = true)
 	List<Long> listTac();
+
+	// List<CallFailure> findByDateFieldBetween(String startDate, String endDate);
+    List<CallFailure> findByDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate);
 }

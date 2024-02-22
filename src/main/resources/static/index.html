@@ -196,14 +196,55 @@
                 </div>
             </main>
 
+            <!-- IMSI Failure by Time Query Window -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-window">
+                <div class="container col-sm-6 card" id="modelFailureTypesCount-container">
+                    <form id="imsiFailureTimeForm">
+                        <div class="mb-3">
+                            <h2>Specify a date range to see IMSI failure for</h2>
+                            <br/>
+                            <label for="start">Enter Start Date</label>
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-start-date" name="start">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end">Enter End Date</label>
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-end-date" name="end">
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-dark" id="imsi-failure-time-btn">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+
             <!-- IMSI Failure by Time Query DataTable Window -->
-            <main class="col-md-10 text-center d-none response-window" id="imsi-failure-time-window">
-                <!-- <div class="container col-sm-10 card" id="imsi-failure-datatable-container">
-                    <input class="form-control" type="text" id="imsi-failure-datetime-input" />
-                </div> -->
-                <label for="birthdaytime">Birthday (date and time):</label>
-                <input type="datetime-local" id="birthdaytime" name="birthdaytime">
-                <input type="submit">
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-datatable-window">
+                <div class="container col-sm-10 card" id="modelFailureTypesCount-container">
+                    <h2 class="mb-4">IMSI Failures for Date Range</h2>
+                    <table id="imsi-failures-time-datatable" class="display table-condensed">
+                        <caption id="imsi-failures-time-datatable-caption"></caption>
+                        <thead>
+                            <tr>
+                                <th>Date / Time</th>
+                                <th>Event ID</th>
+                                <th>Cause Code</th>
+                                <th>Failure Code</th>
+                                <th>Duration</th>
+                                <th>Cell ID</th>
+                                <th>TAC</th>
+                                <th>MCC</th>
+                                <th>MNC</th>
+                                <th>NE Version</th>
+                                <th>IMSI</th>
+                                <th>HIER3 ID</th>
+                                <th>HIER32 ID</th>
+                                <th>HIER321 ID</th>
+                            </tr>
+                        </thead>
+                        <tbody id="imsi-failures-time-datatable-body">
+                        </tbody>
+                    </table>
+                </div>
             </main>
             
             <!-- Models Failure Types with Count Query Window -->
