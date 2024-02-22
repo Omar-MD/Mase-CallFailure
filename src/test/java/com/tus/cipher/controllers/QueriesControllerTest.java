@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.CallFailureDAO;
+import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.responses.ApiResponse;
 
 class QueriesControllerTest {
@@ -69,47 +71,63 @@ class QueriesControllerTest {
 		assertTrue(response.getError() != null && response.getError().getErrorMsg().equals("Invalid Imsi"));
 	}
 
-	 @Test
-	    void testGetModels() {
-	        List<Long> validTacList = Arrays.asList(123456L, 789012L);
-	        when(callFailureDAOMock.listTac()).thenReturn(validTacList);
+	@Test
+	void testGetModels() {
+		List<Long> validTacList = Arrays.asList(123456L, 789012L);
+		when(callFailureDAOMock.listTac()).thenReturn(validTacList);
 
-	        ApiResponse<Object> response = queriesController.getModelsWithFailure();
+		ApiResponse<Object> response = queriesController.getModelsWithFailure();
 
-	        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-	        assertTrue(response.getData() instanceof List);
-	        assertEquals(validTacList, response.getData());
-	    }
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		assertEquals(validTacList, response.getData());
+	}
 
-	    @Test
-	    void testFindModelsFailureTypesWithCountValidTac() {
-	        long tac = 123456L;
-	        List<Long> validTacList = Arrays.asList(123456L, 789012L);
-	        List<Object[]> modelsFailureTypesWithCount = new ArrayList<>();
-	        modelsFailureTypesWithCount.add(new Object[]{1, 100, 10});
-	        modelsFailureTypesWithCount.add(new Object[]{2, 200, 5});
+	@Test
+	void testFindModelsFailureTypesWithCountValidTac() {
+		long tac = 123456L;
+		List<Long> validTacList = Arrays.asList(123456L, 789012L);
+		List<Object[]> modelsFailureTypesWithCount = new ArrayList<>();
+		modelsFailureTypesWithCount.add(new Object[] { 1, 100, 10 });
+		modelsFailureTypesWithCount.add(new Object[] { 2, 200, 5 });
 
-	        when(callFailureDAOMock.listTac()).thenReturn(validTacList);
-	        when(callFailureDAOMock.findModelsFailureTypesWithCount(tac)).thenReturn(modelsFailureTypesWithCount);
+		when(callFailureDAOMock.listTac()).thenReturn(validTacList);
+		when(callFailureDAOMock.findModelsFailureTypesWithCount(tac)).thenReturn(modelsFailureTypesWithCount);
 
-	        ApiResponse<Object> response = queriesController.findModelsFailureTypesWithCount(tac);
+		ApiResponse<Object> response = queriesController.findModelsFailureTypesWithCount(tac);
 
-	        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-	        assertTrue(response.getData() instanceof List);
-	        List<?> responseData = (List<?>) response.getData();
-	        assertEquals(modelsFailureTypesWithCount.size(), responseData.size());
-	    }
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		List<?> responseData = (List<?>) response.getData();
+		assertEquals(modelsFailureTypesWithCount.size(), responseData.size());
+	}
 
-	    @Test
-	    void testFindModelsFailureTypesWithCountInvalidTac() {
-	        long tac = 987654L;
-	        List<Long> validTacList = Arrays.asList(123456L, 789012L);
+	@Test
+	void testFindModelsFailureTypesWithCountInvalidTac() {
+		long tac = 987654L;
+		List<Long> validTacList = Arrays.asList(123456L, 789012L);
 
-	        when(callFailureDAOMock.listTac()).thenReturn(validTacList);
+		when(callFailureDAOMock.listTac()).thenReturn(validTacList);
 
-	        ApiResponse<Object> response = queriesController.findModelsFailureTypesWithCount(tac);
+		ApiResponse<Object> response = queriesController.findModelsFailureTypesWithCount(tac);
 
-	        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
-	        assertTrue(response.getError() != null && response.getError().getErrorMsg().equals("Invalid Tac"));
-	    }
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertTrue(response.getError() != null && response.getError().getErrorMsg().equals("Invalid Tac"));
+	}
+
+	@Test
+	void testGetImsiFailuresWithTime() {
+		List<CallFailure> callFaillureList = Arrays.asList(new CallFailure(), new CallFailure());
+
+		LocalDateTime start = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		LocalDateTime end = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+		when(callFailureDAOMock.findByDateTimeBetween(start, end)).thenReturn(callFaillureList);
+
+		ApiResponse<Object> response = queriesController.findImsiFailures(start, end);
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		assertEquals(callFaillureList, response.getData());
+	}
+	
 }

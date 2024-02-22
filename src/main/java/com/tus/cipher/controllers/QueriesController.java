@@ -62,23 +62,10 @@ public class QueriesController {
 
 	@GetMapping("/imsi-failures-time")
 	public ApiResponse<Object> findImsiFailures(
-            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate
-						// @RequestBody String query
-						// @RequestParam("startDate") String startDate,
-						// @RequestParam("endDate") String endDate
-						) {
-		// System.out.println(query);
-		// System.out.println(startDate);
-		// System.out.println(endDate);
-
+					@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+					@RequestParam("endDate"  ) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate  ) {
 		List<CallFailure> imsiFaulureTime = callFailureDAO.findByDateTimeBetween(startDate, endDate);
-		
 		return ApiResponse.success(HttpStatus.OK.value(), imsiFaulureTime);
-
-
-		// ApiError error = ApiError.of("Invalid Imsi", "IMSI not in database");
-		// return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
 
 	@GetMapping("/model-failures")
