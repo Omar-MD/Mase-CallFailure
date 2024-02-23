@@ -21,9 +21,6 @@ const createAccount = function() {
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <strong>ID:</strong> ${data.data.id}
-                            </div>
-                            <div>
                                 <strong>Username:</strong> ${data.data.username}
                             </div>
                             <div>

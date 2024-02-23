@@ -1,6 +1,5 @@
 const rootUrl = "http://localhost:8081";
 
-
 const login = function() {
     let username = $('#username').val();
     let password = $('#password').val();
@@ -30,6 +29,7 @@ const login = function() {
                     showHome();
                     break;
                 default:
+					clearError();
                     $('#login-card')
                     .append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
                     break;
@@ -39,6 +39,10 @@ const login = function() {
             alert('Error during request. Incorrect username or password');
         }
     });
+};
+
+const clearError = function() {
+    $('#errorMsg').remove();
 };
 
 const showHome = function() {

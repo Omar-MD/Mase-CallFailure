@@ -10,14 +10,6 @@ const addImsiDropdown = function(dropdownId) {
         minimumInputLength: 0
     });
     
-    // Select2 plugin for searchable select (#imsi-dropdown)
-    imsi_dropdown.select2({
-        placeholder: "Begin typing IMSI to search..",
-        allowClear: true,
-        width: '100%',
-        minimumInputLength: 1
-    });
-    
     $.ajax({
         type: 'GET',
         url: rootUrl + "/query/imsi-failures",
@@ -29,6 +21,7 @@ const addImsiDropdown = function(dropdownId) {
                 res.data.forEach(imsi => {
                     imsi_dropdown.append("<option value="+imsi+">"+imsi+"</option>");
                 });
+                initSelect2();
             } else {
                 console.log("Error:", res.error);
             }
@@ -36,6 +29,16 @@ const addImsiDropdown = function(dropdownId) {
         error: function(error) {
             console.error("Error:", error);
         }
+    });
+}
+
+function initSelect2() {
+    let imsi_dropdown = $("#imsi-dropdown");
+    imsi_dropdown.select2({
+        placeholder: "Begin typing IMSI to search..",
+        allowClear: true,
+        width: '100%',
+        minimumInputLength: 0
     });
 }
 const getIMSIFailures = function() {
