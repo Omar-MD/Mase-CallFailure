@@ -26,7 +26,8 @@ const login = function() {
                     showHome();
                     break;
                 case 'SUPPORT_ENGINEER':
-                    alert('SUPPORT_ENGINEER login successful!');
+                    loadContentForRole(RoleType.SUPPORT_ENGINEER, username);
+                    showHome();
                     break;
                 default:
                     $('#login-card')

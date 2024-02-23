@@ -51,6 +51,18 @@ $(document).ready(function() {
         event.preventDefault();
         getModelFailureTypesWithCount();
     });
+    
+    // Load the input page geettign IMSI failure in datae range
+    $('#sidebar-content').on('click', '#imsi-failures-time-sidebar', function() {
+        homeNav('#imsi-failure-time-window');
+    });
+
+    // Load the datatable for getting the IMSI failure in a given date range
+    $("#imsi-failure-time-btn").on('click', function(event) {
+        homeNav('#imsi-failure-time-datatable-window');
+        event.preventDefault();
+        getIMSIFailuresTime();
+    });
 
 });
 

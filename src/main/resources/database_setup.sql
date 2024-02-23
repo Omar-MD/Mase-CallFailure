@@ -12,4 +12,5 @@ CREATE TABLE IF NOT EXISTS accounts (
 -- Insert Admin account
 INSERT INTO accounts (username, password, role) VALUES
     ('admin', 'password', 'SYSTEM_ADMINISTRATOR'),
-    ('customer', 'password', 'CUSTOMER_SERVICE_REP');
+    ('customer', 'password', 'CUSTOMER_SERVICE_REP'),
+    ('support', 'password', 'SUPPORT_ENGINEER');

@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="css/styles.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -122,7 +122,7 @@
                     <div id="importMsg" style="display: none;"></div>
                 </div>
             </main>
-            
+
             <!-- Create New User Window -->
             <main class="col-md-10 text-center d-none scrollable-content response-window home-content"
                 id="sys-adm-create-user-window">
@@ -195,6 +195,44 @@
                     </table>
                 </div>
             </main>
+
+            <!-- IMSI Failure by Time Query Window -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-window">
+                <div class="container col-sm-6 card" id="modelFailureTypesCount-container">
+                    <form id="imsiFailureTimeForm">
+                        <div class="mb-3">
+                            <h2>Specify a date range to see IMSI failures for</h2>
+                            <br/>
+                            <label for="start">Enter Start Date</label>
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-start-date" name="start">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end">Enter End Date</label>
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-end-date" name="end">
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-dark" id="imsi-failure-time-btn">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+
+            <!-- IMSI Failure by Time Query DataTable Window -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-datatable-window">
+                <div class="container col-sm-10 card" id="modelFailureTypesCount-container">
+                    <h2 class="mb-4">IMSI Failures for Date Range</h2>
+                    <h3 id="imsi-failures-time-datatable-caption"></h3>
+                    <table id="imsi-failures-time-datatable" class="display table-condensed">
+                        <thead>
+                            <tr>
+                                <th>IMSI Failure</th>
+                            </tr>
+                        </thead>
+                        <tbody id="imsi-failures-time-datatable-body">
+                        </tbody>
+                    </table>
+                </div>
+            </main>
             
             <!-- Models Failure Types with Count Query Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="modelFailureTypesCount-window">
@@ -230,7 +268,6 @@
                     </table>
                 </div>
             </main>
-           
         </div>
     </div>
     
