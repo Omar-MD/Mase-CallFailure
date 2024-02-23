@@ -81,7 +81,6 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), count);
 	}
 
-
 	/* Model Failures */
 
 	@GetMapping("/model-failures")
@@ -113,13 +112,11 @@ public class QueriesController {
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
 
-
 	@GetMapping("/call-failure-count")
 	public ApiResponse<Object> getcallFailureCountAndDuration(@Param("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")LocalDateTime startDate,@Param("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
 		List<Long> distinctCallFailureCount= callFailureDAO.findcallFailureCountAndDuration(startDate, endDate);
 		return ApiResponse.success(HttpStatus.OK.value(), distinctCallFailureCount);
 	}
-
 
 	/// query/model-faliure-count
 	@GetMapping("/model-failure-count")
