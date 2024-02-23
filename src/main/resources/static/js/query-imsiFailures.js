@@ -81,7 +81,7 @@ const getIMSIFailuresTime = function() {
         success: function(res) {
             console.log(res.data);
             updateImsiTimeTable(res.data)
-            $("imsi-failures-time-datatable-caption").html(startDate + " - " + endDate);
+            $("#imsi-failures-time-datatable-caption").append(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
         },
         error: function(error) {
             console.error("Error in AJAX request:", error);
@@ -92,21 +92,24 @@ const getIMSIFailuresTime = function() {
 function updateImsiTimeTable(data) {
     $('#imsi-failures-time-datatable-body').empty();
     data.forEach(function(imsiFailure) {
+        // $('#imsi-failures-time-datatable-body').append(`<tr>
+        //     <td>${imsiFailure.dateTime}</td>
+        //     <td>${imsiFailure.eventId}</td>
+        //     <td>${imsiFailure.causeCode}</td>
+        //     <td>${imsiFailure.failureCode}</td>
+        //     <td>${imsiFailure.duration}</td>
+        //     <td>${imsiFailure.cellId}</td>
+        //     <td>${imsiFailure.tac}</td>
+        //     <td>${imsiFailure.mcc}</td>
+        //     <td>${imsiFailure.mnc}</td>
+        //     <td>${imsiFailure.neVersion}</td>
+        //     <td>${imsiFailure.imsi}</td>
+        //     <td>${imsiFailure.hier3Id}</td>
+        //     <td>${imsiFailure.hier32Id}</td>
+        //     <td>${imsiFailure.hier321Id}</td>
+        // </tr>`);
         $('#imsi-failures-time-datatable-body').append(`<tr>
-            <td>${imsiFailure.dateTime}</td>
-            <td>${imsiFailure.eventId}</td>
-            <td>${imsiFailure.causeCode}</td>
-            <td>${imsiFailure.failureCode}</td>
-            <td>${imsiFailure.duration}</td>
-            <td>${imsiFailure.cellId}</td>
-            <td>${imsiFailure.tac}</td>
-            <td>${imsiFailure.mcc}</td>
-            <td>${imsiFailure.mnc}</td>
-            <td>${imsiFailure.neVersion}</td>
-            <td>${imsiFailure.imsi}</td>
-            <td>${imsiFailure.hier3Id}</td>
-            <td>${imsiFailure.hier32Id}</td>
-            <td>${imsiFailure.hier321Id}</td>
+            <td>${imsiFailure}</td>
         </tr>`);
     });
     if(datatable) {

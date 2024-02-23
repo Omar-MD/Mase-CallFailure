@@ -64,9 +64,7 @@ public class QueriesController {
 	public ApiResponse<Object> findImsiFailures(
 					@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
 					@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
-		// List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
 		List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
-		System.out.println(distinctImsiList.get(0));
 		return ApiResponse.success(HttpStatus.OK.value(), distinctImsiList);
 	}
 

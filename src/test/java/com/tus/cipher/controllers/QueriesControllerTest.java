@@ -117,17 +117,17 @@ class QueriesControllerTest {
 
 	@Test
 	void testGetImsiFailuresWithTime() {
-		List<CallFailure> callFaillureList = Arrays.asList(new CallFailure(), new CallFailure());
+		List<Long> callFaillureImsiList = Arrays.asList(new Long(0), new Long(1));
 
 		LocalDateTime start = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
 		LocalDateTime end = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
-		when(callFailureDAOMock.findByDateTimeBetween(start, end)).thenReturn(callFaillureList);
+		when(callFailureDAOMock.findDistinctImsiByDateTimeBetween(start, end)).thenReturn(callFaillureImsiList);
 
 		ApiResponse<Object> response = queriesController.findImsiFailures(start, end);
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.getData() instanceof List);
-		assertEquals(callFaillureList, response.getData());
+		assertEquals(callFaillureImsiList, response.getData());
 	}
 	
 }
