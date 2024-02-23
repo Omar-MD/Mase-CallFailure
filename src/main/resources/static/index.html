@@ -268,6 +268,31 @@
                     </table>
                 </div>
             </main>
+            
+            <!-- Models Failure Types with Count Query Window -->
+              <main class="col-md-10 text-center d-none response-window home-content" id="model-failure-count-window">
+                <div class="container col-sm-6 card" id="modelFailureTypesCount-container">
+                    <form id="model-failure-countForm">
+                        <div class="mb-3">
+							<h1>Select a Model to view more details..</h1>
+							<label class="control-label">Search Model</label>
+                            <select class="form-select" name="modelFailureCount-dropdown" id="modelFailureCount-dropdown">
+                            </select>
+                            <h2>Specify a date range to see Model failure count for</h2>
+                            <br/>
+                            <label for="start">Enter Start Date</label>
+                            <input type="datetime-local" class="form-control" id="model-failure-count-start-date" name="start">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end">Enter End Date</label>
+                            <input type="datetime-local" class="form-control" id="model-failure-count-end-date" name="end">
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-dark" id="model-failure-count-btn">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
     </div>
     

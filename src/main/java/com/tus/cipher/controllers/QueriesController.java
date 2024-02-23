@@ -74,6 +74,7 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), listValidTac);
 	}
 
+	
 	@GetMapping("/model-failures/{tac}")
 	public ApiResponse<Object> findModelsFailureTypesWithCount(@PathVariable("tac") long tac) {
 		List<Long> listValidTac = callFailureDAO.listTac();
@@ -96,4 +97,23 @@ public class QueriesController {
 		ApiError error = ApiError.of("Invalid Tac", "Tac not in database");
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
+	
+	
+	///query/model-faliure-count
+	
+	
+	@GetMapping("/model-failure-count/{tac}")
+	public ApiResponse<Long> getModelsFaliureCount(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") 
+	LocalDateTime startDate,@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate, @PathVariable("tac") long tac){
+		long modelfailurecount = callFailureDAO.getModelFaliureCount(startDate, endDate, tac);
+		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
+	}
 }
+
+
+
+
+
+
+
+

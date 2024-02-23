@@ -43,4 +43,17 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
         @Param("startDate") LocalDateTime startDate, 
         @Param("endDate") LocalDateTime endDate
     );
+	
+	
+	//getModelFaliureCount
+	
+	//Long getModelFaliureCount 
+	
+	@Query(value = "SELECT COUNT (c.tac) FROM CallFailure c WHERE c.tac = :tac and c.dateTime BETWEEN :startDate AND :endDate;" , nativeQuery = true)
+    Long getModelFaliureCount(
+        @Param("startDate") LocalDateTime startDate, 
+        @Param("endDate") LocalDateTime endDate,
+        @Param("tac") Long tac
+    );
+	
 }

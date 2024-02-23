@@ -74,4 +74,63 @@ function updateModelTable(data) {
         "sScrollY": "50vh",
         "bScrollCollapse": true
     });
+    
+    
 }
+
+//Model
+const getModelFailureCount = function(){
+	var startDate = $("#model-failure-count-start-date").val();
+    var endDate = $("#model-failure-count-end-date").val();
+    var phoneModel = $("#modelFailureCount-dropdown").val();
+
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/model-faliure-count",
+        data: { phoneModel: phoneModel, startDate: startDate, endDate: endDate },
+        success: function(res) {
+            console.log(res.data);
+        },
+        error: function(error) {
+            console.error("Error in AJAX request:", error);
+        }
+    });
+	
+	
+}
+
+const addModelCountDropdown = function() {
+    let model_dropdown = $("#modelFailureCount-dropdown");
+    model_dropdown.empty()
+
+    model_dropdown.select2({
+        placeholder: "Begin typing Model to search..",
+        allowClear: true,
+        width: '100%',
+        minimumInputLength: 0
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: rootUrl + "/query/model-failures",
+        contentType: 'application/json',
+        dataType: "json",
+        success: function(res) {
+            console.log(res);
+            if (res.status == "Success") {
+                res.data.forEach(model => {
+                    model_dropdown.append("<option value=" + model + ">" + model + "</option>");
+                });
+            } else {
+                console.log("Error:", res.error);
+            }
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+
+
+

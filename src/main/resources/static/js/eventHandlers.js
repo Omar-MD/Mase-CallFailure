@@ -63,6 +63,16 @@ $(document).ready(function() {
         event.preventDefault();
         getIMSIFailuresTime();
     });
+    
+    //Model Faliure Count
+        $('#sidebar-content').on('click', '#model-failure-count-sidebar', function() {
+        homeNav('#model-failure-count-window');
+        
+    });
+        $('#model-failure-count-btn').on('click', function(event) {
+        event.preventDefault();
+        getModelFailureCount();
+    });
 
 });
 
