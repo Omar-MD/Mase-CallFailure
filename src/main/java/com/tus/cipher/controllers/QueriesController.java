@@ -63,9 +63,11 @@ public class QueriesController {
 	@GetMapping("/imsi-failures-time")
 	public ApiResponse<Object> findImsiFailures(
 					@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-					@RequestParam("endDate"  ) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate  ) {
-		List<CallFailure> imsiFaulureTime = callFailureDAO.findByDateTimeBetween(startDate, endDate);
-		return ApiResponse.success(HttpStatus.OK.value(), imsiFaulureTime);
+					@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+		// List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
+		List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
+		System.out.println(distinctImsiList.get(0));
+		return ApiResponse.success(HttpStatus.OK.value(), distinctImsiList);
 	}
 
 	@GetMapping("/model-failures")
