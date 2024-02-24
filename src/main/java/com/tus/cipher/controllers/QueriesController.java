@@ -69,11 +69,10 @@ public class QueriesController {
 	}
 
 	@GetMapping("/imsi-failures-time-count")
-	public ApiResponse<Long> getImsiFailureCountTimeRange(
-				@RequestParam("imsi") Long imsi,
-				@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-				@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
-		if(endDate.isBefore(startDate)) {
+	public ApiResponse<Long> getImsiFailureCountTimeRange(@RequestParam("imsi") Long imsi,
+			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+		if (endDate.isBefore(startDate)) {
 			ApiError error = ApiError.of("Bad Date Range", "End date must be after start date");
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
@@ -104,7 +103,6 @@ public class QueriesController {
 				result.put("failureCount", entry[2]);
 				responseList.add(result);
 			}
-
 			return ApiResponse.success(HttpStatus.OK.value(), responseList);
 		}
 
@@ -113,8 +111,10 @@ public class QueriesController {
 	}
 
 	@GetMapping("/call-failure-count")
-	public ApiResponse<Object> getcallFailureCountAndDuration(@Param("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")LocalDateTime startDate,@Param("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
-		List<Long> distinctCallFailureCount= callFailureDAO.findcallFailureCountAndDuration(startDate, endDate);
+	public ApiResponse<Object> getcallFailureCountAndDuration(
+			@Param("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+			@Param("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+		List<Long> distinctCallFailureCount = callFailureDAO.findcallFailureCountAndDuration(startDate, endDate);
 		return ApiResponse.success(HttpStatus.OK.value(), distinctCallFailureCount);
 	}
 
