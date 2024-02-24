@@ -66,6 +66,7 @@ $(document).ready(function() {
     
     //Model Faliure Count
         $('#sidebar-content').on('click', '#model-failure-count-sidebar', function() {
+        addModelCountDropdown();
         homeNav('#model-failure-count-window');
         
     });
