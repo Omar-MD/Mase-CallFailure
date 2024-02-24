@@ -90,27 +90,21 @@ $(document).ready(function() {
         event.preventDefault();
         getIMSIFailuresTimeCount();
     });
+    
+    // Call failure count and duration for each IMSI for time range
+    $('#sidebar-content').on('click', '#callFailureCount-sidebar', function() {
+        homeNav('#callFailureCount-window');
+    });
+
+    // Call failure count and duration  DATATABLE for each IMSI for time range
+    $("#callFailureCount-btn").on('click', function(event) {
+        homeNav('#callFailureCount-datatable-window');
+        event.preventDefault();
+        getCallFailureCount();
+    });
 });
 
-<<<<<<< HEAD
 const homeNav = function(pageID) {
 	$('.home-content').addClass('d-none');
 	$(pageID).removeClass('d-none');
 }
-=======
-    // Call failure count and duration for each IMSI for time range
-    
-    $('#sidebar-content').on('click', '#callFailureCount-sidebar', function() {
-		homeNav('#callFailureCount-window');
-	});
-
-	// Call failure count and duration  DATATABLE for each IMSI for time range
-	$("#callFailureCount-btn").on('click', function(event) {
-		homeNav('#callFailureCount-datatable-window');
-		event.preventDefault();
-		getCallFailureCount();
-	});
-
-
-
->>>>>>> bacc62659d0f2b1a8f8e27aa3a0913c6f1f844aa
