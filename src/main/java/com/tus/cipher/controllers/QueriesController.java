@@ -10,14 +10,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 
@@ -30,6 +27,8 @@ public class QueriesController {
 	public QueriesController(CallFailureDAO callFailureDAO) {
 		this.callFailureDAO = callFailureDAO;
 	}
+
+	/*	 IMSI Failures	 */
 
 	@GetMapping("/imsi-failures")
 	public ApiResponse<Object> getImsiFailures() {
@@ -67,6 +66,9 @@ public class QueriesController {
 		List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
 		return ApiResponse.success(HttpStatus.OK.value(), distinctImsiList);
 	}
+
+
+	/* Model Failures */
 
 	@GetMapping("/model-failures")
 	public ApiResponse<Object> getModelsWithFailure() {
