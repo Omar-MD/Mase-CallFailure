@@ -28,7 +28,6 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
     @Query("SELECT COUNT(c) FROM CallFailure c WHERE c.imsi = :imsi AND c.dateTime BETWEEN :startDate AND :endDate")
     long countByImsiAndDateTimeBetween(@Param("imsi") Long imsi, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate );
 
-
 	// Model
 	@Query(value = "SELECT DISTINCT cf.tac FROM call_failure cf ", nativeQuery = true)
 	List<Long> listTac();
@@ -50,8 +49,4 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 			+ "WHERE Timestamp BETWEEN 'startTime' AND 'endTime' GROUP BY IMSI", nativeQuery = true)
 	List<Long> callFailureCountAndDuration( @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 }
-
-
-
-
 
