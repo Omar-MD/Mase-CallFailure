@@ -149,25 +149,6 @@ function updateCallFailureCountTable(data) {
     });
 }
 
-const getCallFailureCount = function() {
-	var startDate = $("#callFailureCount-start-date").val();
-	var endDate = $("#callFailureCount-end-date").val();
-
-	$.ajax({
-		type: "GET",
-		url: rootUrl + "/query/call-failure-count",
-		data: { startDate: startDate, endDate: endDate },
-		success: function(res) {
-			console.log(res.data);
-			updateImsiTimeTable(res.data)
-			$("#callFailureCount-datatable-caption").append(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
- 		},
- 		error: function(error) {
-			console.error("Error in AJAX request:", error);
- 		}
-	});
-}
-
 function updateCallFailureCountTable(data) {
     $('#callFailureCount-datatable-body').empty();
     data.forEach(function(item) {
@@ -187,3 +168,4 @@ function updateCallFailureCountTable(data) {
         "bScrollCollapse": true
     });
 }
+

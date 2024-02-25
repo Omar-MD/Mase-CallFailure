@@ -102,9 +102,28 @@ $(document).ready(function() {
         event.preventDefault();
         getCallFailureCount();
     });
+    
+        // Call failure count and duration for each IMSI for time range
+    
+    $('#sidebar-content').on('click', '#callFailureCount-sidebar', function() {
+        homeNav('#callFailureCount-window');
+    });
+
+    // Call failure count and duration  DATATABLE for each IMSI for time range
+    $("#callFailureCount-btn").on('click', function(event) {
+        homeNav('#callFailureCount-datatable-window');
+        event.preventDefault();
+        getCallFailureCount();
+    });
+    
 });
 
 const homeNav = function(pageID) {
 	$('.home-content').addClass('d-none');
 	$(pageID).removeClass('d-none');
 }
+
+
+
+
+

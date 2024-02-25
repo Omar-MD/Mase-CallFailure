@@ -75,6 +75,7 @@ const loadContentForRole = function(role, username) {
 
             sidebar.html(
                 ` <button type="button" id="modelFailureTypesCount-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types With Count</button>
+                  <button type="button" id="callFailureCount-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Call Failure Count and Duration</button>
             `);
 
             userRole.html(
