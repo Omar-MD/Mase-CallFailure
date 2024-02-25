@@ -10,24 +10,31 @@ const getIMSIFailuresTimeCount = function() {
         url: rootUrl + "/query/imsi-failures-time-count",
         data: { imsi: imsi, startDate: startDate, endDate: endDate },
         success: function(res) {
-            console.log(res.data);
+            console.log(res);
+
             var oldResult = $("#imsi-failure-time-count-result")
             if(oldResult.length) {
                 oldResult.remove()
             }
-            $('#imsi-failure-time-count-container').append(`
-                <div class="card" id="imsi-failure-time-count-result">
-                    <div class="card-body">
-                        <h2 class="card-title">IMSIs Failures Count</h2>
-                        <p class="card-text">
-                            IMSI: ${imsi}<br>
-                            Start Date: ${startDate.replace('T', ' ')}<br>
-                            End Date: ${endDate.replace('T', ' ')}<br>
-                            <h3>Count: ${res.data}</h3>
-                        </p>
+            if(res.statusCode === 200) {
+                $('#imsi-failure-time-count-container').append(`
+                    <div class="card" id="imsi-failure-time-count-result">
+                        <div class="card-body">
+                            <h2 class="card-title">IMSIs Failures Count</h2>
+                            <p class="card-text">
+                                IMSI: ${imsi}<br>
+                                Start Date: ${startDate.replace('T', ' ')}<br>
+                                End Date: ${endDate.replace('T', ' ')}<br>
+                                <h3>Count: ${res.data}</h3>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            `);
+                `);
+            } else {
+                $('#imsi-failure-time-count-container').append(`
+                    <div id=\"imsi-failure-time-count-result\" class=\"alert alert-danger\"><strong>${res.error.errorMsg}</strong> ${res.error.details}</div>
+                `);
+            }
         },
         error: function(error) {
             console.error("Error in AJAX request:", error);

@@ -102,6 +102,11 @@ public class QueriesController {
 				@RequestParam("imsi") Long imsi,
 				@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
 				@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+
+			if(endDate.isBefore(startDate)) {
+				ApiError error = ApiError.of("Bad Date Range", "End date must be after start date");
+				return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
+			}
 			Long count = callFailureDAO.countByImsiAndDateTimeBetween(imsi, startDate, endDate);
 			return ApiResponse.success(HttpStatus.OK.value(), count); 
 	}
