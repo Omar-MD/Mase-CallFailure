@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.responses.ApiResponse;
 
 class QueriesControllerTest {
@@ -129,5 +128,5 @@ class QueriesControllerTest {
 		assertTrue(response.getData() instanceof List);
 		assertEquals(callFaillureImsiList, response.getData());
 	}
-	
+
 }
