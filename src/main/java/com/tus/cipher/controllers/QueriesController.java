@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,20 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), distinctImsiList);
 	}
 
+	@GetMapping("/imsi-failures-time-count")
+	public ApiResponse<Long> getImsiFailureCountTimeRange(
+				@RequestParam("imsi") Long imsi,
+				@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+				@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+		if(endDate.isBefore(startDate)) {
+			ApiError error = ApiError.of("Bad Date Range", "End date must be after start date");
+			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
+		}
+		Long count = callFailureDAO.countByImsiAndDateTimeBetween(imsi, startDate, endDate);
+		return ApiResponse.success(HttpStatus.OK.value(), count);
+	}
+
+
 	/* Model Failures */
 
 	@GetMapping("/model-failures")
@@ -99,6 +114,13 @@ public class QueriesController {
 	}
 
 
+	@GetMapping("/call-failure-count")
+	public ApiResponse<Object> getcallFailureCountAndDuration(@Param("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")LocalDateTime startDate,@Param("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+		List<Long> distinctCallFailureCount= callFailureDAO.findcallFailureCountAndDuration(startDate, endDate);
+		return ApiResponse.success(HttpStatus.OK.value(), distinctCallFailureCount);
+	}
+
+
 	/// query/model-faliure-count
 	@GetMapping("/model-failure-count")
 	public ApiResponse<Long> getModelsFaliureCount(
@@ -107,18 +129,5 @@ public class QueriesController {
 			@RequestParam("tac") Long tac) {
 		long modelfailurecount = callFailureDAO.getModelFaliureCount(startDate, endDate, tac);
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
-	}
-
-	@GetMapping("/imsi-failures-time-count")
-	public ApiResponse<Long> getImsiFailureCountTimeRange(
-				@RequestParam("imsi") Long imsi,
-				@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-				@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
-		if(endDate.isBefore(startDate)) {
-			ApiError error = ApiError.of("Bad Date Range", "End date must be after start date");
-			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
-		}
-		Long count = callFailureDAO.countByImsiAndDateTimeBetween(imsi, startDate, endDate);
-		return ApiResponse.success(HttpStatus.OK.value(), count);
 	}
 }
