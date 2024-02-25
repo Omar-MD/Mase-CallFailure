@@ -94,11 +94,12 @@ public class QueriesController {
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
 
-	@GetMapping("/model-failure-count")
+	/// query/model-faliure-count
+	@GetMapping("/model-failure-count/{tac}")
 	public ApiResponse<Long> getModelsFaliureCount(
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
 			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate,
-			@RequestParam("tac") long tac) {
+			@PathVariable("tac") long tac) {
 		long modelfailurecount = callFailureDAO.getModelFaliureCount(startDate, endDate, tac);
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
 	}
