@@ -36,7 +36,7 @@ public class UeSheet extends BaseSheetProcessor{
 			validRows.add(ue);
 
 		} catch (Exception e) {
-			LoggerService.logInfo("sysadmin/import", "UeSheet:processRow", e.getMessage());
+			LoggerService.logInfo("sysadmin/import", "UeSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

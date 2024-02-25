@@ -36,16 +36,15 @@ function initSelect2() {
     let imsi_dropdown = $("#imsi-dropdown");
     imsi_dropdown.select2({
         placeholder: "Begin typing IMSI to search..",
-        allowClear: true,
         width: '100%',
         minimumInputLength: 0
     });
 }
-const getIMSIFailures = function() {
 
+const getIMSIFailures = function() {
     let imsi = $("#imsi-dropdown").val();
     console.log("IMSI: " + imsi);
-
+    $(".imsi").text(imsi);
     $.ajax({
         type: 'GET',
         url: rootUrl + "/query/imsi-failures/" + imsi,
@@ -58,7 +57,6 @@ const getIMSIFailures = function() {
             } else {
                 console.log("Error:", res.error);
             }
-
         },
         error: function(error) {
             console.error("Error:", error);
@@ -66,26 +64,16 @@ const getIMSIFailures = function() {
     });
 };
 
-let datatable;
 function updateTable(data) {
-    $('#imsi-failure-datatable-body').empty();
+    $('#imsi-failure-datatable').DataTable().rows().remove().draw();
     data.forEach(function(item) {
-        $('#imsi-failure-datatable-body').append(`<tr>
-            <td>${item.eventId}</td>
-            <td>${item.causeCode}</td>
-            <td>${item.description}</td>
-        </tr>`);
-    });
-    if(datatable) {
-        datatable.destroy();
-    }
-    datatable = $("#imsi-failure-datatable").DataTable({
-        "sScrollY": "50vh",
-        "bScrollCollapse": true
+        $('#imsi-failure-datatable').DataTable().row.add([
+            item.eventId,
+            item.causeCode,
+            item.description
+        ]).draw(false);
     });
 }
-
-
 
 const getIMSIFailuresTime = function() {
     let startDate = $("#imsi-failure-time-start-date").val();
