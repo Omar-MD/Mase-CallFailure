@@ -18,6 +18,8 @@ import java.util.Optional;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.AccountRepository;
@@ -188,4 +190,35 @@ class SysAdminControllerTest {
 		assertEquals("Username already exist", response.getError().getErrorMsg());
 	}
 
+	@Test
+    public void testImportExecutionTime() {
+        // Set a timeout of 2 minutes in milliseconds
+        final long timeoutMillis = 2 * 60 * 1000;
+
+		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
+
+        // Record the start time
+        long startTime = System.currentTimeMillis();
+
+        try {
+			ImportRequest request = new ImportRequest();
+			request.setFilename("Dataset 3A.xls");
+            // Call the function you want to test
+            sysAdminController.importData(request); 
+
+            // Record the end time after the function execution
+            final long endTime = System.currentTimeMillis();
+
+            // Calculate the elapsed time
+            final long elapsedTime = endTime - startTime;
+
+            // Check if the elapsed time exceeds the timeout
+            if (elapsedTime > timeoutMillis) {
+                fail("Function execution took longer than 2 minutes");
+            }
+        } catch (Exception e) {
+            // Handle any exceptions thrown by the function
+            fail("Function threw an exception: " + e.getMessage());
+        }
+    }
 }

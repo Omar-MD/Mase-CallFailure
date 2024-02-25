@@ -72,7 +72,7 @@ public class BaseDataSheet extends BaseSheetProcessor {
 
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
 			List<CallFailure> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
-			System.out.println("Batch size: " + batchEntities.size());
+			// System.out.println("Batch size: " + batchEntities.size());
 			callFailureDAO.saveAll(batchEntities);
 		}
 
