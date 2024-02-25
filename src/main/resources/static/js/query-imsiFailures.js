@@ -1,8 +1,14 @@
-// import DataTable from 'datatables.net-dt';
 
-const addImsiDropdown = function() {
-    let imsi_dropdown = $("#imsi-dropdown");
+const addImsiDropdown = function(dropdownId) {
+    let imsi_dropdown = $(dropdownId);
     imsi_dropdown.empty()
+
+    imsi_dropdown.select2({
+        placeholder: "Begin typing IMSI to search..",
+        allowClear: true,
+        width: '100%',
+        minimumInputLength: 0
+    });
     
     $.ajax({
         type: 'GET',

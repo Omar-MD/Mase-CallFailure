@@ -268,6 +268,35 @@
                     </table>
                 </div>
             </main>
+
+            <!-- Get Failure for Given IMSI by Time Query Window -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-count-window">
+                <div class="container col-sm-6 card" id="imsi-failure-time-count-container">
+                    <form id="imsi-failure-time-count-form">
+                        <div class="mb-3">
+                            <h2>Get Failure Count for IMSI in Time Period</h2>
+                        </div>
+                        <div class="mb-3">
+                            <label class="control-label">Select IMSI</label>
+                            <select class="form-select" name="imsi-dropdown" id="imsi-failure-time-count-imsi-dropdown">
+
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <h5>Specify a date range to see failures for</h5>
+                            <label for="start">Enter Start Date</label>
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-count-start-date" name="start">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end">Enter End Date</label>
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-count-end-date" name="end">
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-dark" id="imsi-failure-time-count-btn">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
     </div>
     
@@ -281,6 +310,7 @@
     <script src="js/sysAdmin.js"></script>
     <script src="js/query-imsiFailures.js"></script>
     <script src="js/query-modelFailureTypesCount.js"></script>
+    <script src="js/query-getFailureForImsiForTimePeriod.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/eventHandlers.js"></script>
 </body>

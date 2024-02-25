@@ -96,4 +96,13 @@ public class QueriesController {
 		ApiError error = ApiError.of("Invalid Tac", "Tac not in database");
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
+
+	@GetMapping("/imsi-failures-time-count")
+	public ApiResponse<Long> getImsiFailureCountTimeRange(
+				@RequestParam("imsi") Long imsi,
+				@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+				@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+			Long count = callFailureDAO.countByImsiAndDateTimeBetween(imsi, startDate, endDate);
+			return ApiResponse.success(HttpStatus.OK.value(), count); 
+	}
 }
