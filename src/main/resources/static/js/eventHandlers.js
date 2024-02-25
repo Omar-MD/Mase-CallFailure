@@ -65,10 +65,17 @@ $(document).ready(function() {
 	});
 
 	//Model Faliure Count
+	//model-failure-count-btn
 	$('#sidebar-content').on('click', '#model-failure-count-sidebar', function() {
 		addModelCountDropdown();
 		homeNav('#model-failure-count-window');
 
+	});
+	
+		// Load the datatable for getting the IMSI failure in a given date range
+	$("#model-failure-count-btn").on('click', function(event) {
+		event.preventDefault();
+		getModelFailureCount();
 	});
 
 });

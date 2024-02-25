@@ -78,19 +78,46 @@ function updateModelTable(data) {
 
 //Model Count
 const getModelFailureCount = function() {
-	var startDate = $("#model-failure-count-start-date").val();
-	var endDate = $("#model-failure-count-end-date").val();
-	var phoneModel = $("#modelFailureCount-dropdown").val();
+	let startDate = $('#model-failure-type-count-start-date').val();
+	let endDate = $('#model-failure-type-count-end-date').val();
+	let phoneModel = $('#modelFailureCountType-dropdown').val();
+	console.log(startDate, endDate, phoneModel);
+
+	/*	$.ajax({
+			type: 'GET',
+			url: rootUrl + "/query/model-failures/" + model,
+			contentType: 'application/json',
+			dataType: "json",
+			success: function(res) {
+				console.log(res);
+				if (res.status == "Success") {
+					updateModelTable(res.data);
+				} else {
+					console.log("Error:", res.error);
+				}
+	
+			},
+			error: function(error) {
+				console.error("Error:", error);
+			}
+		});*/
 
 	$.ajax({
 		type: "GET",
-		url: rootUrl + "/query/model-failure-count",
-		data: { phoneModel: phoneModel, startDate: startDate, endDate: endDate },
+		url: rootUrl + "/query/model-failure-count/" + phoneModel,
+		contentType: 'application/json',
+		dataType: "json",
+		data: { "startDate": startDate, "endDate": endDate },
 		success: function(res) {
-			console.log(res.data);
+			console.log(res);
+			if (res.status == "Success") {
+				console.log(res.data);
+			} else {
+				console.log("Error:", res.error);
+			}
 		},
 		error: function(error) {
-			console.error("Error in AJAX request:", error);
+			console.error("Error:", error);
 		}
 	});
 
@@ -98,7 +125,7 @@ const getModelFailureCount = function() {
 }
 
 const addModelCountDropdown = function() {
-	let model_dropdown = $("#modelFailureCount-dropdown");
+	let model_dropdown = $('#modelFailureCountType-dropdown');
 	model_dropdown.empty()
 
 	model_dropdown.select2({
