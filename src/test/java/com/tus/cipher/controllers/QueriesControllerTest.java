@@ -178,4 +178,20 @@ class QueriesControllerTest {
 		assertEquals(response.getError().getErrorMsg(), "Bad Date Range");
 		assertEquals(response.getError().getDetails(), "End date must be after start date");
 	}
+
+
+	@Test
+	void testGetCallFailuresWithCountAndDuration() {
+		List<Long> callFailureCount = Arrays.asList(Long.valueOf(0), Long.valueOf(1));
+
+		LocalDateTime start = LocalDateTime.of(2011, 1, 1, 1, 1, 1);
+		LocalDateTime end = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		when(callFailureDAOMock.findcallFailureCountAndDuration(start, end)).thenReturn(callFailureCount);
+
+		ApiResponse<Object> response = queriesController.getcallFailureCountAndDuration(start, end);
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		assertEquals(callFailureCount, response.getData());
+	}
 }
