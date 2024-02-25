@@ -1,4 +1,3 @@
-// import DataTable from 'datatables.net-dt';
 
 const addImsiDropdown = function() {
     let imsi_dropdown = $("#imsi-dropdown");
@@ -71,8 +70,8 @@ function updateTable(data) {
 
 
 const getIMSIFailuresTime = function() {
-    var startDate = $("#imsi-failure-time-start-date").val();
-    var endDate = $("#imsi-failure-time-end-date").val();
+    let startDate = $("#imsi-failure-time-start-date").val();
+    let endDate = $("#imsi-failure-time-end-date").val();
 
     $.ajax({
         type: "GET",
@@ -92,22 +91,6 @@ const getIMSIFailuresTime = function() {
 function updateImsiTimeTable(data) {
     $('#imsi-failures-time-datatable-body').empty();
     data.forEach(function(imsiFailure) {
-        // $('#imsi-failures-time-datatable-body').append(`<tr>
-        //     <td>${imsiFailure.dateTime}</td>
-        //     <td>${imsiFailure.eventId}</td>
-        //     <td>${imsiFailure.causeCode}</td>
-        //     <td>${imsiFailure.failureCode}</td>
-        //     <td>${imsiFailure.duration}</td>
-        //     <td>${imsiFailure.cellId}</td>
-        //     <td>${imsiFailure.tac}</td>
-        //     <td>${imsiFailure.mcc}</td>
-        //     <td>${imsiFailure.mnc}</td>
-        //     <td>${imsiFailure.neVersion}</td>
-        //     <td>${imsiFailure.imsi}</td>
-        //     <td>${imsiFailure.hier3Id}</td>
-        //     <td>${imsiFailure.hier32Id}</td>
-        //     <td>${imsiFailure.hier321Id}</td>
-        // </tr>`);
         $('#imsi-failures-time-datatable-body').append(`<tr>
             <td>${imsiFailure}</td>
         </tr>`);
