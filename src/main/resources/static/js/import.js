@@ -51,7 +51,9 @@ const checkImportStatus = function() {
         url: rootUrl + "/sysadmin/auto-import-status",
         contentType: 'application/json',
         success: function(res) {
-            importStatus.html(res);
+             if (res.status == "Success") {
+                 importStatus.html(res.data);
+             }
         },
         error: function() {
             $('#autoImportSummary').removeClass().addClass("alert alert-danger").html("<strong>Error!</strong> Unexpected Import Error<br/>").show();

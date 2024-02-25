@@ -32,7 +32,11 @@ public class ImportController {
 	static final String LOG_FOLDER_PATH = "logs";
 	static final String LOG_FILE_PATH = "logs/import_log.txt";
 
-	String importStatus = "No automatic import triggered!";
+	static final String AUTO_SUCCESS = "Automatic import triggered Successfully!";
+	static final String AUTO_FAIL = "Automatic import Failed!";
+	static final String NO_AUTO = "No automatic import triggered!";
+
+	String importStatus = NO_AUTO;
 	String lastSuccessImport = null;
 	String summary = null;
 
@@ -60,7 +64,7 @@ public class ImportController {
 	}
 
 	@GetMapping("/auto-import-status")
-	public String checkImportStatus() {
+	public ApiResponse<String> checkImportStatus() {
 		String htmlContent = "<h4>Automatic Import</h4>";
 		htmlContent += "<div class=\"alert alert-info\" role=\"alert\">";
 		htmlContent += "<strong>Status:</strong> " + importStatus + "<br/>";
@@ -71,17 +75,32 @@ public class ImportController {
 			htmlContent += summary;
 		}
 		htmlContent += "</div>";
-		return htmlContent;
+
+		int statusCode = determineStatusCode(importStatus);
+		return ApiResponse.success(statusCode, htmlContent);
+	}
+
+	private int determineStatusCode(String importStatus) {
+	    switch (importStatus) {
+	        case NO_AUTO:
+	            return HttpStatus.NO_CONTENT.value();
+	        case AUTO_SUCCESS:
+	            return HttpStatus.OK.value();
+	        case AUTO_FAIL:
+	            return HttpStatus.BAD_REQUEST.value();
+	        default:
+	            return HttpStatus.INTERNAL_SERVER_ERROR.value();
+	    }
 	}
 
 	public void autoImport(String filename) {
 		try {
 			summary = importFile(filename);
-			importStatus = "Automatic import triggered Successfully!";
+			importStatus = AUTO_SUCCESS;
 			lastSuccessImport = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
 		} catch (Exception e) {
-			importStatus = "Automatic import Failed!";
+			importStatus = AUTO_FAIL;
 			summary = e.getMessage();
 		}
 	}
