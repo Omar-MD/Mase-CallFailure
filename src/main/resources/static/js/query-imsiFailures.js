@@ -10,6 +10,14 @@ const addImsiDropdown = function(dropdownId) {
         minimumInputLength: 0
     });
     
+    // Select2 plugin for searchable select (#imsi-dropdown)
+    imsi_dropdown.select2({
+        placeholder: "Begin typing IMSI to search..",
+        allowClear: true,
+        width: '100%',
+        minimumInputLength: 2
+    });
+    
     $.ajax({
         type: 'GET',
         url: rootUrl + "/query/imsi-failures",
