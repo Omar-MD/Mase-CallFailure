@@ -160,6 +160,9 @@
                 </div>
             </main>
 
+
+            <!--        IMSI Queries                -->
+
             <!-- IMSI Failure Query Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="imsi-query-failure-window">
                 <div class="container col-sm-6 card" id="imsi-failure-container">
@@ -237,6 +240,11 @@
                 </div>
             </main>
 
+
+
+            <!--        Model Queries                -->
+
+
             <!-- Models Failure Types with Count Query Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="modelFailureTypesCount-window">
                 <div class="container col-sm-6 card" id="modelFailureTypesCount-container">
@@ -274,6 +282,35 @@
                 </div>
             </main>
 
+            <!-- Models Failure Count -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="model-failure-count-window">
+                <div class="container col-sm-6" id="modelFailureTypesCount-container">
+                    <form class="card" id="model-failure-countForm">
+                        <div class="mb-3">
+                            <h2>Select a Model to view details..</h2>
+                            <label class="control-label">Search Model</label>
+                            <select class="form-select" name="model-failure-count-dropdown"
+                                id="model-failure-count-dropdown">
+                            </select>
+                            <br />
+                            <h4 class="mt-3">Specify a date range</h4>
+                            <label for="start">Enter Start Date</label>
+                            <input type="datetime-local" class="form-control" id="model-failure-count-start-date"
+                                name="start">
+                            <div class="mb-3">
+                                <label for="end">Enter End Date</label>
+                                <input type="datetime-local" class="form-control" id="model-failure-count-end-date"
+                                    name="end">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-dark" id="model-failure-count-btn">Search</button>
+                        </div>
+                    </form>
+                    <div class="mt-2 d-none" role="alert" id="model-failure-count-result"></div>
+                </div>
+            </main>
+
             <!-- Get Failure for Given IMSI by Time Query Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-count-window">
                 <div class="container col-sm-6 card" id="imsi-failure-time-count-container">
@@ -304,7 +341,6 @@
             </main>
         </div>
     </div>
-
 
     <script src="js/jquery-3.4.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>

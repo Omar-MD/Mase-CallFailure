@@ -77,8 +77,8 @@ function updateTable(data) {
 
 
 const getIMSIFailuresTime = function() {
-    var startDate = $("#imsi-failure-time-start-date").val();
-    var endDate = $("#imsi-failure-time-end-date").val();
+    let startDate = $("#imsi-failure-time-start-date").val();
+    let endDate = $("#imsi-failure-time-end-date").val();
 
     $.ajax({
         type: "GET",
@@ -87,7 +87,7 @@ const getIMSIFailuresTime = function() {
         success: function(res) {
             console.log(res.data);
             updateImsiTimeTable(res.data)
-            $("#imsi-failures-time-datatable-caption").append(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+            $("#imsi-failures-time-datatable-caption").html(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
         },
         error: function(error) {
             console.error("Error in AJAX request:", error);
@@ -96,31 +96,15 @@ const getIMSIFailuresTime = function() {
 }
 
 function updateImsiTimeTable(data) {
+    if(datatable) {
+        datatable.destroy();
+    }
     $('#imsi-failures-time-datatable-body').empty();
     data.forEach(function(imsiFailure) {
-        // $('#imsi-failures-time-datatable-body').append(`<tr>
-        //     <td>${imsiFailure.dateTime}</td>
-        //     <td>${imsiFailure.eventId}</td>
-        //     <td>${imsiFailure.causeCode}</td>
-        //     <td>${imsiFailure.failureCode}</td>
-        //     <td>${imsiFailure.duration}</td>
-        //     <td>${imsiFailure.cellId}</td>
-        //     <td>${imsiFailure.tac}</td>
-        //     <td>${imsiFailure.mcc}</td>
-        //     <td>${imsiFailure.mnc}</td>
-        //     <td>${imsiFailure.neVersion}</td>
-        //     <td>${imsiFailure.imsi}</td>
-        //     <td>${imsiFailure.hier3Id}</td>
-        //     <td>${imsiFailure.hier32Id}</td>
-        //     <td>${imsiFailure.hier321Id}</td>
-        // </tr>`);
         $('#imsi-failures-time-datatable-body').append(`<tr>
             <td>${imsiFailure}</td>
         </tr>`);
     });
-    if(datatable) {
-        datatable.destroy();
-    }
     datatable = $("#imsi-failures-time-datatable").DataTable({
         "sScrollY": "50vh",
         "bScrollCollapse": true
