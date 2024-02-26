@@ -75,6 +75,10 @@ const loadContentForRole = function(role, username) {
 
             sidebar.html(
                 ` <button type="button" id="modelFailureTypesCount-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types With Count</button>
+                  <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures</button>
+                  <button type="button" id="imsi-failure-time-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count for Time Period</button>
+                  <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
+                  <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button>
             `);
 
             userRole.html(
