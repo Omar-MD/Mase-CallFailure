@@ -38,7 +38,7 @@ public class QueriesController {
 	public ApiResponse<Object> findImsiFailures(@PathVariable("imsi") long imsi) {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
 
-		if (listValidImsi.contains(imsi)) {
+		if(listValidImsi.contains(imsi)) {
 			List<Object[]> imsiEventCauseDescriptions = callFailureDAO.findImsiEventCauseDescriptions(imsi);
 
 			List<Map<String, Object>> responseList = new ArrayList<>();
@@ -59,8 +59,8 @@ public class QueriesController {
 
 	@GetMapping("/imsi-failures-time")
 	public ApiResponse<Object> findImsiFailures(
-			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+					@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+					@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
 		List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
 		return ApiResponse.success(HttpStatus.OK.value(), distinctImsiList);
 	}
@@ -71,12 +71,11 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), listValidTac);
 	}
 
-	
 	@GetMapping("/model-failures/{tac}")
 	public ApiResponse<Object> findModelsFailureTypesWithCount(@PathVariable("tac") long tac) {
 		List<Long> listValidTac = callFailureDAO.listTac();
 
-		if (listValidTac.contains(tac)) {
+		if(listValidTac.contains(tac)) {
 			List<Object[]> modelsFailureTypesWithCount = callFailureDAO.findModelsFailureTypesWithCount(tac);
 
 			List<Map<String, Object>> responseList = new ArrayList<>();
@@ -105,11 +104,3 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
 	}
 }
-
-
-
-
-
-
-
-
