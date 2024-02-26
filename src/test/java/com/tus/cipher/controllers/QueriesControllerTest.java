@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.responses.ApiResponse;
 
 class QueriesControllerTest {
@@ -117,7 +116,7 @@ class QueriesControllerTest {
 
 	@Test
 	void testGetImsiFailuresWithTime() {
-		List<Long> callFaillureImsiList = Arrays.asList(new Long(0), new Long(1));
+		List<Long> callFaillureImsiList = Arrays.asList(Long.valueOf(0), Long.valueOf(1));
 
 		LocalDateTime start = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
 		LocalDateTime end = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
@@ -129,5 +128,5 @@ class QueriesControllerTest {
 		assertTrue(response.getData() instanceof List);
 		assertEquals(callFaillureImsiList, response.getData());
 	}
-	
-}
+
+ }

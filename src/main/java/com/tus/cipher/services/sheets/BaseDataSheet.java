@@ -67,12 +67,11 @@ public class BaseDataSheet extends BaseSheetProcessor {
 	@Override
 	public void saveInBatchs() {
 		int totalRows = validRows.size();
-		System.out.println("Total size: " + totalRows);
+		System.out.println("=> Valid Rows(s): " + totalRows);
 		List<CallFailure> rowsToSave = new ArrayList<>(validRows);
 
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
 			List<CallFailure> batchEntities = rowsToSave.subList(i, Math.min(i + MAX_BATCH_SIZE, totalRows));
-			// System.out.println("Batch size: " + batchEntities.size());
 			callFailureDAO.saveAll(batchEntities);
 		}
 

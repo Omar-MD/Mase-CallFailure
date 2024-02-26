@@ -2,7 +2,6 @@ package com.tus.cipher.controllers;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +15,12 @@ import com.tus.cipher.responses.ApiResponse;
 
 @RestController
 public class LoginController {
-	@Autowired
+
 	AccountRepository accountRepository;
+
+	public LoginController(AccountRepository accountRepository) {
+		this.accountRepository = accountRepository;
+	}
 
 	@PostMapping("/login")
 	public ApiResponse<String> login(@RequestBody LoginRequest loginDetail) {
