@@ -16,10 +16,10 @@ const addImsiDropdown = function(dropdownId) {
         contentType: 'application/json',
         dataType: "json",
         success: function(res) {
-            console.log(res);
             if (res.status == "Success") {
+                console.log(res.data);
                 res.data.forEach(imsi => {
-                    imsi_dropdown.append("<option value="+imsi+">"+imsi+"</option>");
+                    imsi_dropdown.append("<option value=" + imsi + ">" + imsi + "</option>");
                 });
                 initSelect2();
             } else {
@@ -33,24 +33,31 @@ const addImsiDropdown = function(dropdownId) {
 }
 
 function updateDataTable(tableId, data, headers) {
-    
-    // Get the DataTable instance
+     // Check if DataTable is already initialized
     let datatable = $(`#${tableId}-datatable`).DataTable();
-    // Clear existing datatable
-    datatable.clear().draw();
-     
-    // Populate the table with new data
-    data.forEach(function(item) {
-        let rowData = [];
-        headers.forEach(header => {
-            rowData.push(item[header]);
+    if (datatable) {
+        datatable.clear().draw();
+    } else {
+        datatable = $(`#${tableId}-datatable`).DataTable({
+            "sScrollY": "50vh",
+            "bScrollCollapse": true
         });
-        datatable.row.add(rowData);
+    }
+    data.forEach(function(item) {
+        if (headers && headers.length > 0) {
+            let rowData = [];
+            headers.forEach(header => {
+                rowData.push(item[header]);
+            });
+            datatable.row.add(rowData);
+        } else {
+            // If no headers provided, append data directly as a single-column row
+            datatable.row.add([item]);
+        }
     });
 
-    // Redraw the table to reflect the changes
     datatable.draw();
-}
+};
 
 /*function initSelect2() {
     let imsi_dropdown = $("#imsi-dropdown");
@@ -63,21 +70,16 @@ function updateDataTable(tableId, data, headers) {
 
 const getIMSIFailures = function() {
     let imsi = $("#imsi-dropdown").val();
-    let headers = ['eventId', 'causeCode', 'description'];
      
-    console.log("IMSI: " + imsi);
-    $(".imsi").text(imsi);
     $.ajax({
         type: 'GET',
         url: rootUrl + "/query/imsi-failures/" + imsi,
         contentType: 'application/json',
         dataType: "json",
         success: function(res) {
-            console.log(res);
             if (res.status == "Success") {
-               
-                updateDataTable('imsi-failure', res.data, headers);
-              /*  updateTable(res.data);*/
+                console.log(res.data);
+                updateDataTable('imsi-failure', res.data, ['eventId', 'causeCode', 'description']);
             } else {
                 console.log("Error:", res.error);
             }
@@ -98,8 +100,8 @@ const getIMSIFailuresTime = function() {
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
             console.log(res.data);
-            updateImsiTimeTable(res.data)
-            $("#imsi-failures-time-datatable-caption").html(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+            updateDataTable('imsi-failures-time', res.data, []);
+            $("#imsi-failures-time-datatable-caption").text(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
         },
         error: function(error) {
             console.error("Error in AJAX request:", error);
@@ -140,26 +142,7 @@ const getCallFailureCount = function() {
 			console.error("Error in AJAX request:", error);
  		}
 	});
-}
 
-function updateCallFailureCountTable(data) {
-    $('#callFailureCount-datatable-body').empty();
-    data.forEach(function(item) {
-        $('#callFailureCount-datatable-body').append(`<tr>
-            <td>${item.imsi}</td>
-            <td>${item.failureCount}</td>
-            <td>${item.duration}</td>
-        </tr>`);
-    });
-    
-    if(datatable) {
-        datatable.destroy();
-    }
-    
-    datatable = $("#callFailureCount-datatable").DataTable({
-        "sScrollY": "50vh",
-        "bScrollCollapse": true
-    });
 }
 
 function updateCallFailureCountTable(data) {

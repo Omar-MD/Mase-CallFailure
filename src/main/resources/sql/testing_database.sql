@@ -1,5 +1,5 @@
 
--- Insert test account
+-- Insert test accounts
 INSERT INTO accounts (username, password, role) VALUES 
 	('admin', 'password', 'SYSTEM_ADMINISTRATOR'),
 	('support', 'password', 'SUPPORT_ENGINEER'),
