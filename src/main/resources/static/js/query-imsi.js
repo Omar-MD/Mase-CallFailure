@@ -100,10 +100,14 @@ const getIMSIFailuresTime = function() {
         url: rootUrl + "/query/imsi-failures-time",
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
-            console.log(res.data);
-            updateDataTable('imsi-failures-time', res.data, []);
-            $("#imsi-failures-time-datatable-caption").text(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
-        },
+            console.log(res);
+           if (res.status == "Success") {
+                  updateDataTable('imsi-failures-time', res.data, []);
+                  $("#imsi-failures-time-datatable-caption").text("IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+          }else{
+                console.log("Error:", res.error);
+            }
+          },
         error: function(error) {
             console.error("Error in AJAX request:", error);
         }
