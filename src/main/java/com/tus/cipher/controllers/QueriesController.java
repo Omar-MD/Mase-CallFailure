@@ -28,7 +28,7 @@ public class QueriesController {
 		this.callFailureDAO = callFailureDAO;
 	}
 
-	/*	 IMSI Failures	 */
+	/* IMSI Failures */
 
 	@GetMapping("/imsi-failures")
 	public ApiResponse<Object> getImsiFailures() {
@@ -40,7 +40,7 @@ public class QueriesController {
 	public ApiResponse<Object> findImsiFailures(@PathVariable("imsi") long imsi) {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
 
-		if(listValidImsi.contains(imsi)) {
+		if (listValidImsi.contains(imsi)) {
 			List<Object[]> imsiEventCauseDescriptions = callFailureDAO.findImsiEventCauseDescriptions(imsi);
 
 			List<Map<String, Object>> responseList = new ArrayList<>();
@@ -61,12 +61,11 @@ public class QueriesController {
 
 	@GetMapping("/imsi-failures-time")
 	public ApiResponse<Object> findImsiFailures(
-					@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-					@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
 		List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
 		return ApiResponse.success(HttpStatus.OK.value(), distinctImsiList);
 	}
-
 
 	/* Model Failures */
 
@@ -80,7 +79,7 @@ public class QueriesController {
 	public ApiResponse<Object> findModelsFailureTypesWithCount(@PathVariable("tac") long tac) {
 		List<Long> listValidTac = callFailureDAO.listTac();
 
-		if(listValidTac.contains(tac)) {
+		if (listValidTac.contains(tac)) {
 			List<Object[]> modelsFailureTypesWithCount = callFailureDAO.findModelsFailureTypesWithCount(tac);
 
 			List<Map<String, Object>> responseList = new ArrayList<>();
@@ -109,7 +108,7 @@ public class QueriesController {
 		long modelfailurecount = callFailureDAO.getModelFaliureCount(startDate, endDate, tac);
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
 	}
-		
+
 	@GetMapping("/imsi-failures-time-count")
 	public ApiResponse<Long> getImsiFailureCountTimeRange(
 				@RequestParam("imsi") Long imsi,
@@ -120,6 +119,6 @@ public class QueriesController {
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
 		Long count = callFailureDAO.countByImsiAndDateTimeBetween(imsi, startDate, endDate);
-		return ApiResponse.success(HttpStatus.OK.value(), count); 
+		return ApiResponse.success(HttpStatus.OK.value(), count);
 	}
 }

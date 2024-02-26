@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public class ErrorCountService {
-	
+
 	private static int validRowCount;
 
 	public static int getValidRowCount() {
