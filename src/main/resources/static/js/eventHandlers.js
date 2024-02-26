@@ -86,6 +86,37 @@ $(document).ready(function() {
         homeNav('#imsi-failure-time-count-window');
     });
 
+    // modelFailureTypesCount
+    $('#sidebar-content').on('click', '#modelFailureTypesCount-sidebar', function() {
+        homeNav('#modelFailureTypesCount-window');
+        addModelDropdown("#modelFailureTypesCount-dropdown");
+        });
+
+    // Load the input page geettign IMSI failure in datae range
+    $('#sidebar-content').on('click', '#imsi-failures-time-sidebar', function() {
+        homeNav('#imsi-failure-time-window');
+    });
+
+    // Load the datatable for getting the IMSI failure in a given date range
+    $("#imsi-failure-time-btn").on('click', function(event) {
+        homeNav('#imsi-failure-time-datatable-window');
+        event.preventDefault();
+        getIMSIFailuresTime();
+    });
+
+   // Call failure count and duration for each IMSI for time range
+    $('#sidebar-content').on('click', '#imsi-count-duration-sidebar', function() {
+        homeNav('#imsi-count-duration-window');
+        addImsiDropdown("#imsi-count-duration-dropdown");
+    });
+
+    // Call failure count and duration  DATATABLE for each IMSI for time range
+    $("#imsi-count-duration-btn").on('click', function(event) {
+        homeNav('#imsi-count-duration-datatable-window');
+        event.preventDefault();
+        getCallFailureCount();
+    });
+    
     $("#imsi-failure-time-count-btn").on('click', function(event) {
         event.preventDefault();
         getIMSIFailuresTimeCount();
@@ -103,8 +134,7 @@ $(document).ready(function() {
         getCallFailureCount();
     });
     
-        // Call failure count and duration for each IMSI for time range
-    
+    // Call failure count and duration for each IMSI for time range
     $('#sidebar-content').on('click', '#callFailureCount-sidebar', function() {
         homeNav('#callFailureCount-window');
     });
@@ -122,8 +152,5 @@ const homeNav = function(pageID) {
 	$('.home-content').addClass('d-none');
 	$(pageID).removeClass('d-none');
 }
-
-
-
 
 

@@ -160,7 +160,6 @@
                 </div>
             </main>
 
-
             <!--        IMSI Queries                -->
 
             <!-- IMSI Failure Query Window -->
@@ -184,6 +183,7 @@
             <!-- IMSI Failure Query DataTable Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="imsi-datatable-failure-window">
                 <div class="container col-sm-10 card" id="imsi-failure-datatable-container">
+
                     <h6>Affected IMSI# <span class="imsi"></span> Failure Details: Event ID, Cause Code and Description
                     </h6>
                     <table id="imsi-failure-datatable" class="display table-condensed">
@@ -201,10 +201,6 @@
                     </table>
                 </div>
             </main>
-<<<<<<< HEAD
-=======
-
->>>>>>> 85c3c01 (updated US-7 for CallFailure Count and duration)
 
             <!-- IMSI Failure by Time Query Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-window">
@@ -280,7 +276,6 @@
                                 <th>Failure Count</th>
                             </tr>
                         </thead>
-<<<<<<< HEAD
                         <tbody id="modelFailureTypesCount-datatable-body"></tbody>
                     </table>
                 </div>
@@ -345,60 +340,36 @@
                     </form>
                 </div>
             </main>
-=======
-                        <tbody id="modelFailureTypesCount-datatable-body">
->>>>>>> 85c3c01 (updated US-7 for CallFailure Count and duration)
-
-            <!-- Call Failure Count and Duration for each IMSI in given time Query Window -->
-            <main class="col-md-10 text-center d-none response-window home-content" id="callFailureCount-window">
-				<div class="container col-sm-6 card" id="callFailureCount-window-container">
-					<form id="callFailureCountForm">
-						<h2>Select IMSI and Timestamp</h2>
-						<div class="mb-3">
-							<label class="control-label">Select IMSI</label>
-                            <select class="form-select" name="callFailureCount-dropdown" id="callFailureCount-dropdown">
-                            </select>
-                        </div>
+    
+            <!-- IMSI Call Failure Count and Duration given time Query Window -->
+            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-count-duration-window">
+                <div class="container col-sm-6 card" id="imsi-count-duration-container">
+                    <form id="imsi-count-duration-form">
+                        <h2>Select Time Period</h2>
                         <div class="mb-3">
                             <label for="start">Enter Start Date</label>
-                            <input type="datetime-local" class="form-control" id="callFailureCount-start-date"
+                            <input type="datetime-local" class="form-control" id="imsi-count-duration-start-date"
                                 name="start">
                         </div>
                         <div class="mb-3">
                             <label for="end">Enter End Date</label>
-                            <input type="datetime-local" class="form-control" id="callFailureCount-end-date" name="end">
+                            <input type="datetime-local" class="form-control" id="imsi-count-duration-end-date"
+                                name="end">
                         </div>
                         <div class="mb-3">
-                            <button type="button" class="btn btn-dark" id="call-failure-count-btn">Search</button>
+                            <button type="button" class="btn btn-dark" id="imsi-count-duration-btn">Search</button>
                         </div>
                     </form>
                 </div>
             </main>
 
-
-            <!-- Call Failure Count and Duration for each IMSI in given time Query DataTable Window -->
+            <!-- IMSI Call Failure Count and Duration given time Query DataTable Window -->
             <main class="col-md-10 text-center d-none response-window home-content"
-                id="callFailureCount-datatable-window">
-                            <input type="datetime-local" class="form-control" id="callFailureCount-start-date" name="start">
-                            </div>
-                            <div class="mb-3">
-								<label for="end">Enter End Date</label>
-								<input type="datetime-local" class="form-control" id="callFailureCount-end-date" name="end">
-								</div>
-								<div class="mb-3">
-									<button type="button" class="btn btn-dark" id="call-failure-count-btn">Search</button>
-						</div>
-					  </form>
-				 </div>
-			</main>
-
-
-            <!-- Call Failure Count and Duration for each IMSI in given time Query DataTable Window -->
-            <main class="col-md-10 text-center d-none response-window home-content" id="callFailureCount-datatable-window">
-                <div class="container col-sm-10 card" id="callFailureCount-container">
-                    <h2 class="mb-4">Call Failure Count and Duration for Selected IMSI</h2>
-                    <table id="callFailureCount-datatable" class="display table-condensed">
-                        <caption>Call Failure Count and Duration</caption>
+                id="imsi-count-duration-datatable-window">
+                <div class="container col-sm-10 card" id="imsi-count-duration-datatable-container">
+                    <h2 class="mb-4">IMSI Failure Count and Duration</h2>
+                    <table id="imsi-count-duration-datatable" class="display table-condensed">
+                        <caption>IMSI Failure Count and Duration</caption>
                         <thead>
                             <tr>
                                 <th>IMSI</th>
@@ -407,11 +378,8 @@
                             </tr>
                         </thead>
                         <tbody id="callFailureCount-datatable-body">
-<<<<<<< HEAD
-=======
-
->>>>>>> 85c3c01 (updated US-7 for CallFailure Count and duration)
                         </tbody>
+                        <tbody id="imsi-count-duration-datatable-body"></tbody>
                     </table>
                 </div>
             </main>
@@ -421,14 +389,10 @@
 
     <script src="js/jquery-3.4.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script src="js/jquery.dataTables.js"></script>
-    <script src="js/login.js"></script>
-    <script src="js/import.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/sysAdmin.js"></script>
-    <script src="js/query-imsiFailures.js"></script>
-    <script src="js/query-modelFailureTypesCount.js"></script>
-    <script src="js/query-getFailureForImsiForTimePeriod.js"></script>
-    <script src="js/utils.js"></script>
+    <script src="js/query-imsi.js"></script>
+    <script src="js/query-model.js"></script>
     <script src="js/eventHandlers.js"></script>
     <!--  plugin for searchable IMSI select -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>

@@ -29,6 +29,7 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	@Query(value = "SELECT DISTINCT cf.tac FROM call_failure cf ", nativeQuery = true)
 	List<Long> listTac();
 
+
 	@Query(value = "SELECT cf.cause_code, cf.event_id, COUNT(*) as failure_count " + "FROM call_failure cf "
 			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
 			+ "WHERE cf.tac = :tac " + "GROUP BY cf.cause_code, cf.event_id", nativeQuery = true)

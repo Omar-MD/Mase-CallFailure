@@ -1,6 +1,6 @@
 
-const addModelDropdown = function() {
-    let model_dropdown = $("#modelFailureTypesCount-dropdown");
+const addModelDropdown = function(dropdownID) {
+    let model_dropdown = $(dropdownID);
     model_dropdown.empty()
 
     model_dropdown.select2({

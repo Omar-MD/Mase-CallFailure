@@ -175,10 +175,9 @@ class QueriesControllerTest {
 		ApiResponse<Long> response = queriesController.getImsiFailureCountTimeRange(imsi, start, end);
 
 		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
-		assertEquals(response.getError().getErrorMsg(), "Bad Date Range");
-		assertEquals(response.getError().getDetails(), "End date must be after start date");
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+		assertEquals("End date must be after start date", response.getError().getDetails());
 	}
-
 
 	@Test
 	void testGetCallFailuresWithCountAndDuration() {

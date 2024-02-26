@@ -32,17 +32,39 @@ const addImsiDropdown = function(dropdownId) {
     });
 }
 
-function initSelect2() {
+function updateDataTable(tableId, data, headers) {
+    
+    // Get the DataTable instance
+    let datatable = $(`#${tableId}-datatable`).DataTable();
+    // Clear existing datatable
+    datatable.clear().draw();
+     
+    // Populate the table with new data
+    data.forEach(function(item) {
+        let rowData = [];
+        headers.forEach(header => {
+            rowData.push(item[header]);
+        });
+        datatable.row.add(rowData);
+    });
+
+    // Redraw the table to reflect the changes
+    datatable.draw();
+}
+
+/*function initSelect2() {
     let imsi_dropdown = $("#imsi-dropdown");
     imsi_dropdown.select2({
         placeholder: "Begin typing IMSI to search..",
         width: '100%',
         minimumInputLength: 0
     });
-}
+}*/
 
 const getIMSIFailures = function() {
     let imsi = $("#imsi-dropdown").val();
+    let headers = ['eventId', 'causeCode', 'description'];
+     
     console.log("IMSI: " + imsi);
     $(".imsi").text(imsi);
     $.ajax({
@@ -53,7 +75,9 @@ const getIMSIFailures = function() {
         success: function(res) {
             console.log(res);
             if (res.status == "Success") {
-                updateTable(res.data);
+               
+                updateDataTable('imsi-failure', res.data, headers);
+              /*  updateTable(res.data);*/
             } else {
                 console.log("Error:", res.error);
             }
@@ -63,17 +87,6 @@ const getIMSIFailures = function() {
         }
     });
 };
-
-function updateTable(data) {
-    $('#imsi-failure-datatable').DataTable().rows().remove().draw();
-    data.forEach(function(item) {
-        $('#imsi-failure-datatable').DataTable().row.add([
-            item.eventId,
-            item.causeCode,
-            item.description
-        ]).draw(false);
-    });
-}
 
 const getIMSIFailuresTime = function() {
     let startDate = $("#imsi-failure-time-start-date").val();

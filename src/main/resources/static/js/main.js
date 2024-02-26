@@ -1,11 +1,56 @@
+const rootUrl = "http://localhost:8081";
 
 const RoleType = {
     ADMIN: 'SYSTEM_ADMINISTRATOR',
     CUSTOMER_SERVICE_REP: 'CUSTOMER_SERVICE_REP',
     NETWORK_ENGINEER: 'NETWORK_ENGINEER',
     SUPPORT_ENGINEER: 'SUPPORT_ENGINEER'
-};
+}
 
+const showHome = function() {
+    $('#login-section').addClass("d-none");
+    $('#home-section').removeClass("d-none");
+}
+
+const login = function() {
+    let username = $('#username').val();
+    let password = $('#password').val();
+
+    $.ajax({
+        type: 'POST',
+        url: rootUrl + "/login",
+        contentType: 'application/json',
+        data: JSON.stringify({ "username": username, "password": password }),
+        dataType: "json",
+        success: function(response) {
+            switch (response.data) {
+                case 'SYSTEM_ADMINISTRATOR':
+                    loadContentForRole(RoleType.ADMIN, username);
+                    showHome();
+                    break;
+                case 'CUSTOMER_SERVICE_REP':
+                    loadContentForRole(RoleType.CUSTOMER_SERVICE_REP, username);
+                    showHome();
+                    break;
+                case 'NETWORK_ENGINEER':
+                    loadContentForRole(RoleType.NETWORK_ENGINEER, username);
+                    showHome();
+                    break;
+                case 'SUPPORT_ENGINEER':
+                    loadContentForRole(RoleType.SUPPORT_ENGINEER, username);
+                    showHome();
+                    break;
+                default:
+                    $('#login-card')
+                    .append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
+                    break;
+            }
+        },
+        error: function() {
+            alert('Error during request. Incorrect username or password');
+        }
+    });
+}
 
 const loadContentForRole = function(role, username) {
 
@@ -49,7 +94,7 @@ const loadContentForRole = function(role, username) {
                 `<h4 class="mb-1" id="user-role">Customer Service Rep</h4>`
             );
             break;
-        
+
         case RoleType.SUPPORT_ENGINEER:
             header.html(
                 `Support Engineer Control Panel`
@@ -75,7 +120,7 @@ const loadContentForRole = function(role, username) {
 
             sidebar.html(
                 ` <button type="button" id="modelFailureTypesCount-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types With Count</button>
-                  <button type="button" id="callFailureCount-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Call Failure Count and Duration</button>
+                  <button type="button" id="imsi-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count and Duration</button>
             `);
 
             userRole.html(
