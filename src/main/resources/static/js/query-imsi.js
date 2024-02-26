@@ -32,6 +32,15 @@ const addImsiDropdown = function(dropdownId) {
     });
 }
 
+function initSelect2() {
+    let imsi_dropdown = $("#imsi-dropdown");
+    imsi_dropdown.select2({
+        placeholder: "Begin typing IMSI to search..",
+        width: '100%',
+        minimumInputLength: 0
+    });
+}
+
 function updateDataTable(tableId, data, headers) {
      // Check if DataTable is already initialized
     let datatable = $(`#${tableId}-datatable`).DataTable();
@@ -59,14 +68,6 @@ function updateDataTable(tableId, data, headers) {
     datatable.draw();
 };
 
-/*function initSelect2() {
-    let imsi_dropdown = $("#imsi-dropdown");
-    imsi_dropdown.select2({
-        placeholder: "Begin typing IMSI to search..",
-        width: '100%',
-        minimumInputLength: 0
-    });
-}*/
 
 const getIMSIFailures = function() {
     let imsi = $("#imsi-dropdown").val();
@@ -109,40 +110,23 @@ const getIMSIFailuresTime = function() {
     });
 }
 
-function updateImsiTimeTable(data) {
-    if(datatable) {
-        datatable.destroy();
-    }
-    $('#imsi-failures-time-datatable-body').empty();
-    data.forEach(function(imsiFailure) {
-        $('#imsi-failures-time-datatable-body').append(`<tr>
-            <td>${imsiFailure}</td>
-        </tr>`);
-    });
-    datatable = $("#imsi-failures-time-datatable").DataTable({
-        "sScrollY": "50vh",
-        "bScrollCollapse": true
-    });
-}
-
 const getCallFailureCount = function() {
-	var startDate = $("#callFailureCount-start-date").val();
-	var endDate = $("#callFailureCount-end-date").val();
+    var startDate = $("#callFailureCount-start-date").val();
+    var endDate = $("#callFailureCount-end-date").val();
 
-	$.ajax({
-		type: "GET",
-		url: rootUrl + "/query/call-failure-count",
-		data: { startDate: startDate, endDate: endDate },
-		success: function(res) {
-			console.log(res.data);
-			updateImsiTimeTable(res.data)
-			$("#callFailureCount-datatable-caption").append(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
- 		},
- 		error: function(error) {
-			console.error("Error in AJAX request:", error);
- 		}
-	});
-
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/call-failure-count",
+        data: { startDate: startDate, endDate: endDate },
+        success: function(res) {
+            console.log(res.data);
+            updateImsiTimeTable(res.data)
+            $("#callFailureCount-datatable-caption").append(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+        },
+        error: function(error) {
+            console.error("Error in AJAX request:", error);
+        }
+    });
 }
 
 function updateCallFailureCountTable(data) {
@@ -165,3 +149,25 @@ function updateCallFailureCountTable(data) {
     });
 }
 
+const getIMSIFailureCountDuration = function() {
+    let startDate = $("#imsi-count-duration-start-date").val();
+    let endDate = $("#imsi-count-duration-end-date").val();
+    
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/imsi-failures-count-duration",
+        data: { startDate: startDate, endDate: endDate},
+        success: function(res) {
+            console.log(res);
+           if (res.status == "Success") {
+                updateDataTable('imsi-count-duration', res.data, ["imsi", "failureCount", "totalDuration"]);
+                $("#imsi-count-duration-datatable-caption").text("IMSI Failure Count and Duration - " + startDate.replace('T', ' ') + " to " + endDate.replace('T', ' '));
+            }else{
+                console.log("Error:", res.error);
+            }
+        },
+        error: function(error) {
+            console.error("Error in AJAX request:", error);
+        }
+    });
+}

@@ -31,14 +31,14 @@ $(document).ready(function() {
 	});
 
     // IMSI Failures
-    $('#sidebar-content').on('click', '#imsi-failures-sidebar', function() {
-        homeNav('#imsi-query-failure-window');
+    $('#sidebar-content').on('click', '#imsi-failures-sidebar', function() { 
         addImsiDropdown("#imsi-dropdown");
+        homeNav('#imsi-query-failure-window');
     });
     $('#imsiFailures-btn').on('click', function(event) {
-        homeNav('#imsi-datatable-failure-window');
         event.preventDefault();
         getIMSIFailures();
+        homeNav('#imsi-datatable-failure-window');
     });
 
 	// Model Failure Types
@@ -88,9 +88,15 @@ $(document).ready(function() {
 
     // modelFailureTypesCount
     $('#sidebar-content').on('click', '#modelFailureTypesCount-sidebar', function() {
-        homeNav('#modelFailureTypesCount-window');
         addModelDropdown("#modelFailureTypesCount-dropdown");
-        });
+        homeNav('#modelFailureTypesCount-window');
+    });
+    $('#modelFailureTypesCount-btn').on('click', function(event) {
+        event.preventDefault();
+        getModelFailureTypesWithCount();
+        homeNav('#modelFailureTypesCount-datatable-window');
+    });
+    
 
     // Load the input page geettign IMSI failure in datae range
     $('#sidebar-content').on('click', '#imsi-failures-time-sidebar', function() {
@@ -99,22 +105,21 @@ $(document).ready(function() {
 
     // Load the datatable for getting the IMSI failure in a given date range
     $("#imsi-failure-time-btn").on('click', function(event) {
-        homeNav('#imsi-failure-time-datatable-window');
         event.preventDefault();
         getIMSIFailuresTime();
+        homeNav('#imsi-failure-time-datatable-window');
     });
 
    // Call failure count and duration for each IMSI for time range
     $('#sidebar-content').on('click', '#imsi-count-duration-sidebar', function() {
         homeNav('#imsi-count-duration-window');
-        addImsiDropdown("#imsi-count-duration-dropdown");
     });
 
     // Call failure count and duration  DATATABLE for each IMSI for time range
     $("#imsi-count-duration-btn").on('click', function(event) {
-        homeNav('#imsi-count-duration-datatable-window');
         event.preventDefault();
-        getCallFailureCount();
+        getIMSIFailureCountDuration();
+        homeNav('#imsi-count-duration-datatable-window');
     });
     
     $("#imsi-failure-time-count-btn").on('click', function(event) {

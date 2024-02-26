@@ -129,6 +129,33 @@ const loadContentForRole = function(role, username) {
     }
 }
 
+const updateDataTable = function(tableId, data, headers) {
+     // Check if DataTable is already initialized
+    let datatable = $(`#${tableId}-datatable`).DataTable();
+    if (datatable) {
+        datatable.clear().draw();
+    } else {
+        datatable = $(`#${tableId}-datatable`).DataTable({
+            "sScrollY": "50vh",
+            "bScrollCollapse": true
+        });
+    }
+    data.forEach(function(item) {
+        if (headers && headers.length > 0) {
+            let rowData = [];
+            headers.forEach(header => {
+                rowData.push(item[header]);
+            });
+            datatable.row.add(rowData);
+        } else {
+            // If no headers provided, append data directly as a single-column row
+            datatable.row.add([item]);
+        }
+    });
+
+    datatable.draw();
+};
+
 
 function move() {
     let i = 0;

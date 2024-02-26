@@ -25,17 +25,19 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
     @Query("SELECT COUNT(c) FROM CallFailure c WHERE c.imsi = :imsi AND c.dateTime BETWEEN :startDate AND :endDate")
     long countByImsiAndDateTimeBetween(@Param("imsi") Long imsi, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate );
 
+	@Query(value = "SELECT imsi, COUNT(*) AS num_failures, SUM(duration) AS total_duration " + "FROM call_failure "
+			+ "WHERE date_time >= :startDate AND date_time <= :endDate " + "GROUP BY IMSI", nativeQuery = true)
+	List<Object[]> findAllImsiFailureCountAndDuration(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
 	// Model
 	@Query(value = "SELECT DISTINCT cf.tac FROM call_failure cf ", nativeQuery = true)
 	List<Long> listTac();
-
 
 	@Query(value = "SELECT cf.cause_code, cf.event_id, COUNT(*) as failure_count " + "FROM call_failure cf "
 			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
 			+ "WHERE cf.tac = :tac " + "GROUP BY cf.cause_code, cf.event_id", nativeQuery = true)
 	List<Object[]> findModelsFailureTypesWithCount(@Param("tac") Long tac);
 
-	// @Query(value = "SELECT COUNT (c.tac) FROM CallFailure c WHERE c.tac = :tac and c.dateTime BETWEEN :startDate AND :endDate;" , nativeQuery = true)
 	@Query(value = "SELECT COUNT (cf.tac) FROM call_failure cf WHERE cf.tac = :tac and cf.date_time BETWEEN :startDate AND :endDate", nativeQuery = true)
 	Long getModelFaliureCount(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("tac") Long tac );
 
@@ -43,11 +45,10 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 			+ "WHERE Timestamp BETWEEN 'startTime' AND 'endTime' GROUP BY IMSI", nativeQuery = true)
 	List<Long> callFailureCountAndDuration( @Param("startTime") LocalDateTime startTime, @Param("endTime") LocalDateTime endTime);
 
-	@Query("SELECT DISTINCT c.imsi FROM CallFailure c WHERE c.dateTime BETWEEN :startDate AND :endDate")
-    List<Long> findDistinctImsiByDateTimeBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
-
 	@Query(value = " SELECT DISTINCT c.imsi, COUNT(*), SUM(c.duration)) " + "FROM CallFailure c " +
 			"WHERE c.dateTime BETWEEN :startDate AND :endDate " +"GROUP BY c.imsi", nativeQuery = true)
 	List<Long> findcallFailureCountAndDuration( @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
-}
 
+	@Query("SELECT DISTINCT c.imsi FROM CallFailure c WHERE c.dateTime BETWEEN :startDate AND :endDate")
+	List<Long> findDistinctImsiByDateTimeBetween(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+}
