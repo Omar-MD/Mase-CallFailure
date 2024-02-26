@@ -128,7 +128,7 @@ class QueriesControllerTest {
 		assertTrue(response.getData() instanceof List);
 		assertEquals(callFaillureImsiList, response.getData());
 	}
-
+	
 	@Test
 	void testGetImsiFailureCountWithTime() {
 

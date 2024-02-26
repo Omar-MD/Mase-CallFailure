@@ -126,5 +126,4 @@ class SysAdminControllerTest {
 		assertEquals("", response.getError().getDetails());
 		assertEquals("Username already exist", response.getError().getErrorMsg());
 	}
-
 }
