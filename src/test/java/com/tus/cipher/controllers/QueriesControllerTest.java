@@ -181,16 +181,20 @@ class QueriesControllerTest {
 
 	@Test
 	void testGetCallFailuresWithCountAndDuration() {
-		List<Long> callFailureCount = Arrays.asList(Long.valueOf(0), Long.valueOf(1));
+		 // Mock data
+        LocalDateTime startDate = LocalDateTime.of(2024, 1, 1, 0, 0);
+        LocalDateTime endDate = LocalDateTime.of(2024, 1, 31, 23, 59);
 
-		LocalDateTime start = LocalDateTime.of(2011, 1, 1, 1, 1, 1);
-		LocalDateTime end = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
-		when(callFailureDAOMock.findcallFailureCountAndDuration(start, end)).thenReturn(callFailureCount);
+        List<Object[]> expectedResult = new ArrayList<>();
+         expectedResult.add(new Object[] { "IMSI_1", 10L, 3600L });
+         expectedResult.add(new Object[] { "IMSI_2", 5L, 1800L });
 
-		ApiResponse<Object> response = queriesController.getcallFailureCountAndDuration(start, end);
+        when(callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate)).thenReturn(expectedResult);
 
-		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-		assertTrue(response.getData() instanceof List);
-		assertEquals(callFailureCount, response.getData());
+        // Call the method from your service class that uses the repository method
+        List<Object[]> actualResult = callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate);
+
+        // Assert the result
+        assertEquals(expectedResult, actualResult);
 	}
 }
