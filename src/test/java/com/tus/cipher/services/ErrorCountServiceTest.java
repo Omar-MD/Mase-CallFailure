@@ -34,7 +34,8 @@ class ErrorCountServiceTest {
 	void testDisplaySummaryWithErrors() {
 		int errorCount = 3;
 		String summary = ErrorCountService.displaySummary(errorCount);
-		assertTrue(summary.contains("Total Count of Errors: 3"));
+		System.out.println(summary);
+		assertTrue(summary.contains("Total Error Count: 3"));
 		assertTrue(summary.contains("Please review the log file for details."));
 	}
 
@@ -42,7 +43,8 @@ class ErrorCountServiceTest {
 	void testDisplaySummaryNoErrors() {
 		int errorCount = 0;
 		String summary = ErrorCountService.displaySummary(errorCount);
-		assertTrue(summary.contains("Total Count of Errors: 0"));
+		System.out.println(summary);
+		assertTrue(summary.contains("Total Error Count: 0"));
 		assertTrue(summary.contains("Import successful. No errors found."));
 	}
 

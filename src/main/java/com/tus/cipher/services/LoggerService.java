@@ -63,11 +63,11 @@ public class LoggerService {
 				"\n" + timeStamp + " " + errSeverity + " " + errCode + " " + errDesc + " ErroneusRecord: " + data);
 	}
 
-	public static void logInfo(String errPath, String errDesc, String data) {
+	public static void logInfo(String errPath, String errDesc, String data, int rowIndex) {
 		String timeStamp = getTimeStamp();
 
 		logInvalidData(
-				"\n" + timeStamp + " " + "INFO" + " " + "path:" + errPath + " " + errDesc + " ErroneusRecord: " + data);
+				"\n" + timeStamp + " " + "INFO" + " " + "path:" + errPath + " " + errDesc + " ErroneusRecord: " + data + " Row Index: " + rowIndex);
 	}
 
 	public static String getLogFolderPath() {

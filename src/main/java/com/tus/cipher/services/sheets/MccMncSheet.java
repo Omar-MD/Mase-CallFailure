@@ -36,7 +36,7 @@ public class MccMncSheet extends BaseSheetProcessor{
 			validRows.add(mccMnc);
 
 		} catch (Exception e) {
-			LoggerService.logInfo("sysadmin/import", "MccMncSheet:processRow", e.getMessage());
+			LoggerService.logInfo("sysadmin/import", "MccMncSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

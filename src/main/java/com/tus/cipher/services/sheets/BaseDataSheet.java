@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.services.DataValidator;
+import com.tus.cipher.services.ErrorCountService;
 import com.tus.cipher.services.LoggerService;
 
 @Component
@@ -60,14 +61,16 @@ public class BaseDataSheet extends BaseSheetProcessor {
 			validRows.add(callFailure);
 
 		} catch (Exception e){
-			LoggerService.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage());
+			LoggerService.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 
 	@Override
 	public void saveInBatchs() {
 		int totalRows = validRows.size();
+		ErrorCountService.setValidRowCount(totalRows);
 		System.out.println("=> Valid Rows(s): " + totalRows);
+
 		List<CallFailure> rowsToSave = new ArrayList<>(validRows);
 
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {

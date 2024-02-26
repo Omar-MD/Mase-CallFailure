@@ -35,7 +35,7 @@ public class EventCauseSheet extends BaseSheetProcessor{
 			validRows.add(eventCause);
 
 		} catch(Exception e) {
-			LoggerService.logInfo("sysadmin/import", "EventCauseSheet:processRow", e.getMessage());
+			LoggerService.logInfo("sysadmin/import", "EventCauseSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

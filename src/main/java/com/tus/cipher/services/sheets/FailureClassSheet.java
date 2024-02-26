@@ -34,7 +34,7 @@ public class FailureClassSheet extends BaseSheetProcessor{
 			validRows.add(failureClass);
 
 		} catch (Exception e) {
-			LoggerService.logInfo("sysadmin/import", "FailureClassSheet:processRow", e.getMessage());
+			LoggerService.logInfo("sysadmin/import", "FailureClassSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

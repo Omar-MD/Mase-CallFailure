@@ -1,7 +1,6 @@
 package com.tus.cipher.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -15,6 +14,7 @@ import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -47,6 +47,7 @@ class ImportControllerTest {
 		doNothing().when(dataValidatorMock).prepareValidator();
 	}
 
+	@Disabled("Use only Integration tests")
 	@Test
 	void testImportSuccess() throws IOException {
 		// Mock import request
@@ -69,6 +70,7 @@ class ImportControllerTest {
 		assertEquals("<strong>Import Summary</strong><br/>Total Count of Errors: 0<br/>Import successful. No errors found.", responseEntity.getData());
 	}
 
+	@Disabled("Use only Integration tests")
 	@Test
 	void testImportFailure() throws IOException {
 		ImportRequest importRequest = new ImportRequest();

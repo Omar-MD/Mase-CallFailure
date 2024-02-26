@@ -8,6 +8,16 @@ import java.util.stream.Stream;
 
 public class ErrorCountService {
 
+	private static int validRowCount;
+
+	public static int getValidRowCount() {
+		return validRowCount;
+	}
+
+	public static void setValidRowCount(int validRowCount) {
+		ErrorCountService.validRowCount = validRowCount;
+	}
+
 	private ErrorCountService() {}
 
 	public static int countErrors(String logFilePath) throws IOException {
@@ -35,7 +45,8 @@ public class ErrorCountService {
 	public static String displaySummary(int errorCount) {
 		StringBuilder summary = new StringBuilder();
 		summary.append("<strong>Import Summary</strong>");
-		summary.append("<br/>Total Count of Errors: ").append(errorCount);
+		summary.append("<br/>Total Error Count: ").append(errorCount);
+		summary.append("<br/>Total Success Count: ").append(validRowCount);
 
 		if (errorCount > 0) {
 			summary.append("<br/>Please review the log file for details.");
