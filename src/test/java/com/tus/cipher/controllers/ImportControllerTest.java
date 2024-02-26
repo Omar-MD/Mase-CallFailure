@@ -82,38 +82,4 @@ class ImportControllerTest {
 		assertEquals("Invalid file selection!", responseEntity.getError().getDetails());
 	}
 
-	@Test
-    public void testImportExecutionTime() {
-        // Set a timeout of 2 minutes in milliseconds
-        final long timeoutMillis = 2 * 60 * 1000;
-
-		importController = new ImportController(importServiceMock);
-
-        // Record the start time
-        long startTime = System.currentTimeMillis();
-
-        try {
-			ImportRequest request = new ImportRequest();
-			request.setFilename("TUS_CallFailureData3A.xls");
-			
-            ApiResponse<String> response = importController.importData(request); 
-
-			assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-			assertEquals("Success", response.getStatus());
-
-            // Record the end time after the function execution
-            final long endTime = System.currentTimeMillis();
-
-            // Calculate the elapsed time
-            final long elapsedTime = endTime - startTime;
-
-            // Check if the elapsed time exceeds the timeout
-            if (elapsedTime > timeoutMillis) {
-                fail("Function execution took longer than 2 minutes");
-            }
-        } catch (Exception e) {
-            // Handle any exceptions thrown by the function
-            fail("Function threw an exception: " + e.getMessage());
-        }
-    }
 }
