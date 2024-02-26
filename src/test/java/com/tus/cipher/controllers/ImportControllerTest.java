@@ -81,5 +81,4 @@ class ImportControllerTest {
 		assertEquals("Import failed", responseEntity.getError().getErrorMsg());
 		assertEquals("Invalid file selection!", responseEntity.getError().getDetails());
 	}
-
 }
