@@ -1,7 +1,14 @@
 
-const addImsiDropdown = function() {
-    let imsi_dropdown = $("#imsi-dropdown");
+const addImsiDropdown = function(dropdownId) {
+    let imsi_dropdown = $(dropdownId);
     imsi_dropdown.empty()
+
+    imsi_dropdown.select2({
+        placeholder: "Begin typing IMSI to search..",
+        allowClear: true,
+        width: '100%',
+        minimumInputLength: 0
+    });
     
     $.ajax({
         type: 'GET',
@@ -80,7 +87,7 @@ const getIMSIFailuresTime = function() {
         success: function(res) {
             console.log(res.data);
             updateImsiTimeTable(res.data)
-            $("#imsi-failures-time-datatable-caption").append(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+            $("#imsi-failures-time-datatable-caption").html(startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
         },
         error: function(error) {
             console.error("Error in AJAX request:", error);
@@ -89,15 +96,15 @@ const getIMSIFailuresTime = function() {
 }
 
 function updateImsiTimeTable(data) {
+    if(datatable) {
+        datatable.destroy();
+    }
     $('#imsi-failures-time-datatable-body').empty();
     data.forEach(function(imsiFailure) {
         $('#imsi-failures-time-datatable-body').append(`<tr>
             <td>${imsiFailure}</td>
         </tr>`);
     });
-    if(datatable) {
-        datatable.destroy();
-    }
     datatable = $("#imsi-failures-time-datatable").DataTable({
         "sScrollY": "50vh",
         "bScrollCollapse": true

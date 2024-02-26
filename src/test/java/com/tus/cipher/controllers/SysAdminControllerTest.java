@@ -4,91 +4,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.AccountRepository;
-import com.tus.cipher.dto.ImportRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
 import com.tus.cipher.responses.ApiResponse;
-import com.tus.cipher.services.DataValidator;
-import com.tus.cipher.services.ImportParams;
-import com.tus.cipher.services.ImportService;
-import com.tus.cipher.services.sheets.BaseDataSheet;
-import com.tus.cipher.services.sheets.BaseSheetProcessor;
 
 class SysAdminControllerTest {
 
 	private SysAdminController sysAdminController;
 	private AccountRepository accountRepositoryMock;
-	private ImportService importServiceMock;
-	private ImportParams importParamsMock;
-	private DataValidator dataValidatorMock;
+
 
 	@BeforeEach
 	void setUp() {
 		// Initialise mocks
 		accountRepositoryMock = mock(AccountRepository.class);
-		importParamsMock = mock(ImportParams.class);
-		importServiceMock = mock(ImportService.class);
-		dataValidatorMock = mock(DataValidator.class);
-
-		// Configure behaviours
-		when(importParamsMock.getRefProcessors()).thenReturn(List.of(mock(BaseSheetProcessor.class)));
-		when(importParamsMock.getDataValidator()).thenReturn(dataValidatorMock);
-		when(importParamsMock.getBaseDataSheet()).thenReturn(mock(BaseDataSheet.class));
-
-		doNothing().when(dataValidatorMock).prepareValidator();
-	}
-
-	@Test
-	void testImportSuccess() throws IOException {
-		// Mock import request
-		ImportRequest importRequest = new ImportRequest();
-		importRequest.setFilename("TestFile.xls");
-
-		// Create a Spy
-        sysAdminController = spy(new SysAdminController());
-        sysAdminController.setAccountRepository(accountRepositoryMock);
-        sysAdminController.setImportService(importServiceMock);
-
-	    // Mock  ImportService & createWorkbook method
-	    doReturn(new HSSFWorkbook()).when(sysAdminController).createWorkbook(anyString());
-	    doNothing().when(importServiceMock).importWorkBook(any(HSSFWorkbook.class));
-
-		ApiResponse<String> responseEntity = sysAdminController.importData(importRequest);
-
-		// Verify response
-		assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode());
-		assertEquals("Success", responseEntity.getStatus());
-		assertEquals("<strong>Import Summary</strong><br/>Total Count of Errors: 0<br/>Import successful. No errors found.", responseEntity.getData());
-	}
-
-	@Test
-	void testImportFailure() throws IOException {
-		ImportRequest importRequest = new ImportRequest();
-		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
-		ApiResponse<String> responseEntity = sysAdminController.importData(importRequest);
-
-		// Verify response
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), responseEntity.getStatusCode());
-		assertEquals("Error", responseEntity.getStatus());
-		assertEquals("Import failed", responseEntity.getError().getErrorMsg());
-		assertEquals("src/main/resources/null", responseEntity.getError().getDetails());
 	}
 
 	@Test
@@ -102,7 +41,7 @@ class SysAdminControllerTest {
 		newAccountWithID.setId(Long.valueOf(1));
 		when(accountRepositoryMock.save(any())).thenReturn(newAccountWithID);
 
-		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
+		sysAdminController = new SysAdminController(accountRepositoryMock);
 		ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
 
 		checkCreatedAccount(newAccountWithID, response);
@@ -116,7 +55,7 @@ class SysAdminControllerTest {
 		newAccountWithID.setId(Long.valueOf(2));
 		when(accountRepositoryMock.save(any())).thenReturn(newAccountWithID);
 
-		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
+		sysAdminController = new SysAdminController(accountRepositoryMock);
 		ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
 
 		checkCreatedAccount(newAccountWithID, response);
@@ -129,7 +68,7 @@ class SysAdminControllerTest {
 		newAccountWithID.setId(Long.valueOf(3));
 		when(accountRepositoryMock.save(any())).thenReturn(newAccountWithID);
 
-		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
+		sysAdminController = new SysAdminController(accountRepositoryMock);
 		ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
 
 		checkCreatedAccount(newAccountWithID, response);
@@ -142,7 +81,7 @@ class SysAdminControllerTest {
 		newAccountWithID.setId(Long.valueOf(4));
 		when(accountRepositoryMock.save(any())).thenReturn(newAccountWithID);
 
-		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
+		sysAdminController = new SysAdminController(accountRepositoryMock);
 		ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
 
 		checkCreatedAccount(newAccountWithID, response);
@@ -164,7 +103,7 @@ class SysAdminControllerTest {
 	void testBadPassword() {
 		Account newAccount = new Account("Test User", "short", EmployeeRole.NETWORK_ENGINEER);
 
-		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
+		sysAdminController = new SysAdminController(accountRepositoryMock);
 		ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
 
 		assertNull(response.getData());
@@ -178,7 +117,7 @@ class SysAdminControllerTest {
 
 		when(accountRepositoryMock.findByUsername(newAccount.getUsername())).thenReturn(Optional.of(newAccount));
 
-		sysAdminController = new SysAdminController(importServiceMock, accountRepositoryMock);
+		sysAdminController = new SysAdminController(accountRepositoryMock);
 		ApiResponse<Account> response = sysAdminController.addAccount(newAccount);
 
 		assertNotNull(response);
@@ -187,5 +126,4 @@ class SysAdminControllerTest {
 		assertEquals("", response.getError().getDetails());
 		assertEquals("Username already exist", response.getError().getErrorMsg());
 	}
-
 }

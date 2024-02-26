@@ -95,11 +95,11 @@ const getModelFailureCount = function() {
                     <h4>Model Call Failure Count</h4><br/>
                     <strong>Model: </strong>${model}<br/>
                     <strong>Count: </strong>${res.data}<br/>
-             `).show();
+            `).show();
         },
-        error: function(error) {
-            console.log(error);
-            $('#model-failure-count-result').removeClass().addClass("alert alert-danger").html("<strong>Error!</strong> Unexpected Import Error<br/>").show();
+        error: function(res) {
+            console.log(res);
+            $('#model-failure-count-result').removeClass().addClass("alert alert-danger").html(`<strong>${res.error.errorMsg}</strong> ${res.error.details}<br/>`).show();
         }
     });
 }
