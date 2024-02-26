@@ -33,7 +33,7 @@ $(document).ready(function() {
     // IMSI Failures
     $('#sidebar-content').on('click', '#imsi-failures-sidebar', function() {
         homeNav('#imsi-query-failure-window');
-        addImsiDropdown();
+        addImsiDropdown("#imsi-dropdown");
     });
     $('#imsiFailures-btn').on('click', function(event) {
         homeNav('#imsi-datatable-failure-window');
@@ -63,7 +63,17 @@ $(document).ready(function() {
         event.preventDefault();
         getIMSIFailuresTime();
     });
-    
+
+    // Get Count for given IMSI, the number of failures that occured in a given time period
+    $('#sidebar-content').on('click', '#imsi-failure-time-count-sidebar', function() {
+        addImsiDropdown('#imsi-failure-time-count-imsi-dropdown');
+        homeNav('#imsi-failure-time-count-window');
+    });
+
+    $("#imsi-failure-time-count-btn").on('click', function(event) {
+        event.preventDefault();
+        getIMSIFailuresTimeCount();
+    });
 });
 
 const homeNav = function(pageID) {

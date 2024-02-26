@@ -128,5 +128,40 @@ class QueriesControllerTest {
 		assertTrue(response.getData() instanceof List);
 		assertEquals(callFaillureImsiList, response.getData());
 	}
+	
+	@Test
+	void testGetImsiFailureCountWithTime() {
 
- }
+		Long imsi = Long.valueOf(12345678);
+		LocalDateTime start = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		LocalDateTime end = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+
+		Long resultCount = Long.valueOf(4321);
+
+		when(callFailureDAOMock.countByImsiAndDateTimeBetween(imsi, start, end)).thenReturn(resultCount);
+
+		ApiResponse<Long> response = queriesController.getImsiFailureCountTimeRange(imsi, start, end);
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof Long);
+		assertEquals(response.getData(), resultCount);
+	}
+
+	@Test
+	void testGetImsiFailureCountWithTimeFailure() {
+
+		Long imsi = Long.valueOf(12345678);
+		LocalDateTime end = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		LocalDateTime start = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+
+		Long resultCount = Long.valueOf(4321);
+
+		when(callFailureDAOMock.countByImsiAndDateTimeBetween(imsi, start, end)).thenReturn(resultCount);
+
+		ApiResponse<Long> response = queriesController.getImsiFailureCountTimeRange(imsi, start, end);
+
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(response.getError().getErrorMsg(), "Bad Date Range");
+		assertEquals(response.getError().getDetails(), "End date must be after start date");
+	}
+}
