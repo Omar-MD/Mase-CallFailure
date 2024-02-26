@@ -78,11 +78,6 @@ const loadContentForRole = function(role, username) {
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Network Engineer</h4>`
             );
-
-            rolePermissions.html(
-                `<h4 class="mb-1">1. Model Failure Types With Count</h4>
-                `
-            );
     }
 }
 

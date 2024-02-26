@@ -10,14 +10,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 
@@ -41,7 +38,7 @@ public class QueriesController {
 	public ApiResponse<Object> findImsiFailures(@PathVariable("imsi") long imsi) {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
 
-		if(listValidImsi.contains(imsi)) {
+		if (listValidImsi.contains(imsi)) {
 			List<Object[]> imsiEventCauseDescriptions = callFailureDAO.findImsiEventCauseDescriptions(imsi);
 
 			List<Map<String, Object>> responseList = new ArrayList<>();
@@ -62,8 +59,8 @@ public class QueriesController {
 
 	@GetMapping("/imsi-failures-time")
 	public ApiResponse<Object> findImsiFailures(
-					@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-					@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
 		List<Long> distinctImsiList = callFailureDAO.findDistinctImsiByDateTimeBetween(startDate, endDate);
 		return ApiResponse.success(HttpStatus.OK.value(), distinctImsiList);
 	}
@@ -79,7 +76,7 @@ public class QueriesController {
 	public ApiResponse<Object> findModelsFailureTypesWithCount(@PathVariable("tac") long tac) {
 		List<Long> listValidTac = callFailureDAO.listTac();
 
-		if(listValidTac.contains(tac)) {
+		if (listValidTac.contains(tac)) {
 			List<Object[]> modelsFailureTypesWithCount = callFailureDAO.findModelsFailureTypesWithCount(tac);
 
 			List<Map<String, Object>> responseList = new ArrayList<>();
@@ -97,14 +94,13 @@ public class QueriesController {
 		ApiError error = ApiError.of("Invalid Tac", "Tac not in database");
 		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 	}
-	
-	
-	///query/model-faliure-count
-	
-	
+
+	/// query/model-faliure-count
 	@GetMapping("/model-failure-count/{tac}")
-	public ApiResponse<Long> getModelsFaliureCount(@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") 
-	LocalDateTime startDate,@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate, @PathVariable("tac") long tac){
+	public ApiResponse<Long> getModelsFaliureCount(
+			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate,
+			@PathVariable("tac") long tac) {
 		long modelfailurecount = callFailureDAO.getModelFaliureCount(startDate, endDate, tac);
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
 	}

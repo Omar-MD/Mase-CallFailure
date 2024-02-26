@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.CallFailureDAO;
-import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.responses.ApiResponse;
 
 class QueriesControllerTest {
@@ -129,5 +128,22 @@ class QueriesControllerTest {
 		assertTrue(response.getData() instanceof List);
 		assertEquals(callFaillureImsiList, response.getData());
 	}
+
 	
+	@Test
+	void testGetModelFailureCount() {
+	    long tac = 12345L; 
+	    LocalDateTime start = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+	    LocalDateTime end = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+	    long expectedCount = 10L; 
+	    when(callFailureDAOMock.getModelFaliureCount(start, end, tac)).thenReturn(expectedCount);
+	    
+	    ApiResponse<Long> response = queriesController.getModelsFaliureCount(start, end, tac);
+
+	    assertEquals("Success", response.getStatus());
+	    assertEquals(expectedCount, (long) response.getData()); 
+	}
+
+	
+
 }
