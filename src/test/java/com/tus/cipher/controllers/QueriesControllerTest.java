@@ -141,7 +141,7 @@ class QueriesControllerTest {
 	    ApiResponse<Long> response = queriesController.getModelsFaliureCount(start, end, tac);
 
 	    assertEquals("Success", response.getStatus());
-	    assertEquals(expectedCount, (long) response.getData()); // Cast to long to match expected type
+	    assertEquals(expectedCount, (long) response.getData()); 
 	}
 
 	
