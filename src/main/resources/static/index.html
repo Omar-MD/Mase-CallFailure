@@ -98,10 +98,9 @@
 
             <!--  Import window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="sys-adm-import-window">
-                <!-- Import dialog box id = import-dialog -->
-                <div class="container col-sm-6 card" id="import-dialog">
-                    <h1 class="mb-4">Import Call Failure Data</h1>
-                    <form id="importForm">
+                <div class="container col-sm-6 col-md-8 col-lg-6 " id="import-dialog">
+                    <form class="card" id="importForm">
+                        <h3 class="mb-4">Import Call Failure Data</h3>
                         <div class="mb-3">
                             <label for="selectFile" class="form-label">Select .xls File:</label>
                             <input type="hidden" id="filename" name="filename">
@@ -120,7 +119,8 @@
                     </form>
                     <br />
                     <div id="importMsg" style="display: none;"></div>
-                </div>
+                    <div class="mt-4" id="autoImportSummary"></div>
+                </div>   
             </main>
 
             <!-- Create New User Window -->
@@ -180,7 +180,7 @@
             <!-- IMSI Failure Query DataTable Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="imsi-datatable-failure-window">
                 <div class="container col-sm-10 card" id="imsi-failure-datatable-container">
-                     <h2 class="mb-4">Model Failure Types And Count</h2>
+                    <h2 class="mb-4">Model Failure Types And Count</h2>
                     <table id="imsi-failure-datatable" class="display table-condensed">
                         <caption>IMSI Failure Events</caption>
                         <thead>
@@ -202,13 +202,15 @@
                     <form id="imsiFailureTimeForm">
                         <div class="mb-3">
                             <h2>Specify a date range to see IMSI failures for</h2>
-                            <br/>
+                            <br />
                             <label for="start">Enter Start Date</label>
-                            <input type="datetime-local" class="form-control" id="imsi-failure-time-start-date" name="start">
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-start-date"
+                                name="start">
                         </div>
                         <div class="mb-3">
                             <label for="end">Enter End Date</label>
-                            <input type="datetime-local" class="form-control" id="imsi-failure-time-end-date" name="end">
+                            <input type="datetime-local" class="form-control" id="imsi-failure-time-end-date"
+                                name="end">
                         </div>
                         <div class="mb-3">
                             <button type="button" class="btn btn-dark" id="imsi-failure-time-btn">Search</button>
@@ -218,7 +220,8 @@
             </main>
 
             <!-- IMSI Failure by Time Query DataTable Window -->
-            <main class="col-md-10 text-center d-none response-window home-content" id="imsi-failure-time-datatable-window">
+            <main class="col-md-10 text-center d-none response-window home-content"
+                id="imsi-failure-time-datatable-window">
                 <div class="container col-sm-10 card" id="modelFailureTypesCount-container">
                     <h2 class="mb-4">IMSI Failures for Date Range</h2>
                     <h3 id="imsi-failures-time-datatable-caption"></h3>
@@ -233,7 +236,7 @@
                     </table>
                 </div>
             </main>
-            
+
             <!-- Models Failure Types with Count Query Window -->
             <main class="col-md-10 text-center d-none response-window home-content" id="modelFailureTypesCount-window">
                 <div class="container col-sm-6 card" id="modelFailureTypesCount-container">
@@ -241,7 +244,8 @@
                         <div class="mb-3">
                             <h2>Select a Model to view more details..</h2>
                             <label class="control-label">Search Model</label>
-                            <select class="form-select" name="modelFailureTypesCount-dropdown" id="modelFailureTypesCount-dropdown">
+                            <select class="form-select" name="modelFailureTypesCount-dropdown"
+                                id="modelFailureTypesCount-dropdown">
                             </select>
                         </div>
                         <div>
@@ -251,7 +255,8 @@
                 </div>
             </main>
             <!-- Models Failure Types with Count Query DataTable Window -->
-            <main class="col-md-10 text-center d-none response-window home-content" id="modelFailureTypesCount-datatable-window">
+            <main class="col-md-10 text-center d-none response-window home-content"
+                id="modelFailureTypesCount-datatable-window">
                 <div class="container col-sm-10 card" id="modelFailureTypesCount-container">
                     <h2 class="mb-4">Model Failure Types And Count</h2>
                     <table id="modelFailureTypesCount-datatable" class="display table-condensed">
@@ -270,12 +275,11 @@
             </main>
         </div>
     </div>
-    
-    
+
 
     <script src="js/jquery-3.4.1.js"></script>
-    <script src="js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="js/jquery.dataTables.js"></script>
     <script src="js/login.js"></script>
     <script src="js/import.js"></script>
     <script src="js/sysAdmin.js"></script>

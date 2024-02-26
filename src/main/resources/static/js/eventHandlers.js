@@ -63,7 +63,7 @@ $(document).ready(function() {
         event.preventDefault();
         getIMSIFailuresTime();
     });
-
+    
 });
 
 const homeNav = function(pageID) {

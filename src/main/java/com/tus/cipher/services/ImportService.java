@@ -47,7 +47,7 @@ public class ImportService {
 	void importSheet(BaseSheetProcessor proc, HSSFSheet sheet) {
 		int totalRows = sheet.getPhysicalNumberOfRows();
 
-		System.out.println("\nSheet: "+ sheet.getSheetName());
+		System.out.println("\n** Sheet: "+ sheet.getSheetName());
 		System.out.println("=> row(s): " + totalRows);
 
 		// Skip Header Row
@@ -58,5 +58,6 @@ public class ImportService {
 			}
 		}
 		proc.saveInBatchs();
+		System.out.println("=> Import complete!");
 	}
 }
