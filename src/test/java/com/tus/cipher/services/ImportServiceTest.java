@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.tus.cipher.TestUtil;
 import com.tus.cipher.services.sheets.BaseDataSheet;
 import com.tus.cipher.services.sheets.BaseSheetProcessor;
 import com.tus.cipher.services.sheets.EventCauseSheet;
@@ -72,7 +73,8 @@ class ImportServiceTest {
 
     @Test
     void testImportWorkBook() throws EncryptedDocumentException, IOException {
-        HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory.create(new File("src/main/resources/" + "TUSGroupProject_SampleDataset.xls"));
+    	TestUtil.moveFileToDest("TUS_CallFailureData.xls", "call-failure-data");
+        HSSFWorkbook workbook = (HSSFWorkbook) WorkbookFactory.create(new File("call-failure-data/" + "TUS_CallFailureData.xls"));
 
         // Call the method under test
         importService.importWorkBook(workbook);

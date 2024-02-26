@@ -44,3 +44,21 @@ const hideProgressBar = function() {
     $('#progressBarFG').hide();
 }
 
+const checkImportStatus = function() {
+    let importStatus = $('#autoImportSummary');
+    $.ajax({
+        type: 'GET',
+        url: rootUrl + "/sysadmin/auto-import-status",
+        contentType: 'application/json',
+        success: function(res) {
+             if (res.status == "Success") {
+                 importStatus.html(res.data);
+             }
+        },
+        error: function() {
+            $('#autoImportSummary').removeClass().addClass("alert alert-danger").html("<strong>Error!</strong> Unexpected Import Error<br/>").show();
+        }
+    });
+}
+
+setInterval(checkImportStatus, 5000);
