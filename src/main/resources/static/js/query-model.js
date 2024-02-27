@@ -1,4 +1,6 @@
+'use strict';
 
+// List Model IDs
 const addModelDropdown = function(dropdownID) {
     let model_dropdown = $(dropdownID);
     model_dropdown.empty()
@@ -17,7 +19,6 @@ const addModelDropdown = function(dropdownID) {
         dataType: "json",
         success: function(res) {
             if (res.status == "Success") {
-                console.log(res.data);
                 res.data.forEach(model => {
                     model_dropdown.append("<option value=" + model + ">" + model + "</option>");
                 });
@@ -31,8 +32,50 @@ const addModelDropdown = function(dropdownID) {
     });
 }
 
-const getModelFailureTypesWithCount = function() {
-    let model = $("#modelFailureTypesCount-dropdown").val();
+
+// Query #4
+const getModelFailureCount = function() {
+    let startDate = $('#model-failure-count-start-date').val();
+    let endDate = $('#model-failure-count-end-date').val();
+    let model = $('#model-failure-count-dropdown').val();
+    let msg = $("#model-failure-count-result");
+
+    msg.html("");
+
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/model-failure-count",
+        contentType: 'application/json',
+        dataType: "json",
+        data: { "endDate": endDate, "startDate": startDate, "tac": model },
+        success: function(res) {
+            if (res.statusCode === 200) {
+                msg.removeClass().addClass("alert alert-info").html(`
+                        <h4>Model Call Failure Count</h4><br/>
+                                Start Date: ${startDate.replace('T', ' ')}<br>
+                                End Date: ${endDate.replace('T', ' ')}<br>
+                                <strong>Model: </strong>${model}<br/>
+                                <strong>Count: </strong>${res.data}<br/>
+                `).show();
+
+            } else {
+                msg.removeClass().addClass("alert alert-danger")
+                    .html(` <div class="card-body">
+                            <strong>${res.error.errorMsg}</strong> ${res.error.details}
+                        </div>`
+                    ).show();
+            }
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+
+
+// Query #5
+const getModelFailuresTypeCount = function() {
+    let model = $("#model-failures-type-count-dropdown").val();
     console.log("Model: " + model);
 
     $.ajax({
@@ -42,9 +85,8 @@ const getModelFailureTypesWithCount = function() {
         dataType: "json",
         success: function(res) {
             if (res.status == "Success") {
-                console.log(res.data);
-                updateDataTable('modelFailureTypesCount', res.data, ['eventId', 'causeCode', 'failureCount']);
-                
+                updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);
+                $("#model-id").text(model);
             } else {
                 console.log("Error:", res.error);
             }
@@ -54,31 +96,3 @@ const getModelFailureTypesWithCount = function() {
         }
     });
 };
-
-//Model Count
-const getModelFailureCount = function() {
-    let startDate = $('#model-failure-count-start-date').val();
-    let endDate = $('#model-failure-count-end-date').val();
-    let model = $('#model-failure-count-dropdown').val();
-
-    $.ajax({
-        type: "GET",
-        url: rootUrl + "/query/model-failure-count",
-        contentType: 'application/json',
-        dataType: "json",
-        data: { "endDate": endDate, "startDate": startDate, "tac": model },
-        success: function(res) {
-            console.log(res.data);
-            $('#model-failure-count-result').removeClass().addClass("alert alert-info").html(`
-                    <h4>Model Call Failure Count</h4><br/>
-                    <strong>Model: </strong>${model}<br/>
-                    <strong>Count: </strong>${res.data}<br/>
-            `).show();
-        },
-        error: function(res) {
-            console.log(res);
-            $('#model-failure-count-result').removeClass().addClass("alert alert-danger").html(`<strong>${res.error.errorMsg}</strong> ${res.error.details}<br/>`).show();
-        }
-    });
-}
-

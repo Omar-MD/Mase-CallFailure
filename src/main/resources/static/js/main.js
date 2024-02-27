@@ -1,3 +1,5 @@
+'use strict';
+
 const rootUrl = "http://localhost:8081";
 
 const RoleType = {
@@ -7,14 +9,12 @@ const RoleType = {
     SUPPORT_ENGINEER: 'SUPPORT_ENGINEER'
 }
 
-const showHome = function() {
-    $('#login-section').addClass("d-none");
-    $('#home-section').removeClass("d-none");
-}
-
 const login = function() {
     let username = $('#username').val();
     let password = $('#password').val();
+    let errorMsg = $('#errorMsg');
+
+    errorMsg.remove();
 
     $.ajax({
         type: 'POST',
@@ -41,8 +41,8 @@ const login = function() {
                     showHome();
                     break;
                 default:
-                    $('#login-card')
-                    .append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
+                    errorMsg.remove();
+                    $('#login-card').append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
                     break;
             }
         },
@@ -50,18 +50,16 @@ const login = function() {
             alert('Error during request. Incorrect username or password');
         }
     });
-}
+};
 
 const loadContentForRole = function(role, username) {
 
-    // Get references to the dynamic elements
     const header = $('#header-content');
     const sidebar = $('#sidebar-content');
     const userRole = $('#user-role')
-    // Set the User Content
+
     $('#landing-username').html($('<h3>').addClass('mb-1').text(`Welcome ` + username + `...`))
 
-    // Set Role Content
     switch (role) {
         case RoleType.ADMIN:
             header.html(
@@ -85,9 +83,8 @@ const loadContentForRole = function(role, username) {
             );
 
             sidebar.html(
-                ` <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures</button>
-                  <button type="button" id="imsi-failure-time-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count for Time Period</button>
-                
+                ` <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
+                  <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
             `);
 
             userRole.html(
@@ -104,8 +101,6 @@ const loadContentForRole = function(role, username) {
                 ` <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
                   <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button>
             `);
-            
-
 
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Support Engineer</h4>`
@@ -119,8 +114,8 @@ const loadContentForRole = function(role, username) {
             );
 
             sidebar.html(
-                ` <button type="button" id="modelFailureTypesCount-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types With Count</button>
-                  <button type="button" id="imsi-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count and Duration</button>
+                ` <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
+                  <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count & Duration</button>
             `);
 
             userRole.html(
@@ -130,7 +125,7 @@ const loadContentForRole = function(role, username) {
 }
 
 const updateDataTable = function(tableId, data, headers) {
-     // Check if DataTable is already initialized
+    // Check if DataTable is already initialized
     let datatable = $(`#${tableId}-datatable`).DataTable();
     if (datatable) {
         datatable.clear().draw();
@@ -140,6 +135,7 @@ const updateDataTable = function(tableId, data, headers) {
             "bScrollCollapse": true
         });
     }
+
     data.forEach(function(item) {
         if (headers && headers.length > 0) {
             let rowData = [];

@@ -1,5 +1,4 @@
-let sysAdminUrl = "http://localhost:8081/sysadmin/accounts";
-
+'use strict';
 
 const createAccount = function() {
     let username = $('#new-user-username').val();
@@ -7,9 +6,10 @@ const createAccount = function() {
     let role = $('#new-user-role').val();
 
     $('#accountMsg').remove();
+
     $.ajax({
         type: 'POST',
-        url: sysAdminUrl,
+        url: rootUrl + "/sysadmin/accounts",
         contentType: 'application/json',
         data: JSON.stringify({ "username": username, "password": password, "role": role }),
         dataType: "json",
@@ -48,7 +48,10 @@ const createAccount = function() {
 
 const importDataset = function() {
     let filename = $('#filename').val();
-    $('#importMsg').hide(); // Hide message div initially
+    let importMsg = $('#importMsg');
+
+    importMsg.hide();
+
     showProgressBar();
     $.ajax({
         type: 'POST',
@@ -59,16 +62,16 @@ const importDataset = function() {
         success: function(res) {
             hideProgressBar();
             if (res.status == "Success") {
-                $('#importMsg').removeClass().addClass("alert alert-success").html(`<strong>Success!</strong><br/>${res.data}`).show();
+                importMsg.removeClass().addClass("alert alert-success").html(`<strong>Success!</strong><br/>${res.data}`).show();
+
             } else {
                 hideProgressBar();
-                $('#importMsg').removeClass().addClass("alert alert-danger").html(`<strong>Error!</strong> ${res.error.errorMsg}<br/>${res.error.details}`).show();
-
+                importMsg.removeClass().addClass("alert alert-danger").html(`<strong>Error!</strong> ${res.error.errorMsg}<br/>${res.error.details}`).show();
             }
         },
         error: function() {
             hideProgressBar();
-            $('#importMsg').removeClass().addClass("alert alert-danger").html("<strong>Error!</strong> Unexpected Import Error<br/>").show();
+            importMsg.removeClass().addClass("alert alert-danger").html("<strong>Error!</strong> Unexpected Import Error<br/>").show();
         }
     });
 };
@@ -90,4 +93,23 @@ const hideProgressBar = function() {
     $('#progressBarBG').hide();
     $('#progressBarFG').hide();
 }
+
+const checkImportStatus = function() {
+    let importStatus = $('#autoImportSummary');
+    $.ajax({
+        type: 'GET',
+        url: rootUrl + "/sysadmin/auto-import-status",
+        contentType: 'application/json',
+        success: function(res) {
+            if (res.status == "Success") {
+                importStatus.html(res.data);
+            }
+        },
+        error: function() {
+            importStatus.removeClass().addClass("alert alert-danger").html("<strong>Error!</strong> Unexpected Import Error<br/>").show();
+        }
+    });
+}
+
+setInterval(checkImportStatus, 5000);
 
