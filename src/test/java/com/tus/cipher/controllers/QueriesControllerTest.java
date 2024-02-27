@@ -175,7 +175,26 @@ class QueriesControllerTest {
 		ApiResponse<Long> response = queriesController.getImsiFailureCountTimeRange(imsi, start, end);
 
 		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
-		assertEquals(response.getError().getErrorMsg(), "Bad Date Range");
-		assertEquals(response.getError().getDetails(), "End date must be after start date");
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+	}
+
+	@Test
+	void testGetCallFailuresWithCountAndDuration() {
+		 // Mock data
+        LocalDateTime startDate = LocalDateTime.of(2024, 1, 1, 0, 0);
+        LocalDateTime endDate = LocalDateTime.of(2024, 1, 31, 23, 59);
+
+        List<Object[]> expectedResult = new ArrayList<>();
+         expectedResult.add(new Object[] { "IMSI_1", 10L, 3600L });
+         expectedResult.add(new Object[] { "IMSI_2", 5L, 1800L });
+
+        when(callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate)).thenReturn(expectedResult);
+
+        // Call the method from your service class that uses the repository method
+        List<Object[]> actualResult = callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate);
+
+        // Assert the result
+        assertEquals(expectedResult, actualResult);
 	}
 }
