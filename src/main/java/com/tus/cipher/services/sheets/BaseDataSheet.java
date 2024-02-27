@@ -70,7 +70,6 @@ public class BaseDataSheet extends BaseSheetProcessor {
 		int totalRows = validRows.size();
 		ErrorCountService.setValidRowCount(totalRows);
 		System.out.println("=> Valid Rows(s): " + totalRows);
-
 		List<CallFailure> rowsToSave = new ArrayList<>(validRows);
 
 		for (int i = 0; i < totalRows; i += MAX_BATCH_SIZE) {
