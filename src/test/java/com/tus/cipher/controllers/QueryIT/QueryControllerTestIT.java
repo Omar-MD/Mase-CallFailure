@@ -12,14 +12,10 @@ public class QueryControllerTestIT {
 	int randomServerPort;
 
     @Karate.Test
-    Karate runPrepQuery() {
+    Karate runQueryTest() {
         System.setProperty("local.server.port", String.valueOf(randomServerPort));
-        return Karate.run("classpath:com/tus/cipher/controllers/QueryIT/prep_query.feature").relativeTo(getClass());
+        return Karate.run("classpath:com/tus/cipher/controllers/QueryIT/query_response_times.feature").relativeTo(getClass());
     }
 
-//	@Karate.Test
-//	Karate runAutoImport() {
-//		System.setProperty("local.server.port", String.valueOf(randomServerPort));
-//		return Karate.run("classpath:com/tus/cipher/controllers/importIT/auto_import.feature").relativeTo(getClass());
-//	}
+
 }
