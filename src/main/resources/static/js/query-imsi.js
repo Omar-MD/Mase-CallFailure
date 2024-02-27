@@ -65,6 +65,7 @@ const getIMSIFailureCountTime = function() {
     let endDate = $("#imsi-failure-count-time-end-date").val();
     let msg = $("#imsi-failure-count-time-result");
 
+    console.log(imsi, startDate, endDate);
     msg.html("");
 
     $.ajax({
