@@ -26,8 +26,10 @@ public class ImportService {
 
 	@Transactional
 	public void importWorkBook(HSSFWorkbook workbook){
+			System.out.println("\n\nImport in progress...");
 			importReferenceSheets(workbook);
 			importBaseData(workbook);
+			System.out.println("Import complete!\n\n");
 	}
 
 	void importReferenceSheets(HSSFWorkbook workbook) {
@@ -46,10 +48,6 @@ public class ImportService {
 
 	void importSheet(BaseSheetProcessor proc, HSSFSheet sheet) {
 		int totalRows = sheet.getPhysicalNumberOfRows();
-
-		System.out.println("\nSheet: "+ sheet.getSheetName());
-		System.out.println("=> row(s): " + totalRows);
-
 		// Skip Header Row
 		for (int rowIndex = 1; rowIndex < totalRows; rowIndex++) {
 			Row r = sheet.getRow(rowIndex);

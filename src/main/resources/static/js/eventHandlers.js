@@ -1,52 +1,126 @@
+'use strict';
 
 // Application Event Handlers
 $(document).ready(function() {
+
+    //------------------------------------------------------------------
+    //------------------------  LOGIN & HOME  ------------------------
+    //------------------------------------------------------------------
+
     // Login
     $('#loginSubmit').on('click', function(event) {
         event.preventDefault();
         login();
     });
-    
+
     // Landing Page
     $('#nav-bar').on('click', '#header-content', function() {
-        $('#landing-window').removeClass('d-none');
+        homeNav('#landing-window');
     });
-    
+
+    //------------------------------------------------------------------
+    //------------------------  SYSTEM ADMIN  -----------------------
+    //------------------------------------------------------------------
+
     // Import
     $('#sidebar-content').on('click', '#import-data-sidebar', function() {
-        $('#landing-window').addClass('d-none');
-        $('#sys-adm-create-user-window').addClass('d-none');
-        $('#sys-adm-import-window').removeClass('d-none');
+        homeNav('#sys-adm-import-window');
     });
     $('#import-btn').on('click', function(event) {
         event.preventDefault();
         importDataset();
     });
-    
+
+
     // Create User
     $('#sidebar-content').on('click', '#create-user-sidebar', function() {
-        $('#sys-adm-import-window').addClass('d-none');
-        $('#landing-window').addClass('d-none');
-        $('#sys-adm-create-user-window').removeClass('d-none');
+        homeNav('#sys-adm-create-user-window');
     });
     $('#create-account-btn').on('click', function(event) {
         event.preventDefault();
         createAccount();
     });
-    
-    // IMSI Failures
+
+    //----------------------------------------------------------------
+    //------------------------  QUERIES  -----------------------------
+    //----------------------------------------------------------------
+
+    // Query #1
     $('#sidebar-content').on('click', '#imsi-failures-sidebar', function() {
-        $('#landing-window').addClass('d-none');
-        $('#sys-adm-import-window').addClass('d-none');
-        $('#sys-adm-create-user-window').addClass('d-none');
-        $('#imsi-query-failure-window').removeClass('d-none');
-        addImsiDropdown();
+        addImsiDropdown("#imsi-dropdown");
+        homeNav('#imsi-query-failure-window');
     });
     $('#imsiFailures-btn').on('click', function(event) {
-        $('#imsi-query-failure-window').addClass('d-none');
-        $('#imsi-datatable-failure-window').removeClass('d-none');
         event.preventDefault();
         getIMSIFailures();
+        homeNav('#imsi-datatable-failure-window');
+    });
+
+
+    // Query #2
+    $('#sidebar-content').on('click', '#imsi-failure-count-time-sidebar', function() {
+        addImsiDropdown('#imsi-failure-count-time-dropdown');
+        homeNav('#imsi-failure-count-time-window');
+    });
+    $("#imsi-failure-count-time-btn").on('click', function(event) {
+        event.preventDefault();
+        getIMSIFailureCountTime();
+    });
+
+
+    // Query #3
+    $('#sidebar-content').on('click', '#imsi-failures-time-sidebar', function() {
+        homeNav('#imsi-failures-time-window');
+    });
+    $("#imsi-failures-time-btn").on('click', function(event) {
+        event.preventDefault();
+        getIMSIFailuresTime();
+        homeNav('#imsi-failures-time-datatable-window');
+    });
+
+
+    // Query #4
+    $('#sidebar-content').on('click', '#model-failure-count-sidebar', function() {
+        addModelDropdown('#model-failure-count-dropdown');
+        homeNav('#model-failure-count-window');
+    });
+    $("#model-failure-count-btn").on('click', function(event) {
+        event.preventDefault();
+        getModelFailureCount();
+    });
+
+
+    // Query #5
+    $('#sidebar-content').on('click', '#model-failures-type-count-sidebar', function() {
+        addModelDropdown('#model-failures-type-count-dropdown');
+        homeNav('#model-failures-type-count-window');
+    });
+    $('#model-failures-type-count-btn').on('click', function(event) {
+        event.preventDefault();
+        getModelFailuresTypeCount();
+        homeNav('#model-failures-type-count-datatable-window');
+    });
+
+
+    // Query #6
+    $('#sidebar-content').on('click', '#imsi-failures-count-duration-sidebar', function() {
+        homeNav('#imsi-failures-count-duration-window');
+    });
+    $("#imsi-failures-count-duration-btn").on('click', function(event) {
+        event.preventDefault();
+        getIMSIFailuresCountDuration();
+        homeNav('#imsi-failures-count-duration-datatable-window');
     });
 });
+
+const homeNav = function(pageID) {
+    $('.home-content').addClass('d-none');
+    $(pageID).removeClass('d-none');
+}
+
+const showHome = function() {
+    $('#login-section').addClass("d-none");
+    $('#home-section').removeClass("d-none");
+}
+
 
