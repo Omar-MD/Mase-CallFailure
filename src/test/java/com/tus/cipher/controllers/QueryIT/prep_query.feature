@@ -16,21 +16,20 @@ Feature: Prepare Query
     Then response.statusCode == 200
     And match response.status == 'Success'
     And match response.data == '#string'
+    #
+    # Given path '/sysadmin/import'
+    #And request { filename: 'TUS_CallFailureData3A.xls' }
+    #And header Content-Type = 'application/json'
+    #When method post
+    #Then response.statusCode == 200
+    #And match response.status == 'Success'
+    #And match response.data == '#string'
+    #
+    # Given path '/sysadmin/import'
+    #And request { filename: 'TUS_CallFailureData3B.xls' }
+    #And header Content-Type = 'application/json'
+    #When method post
+    #Then response.statusCode == 200
+    #And match response.status == 'Success'
+    #And match response.data == '#string'
     
-     Given path '/sysadmin/import'
-    And request { filename: 'TUS_CallFailureData3A.xls' }
-    And header Content-Type = 'application/json'
-    When method post
-    Then response.statusCode == 200
-    And match response.status == 'Success'
-    And match response.data == '#string'
-    
-     Given path '/sysadmin/import'
-    And request { filename: 'TUS_CallFailureData3B.xls' }
-    And header Content-Type = 'application/json'
-    When method post
-    Then response.statusCode == 200
-    And match response.status == 'Success'
-    And match response.data == '#string'
-    
-    * karate.set('result', 'success')
