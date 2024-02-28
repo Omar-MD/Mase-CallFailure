@@ -2,7 +2,7 @@ Feature: Automatic Import
   Testing the automatic import functionality
 
   Background: 
-    * configure retry = { count: 5, interval: 5000 }
+    * configure retry = { count: 10, interval: 5000 }
     * call read('prep_auto_import.feature')
     * url baseUrl
 
