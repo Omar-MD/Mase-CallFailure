@@ -13,6 +13,7 @@ import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import com.tus.cipher.TestUtil;
@@ -37,6 +38,7 @@ class ImportServiceTest {
     private EventCauseSheet eventCauseSheetMock;
 
     private ImportParams importParamsMock;
+
     @BeforeEach
     void setUp() {
         dataValidatorMock = mock(DataValidator.class);
@@ -71,6 +73,7 @@ class ImportServiceTest {
         importService = new ImportService(importParamsMock);
     }
 
+    @Disabled("Substitued with integration test")
     @Test
     void testImportWorkBook() throws EncryptedDocumentException, IOException {
     	TestUtil.moveFileToDest("TUS_CallFailureData.xls", "call-failure-data");
