@@ -55,8 +55,7 @@ const login = function() {
 const loadContentForRole = function(role, username) {
 
     const header = $('#header-content');
-    const sidebar = $('#sidebar-content');
-    const userRole = $('#user-role')
+    const userRole = $('#user-role');
 
     $('#landing-username').html($('<h3>').addClass('mb-1').text(`Welcome ` + username + `...`))
 
@@ -65,7 +64,8 @@ const loadContentForRole = function(role, username) {
             header.html(
                 `<h2>System Admin Control Panel<h2>`
             );
-
+    
+            const sidebar = $('#sidebar-content');
             sidebar.html(
                 `<button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Import Data</button>
                  <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Create User</button>`
@@ -80,12 +80,9 @@ const loadContentForRole = function(role, username) {
         case RoleType.CUSTOMER_SERVICE_REP:
             header.html(
                 `Customer Service Representive Control Panel`
-            );
+            ); 
 
-            sidebar.html(
-                ` <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
-                  <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
-            `);
+            updateSideBar(role);
 
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Customer Service Rep</h4>`
@@ -97,12 +94,7 @@ const loadContentForRole = function(role, username) {
                 `Support Engineer Control Panel`
             );
 
-            sidebar.html(
-                ` <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
-                   <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
-                   <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
-                   <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button>
-            `);
+            updateSideBar(role);
 
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Support Engineer</h4>`
@@ -115,18 +107,40 @@ const loadContentForRole = function(role, username) {
                 `Network Engineer Control Panel`
             );
 
-            sidebar.html(
-                `  <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
-                    <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
-                    <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
-                    <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count & Duration</button>
-                    <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button> 
-                    <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
-            `);
+            updateSideBar(role);
 
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Network Engineer</h4>`
             );
+    }
+}
+
+const updateSideBar = function(role) {
+
+    const sidebar = $('#sidebar-content');
+
+    // Clear the sidebar
+    sidebar.html("");
+
+    // No breaks;
+    switch (role) {
+        case RoleType.NETWORK_ENGINEER:
+            sidebar.append(`
+                <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count & Duration</button>
+                <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
+            `);
+        case RoleType.SUPPORT_ENGINEER:
+            sidebar.append(`
+                <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
+                <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button>
+            `);
+        case RoleType.CUSTOMER_SERVICE_REP:
+            sidebar.append(`
+                <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
+                <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
+            `);
+        default:
+            break;
     }
 }
 
