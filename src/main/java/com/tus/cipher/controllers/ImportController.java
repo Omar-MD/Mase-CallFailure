@@ -28,9 +28,8 @@ import com.tus.cipher.services.LoggerService;
 @RequestMapping("/sysadmin")
 public class ImportController {
 
-	static final String ROOT_PATH = "call-failure-data/";
-	static final String LOG_FOLDER_PATH = "logs";
-	static final String LOG_FILE_PATH = "logs/import_log.txt";
+	static final String DATA_PATH = "call-failure-data/";
+	static final String DATA_FILE ="TUS_CallFailureData";
 
 	static final String AUTO_SUCCESS = "Automatic import triggered Successfully!";
 	static final String AUTO_FAIL = "Automatic import Failed!";
@@ -39,6 +38,7 @@ public class ImportController {
 	String importStatus = NO_AUTO;
 	String lastSuccessImport = null;
 	String summary = null;
+	LoggerService logger;
 
 	ImportService importService;
 
@@ -47,6 +47,7 @@ public class ImportController {
 	@Autowired
 	public ImportController(ImportService importService) {
 		this.importService = importService;
+		logger = LoggerService.INSTANCE;
 	}
 
 	@PostMapping("/import")
@@ -57,7 +58,6 @@ public class ImportController {
 			return ApiResponse.success(HttpStatus.OK.value(), importSummary);
 
 		} catch (IOException e) {
-
 			ApiError error = ApiError.of("Import failed", e.getMessage());
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
@@ -95,9 +95,14 @@ public class ImportController {
 
 	public void autoImport(String filename) {
 		try {
+			// Import
 			summary = importFile(filename);
 			importStatus = AUTO_SUCCESS;
 			lastSuccessImport = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+			// Log Auto import
+			logger.setLogFilePath("logs/auto_import_log.txt");
+			logger.logMsg(summary);
 
 		} catch (Exception e) {
 			importStatus = AUTO_FAIL;
@@ -110,21 +115,21 @@ public class ImportController {
 		HSSFWorkbook workbook = createWorkbook(filename);
 
 		// Setup Logger
-		LoggerService.setLogFolderPath(LOG_FOLDER_PATH);
-		LoggerService.setLogFilePath(LOG_FILE_PATH);
-		LoggerService.resetLogFile();
+		 String logFilePath = "logs/" + filename.substring(0, filename.lastIndexOf('.')) + "_import_log.txt";
+		 logger.setLogFilePath(logFilePath);
+		 logger.resetLogFile();
 
 		// Execute Import
 		importService.importWorkBook(workbook);
 
 		// Prepare Summary
-		return ErrorCountService.displaySummaryFromLog(LOG_FILE_PATH);
+		return ErrorCountService.displaySummaryFromLog(logFilePath);
 	}
 
 	HSSFWorkbook createWorkbook(String filename) throws IOException {
-		if (filename == null || !filename.contains("TUS_CallFailureData")) {
+		if (filename == null || !filename.contains(DATA_FILE)) {
 			throw new IOException("Invalid file selection!");
 		}
-		return (HSSFWorkbook) WorkbookFactory.create(new File(ROOT_PATH + filename));
+		return (HSSFWorkbook) WorkbookFactory.create(new File(DATA_PATH + filename));
 	}
 }

@@ -22,9 +22,11 @@ public class BaseDataSheet extends BaseSheetProcessor {
 	private final CallFailureDAO callFailureDAO;
 	private DataValidator validator;
 	List<CallFailure> validRows = new ArrayList<>();
+	LoggerService logger;
 
 	public BaseDataSheet(CallFailureDAO callFailureDAO) {
 		this.callFailureDAO = callFailureDAO;
+		this.logger = LoggerService.INSTANCE;
 	}
 
 	public void setValidator(DataValidator validator) {
@@ -61,7 +63,7 @@ public class BaseDataSheet extends BaseSheetProcessor {
 			validRows.add(callFailure);
 
 		} catch (Exception e){
-			LoggerService.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage(), r.getRowNum());
+			logger.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

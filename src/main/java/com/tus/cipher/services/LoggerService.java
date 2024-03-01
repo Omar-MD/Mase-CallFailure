@@ -8,99 +8,81 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class LoggerService {
 
-	private static String logFolderPath = "logs";
-	private static String logFilePath = "logs/import_log.txt";
+public enum LoggerService { // NOSONAR
 
-	private LoggerService() {
-	}
+    INSTANCE;
 
-	static void checkLogPath() {
-		// Folder
-		Path folderPath = Paths.get(logFolderPath);
-		try {
-			if (!Files.exists(folderPath)) {
-				// Create Folder if doesn't exist
-				Files.createDirectories(folderPath);
-			}
-		} catch (IOException e) {
-			System.err.println(getTimeStamp() + "  Error checking or creating log folder ( " + folderPath + " ): "
-					+ e.getMessage());
-		}
-		// File
-		Path filePath = Paths.get(logFilePath);
-		try {
-			if (!Files.exists(filePath)) {
-				// Create file if it doesn't exist
-				Files.createFile(filePath);
-			}
-		} catch (IOException e) {
-			System.err.println(getTimeStamp() + "  Error recreating log file ( " + filePath + " ): " + e.getMessage());
-		}
-	}
+    private static final String LOG_FOLDER_PATH = "logs";
+    private String logFilePath;
 
-	static String getTimeStamp() {
-		return LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm"));
-	}
+    private void writeToLog(String errorMessage) {
+        try {
+            checkLogPath();
+            Path path = Paths.get(logFilePath);
+            Files.write(path, (errorMessage + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	static void logInvalidData(String errorMessage) {
-		checkLogPath();
-		try {
+    public void logInfo(String errPath, String errDesc, String data, int rowIndex) {
+        writeToLog(getTimeStamp() + " INFO path " + errPath + " " + errDesc + " ErroneusRecord: "+ data + " Row Index: " + rowIndex);
+    }
 
-			Path path = Paths.get(logFilePath);
-			Files.write(path, errorMessage.getBytes(), StandardOpenOption.APPEND);
+    public void logMsg(String msg) {
+        writeToLog(getTimeStamp() + " INFO" + " msg: " + msg);
+    }
 
-		} catch (IOException e) {
+    void checkLogPath() throws IOException {
+        if (logFilePath == null) {
+            throw new IllegalStateException("Log file path is not set.");
+        }
 
-			e.printStackTrace();
-		}
-	}
+        // Folder
+        Path folderPath = Paths.get(LOG_FOLDER_PATH);
+        if (!Files.exists(folderPath)) {
+            Files.createDirectories(folderPath);
+        }
 
-	public static void log(String data, String errDesc, String errSeverity, String errCode) {
-		String timeStamp = getTimeStamp();
-		logInvalidData(
-				"\n" + timeStamp + " " + errSeverity + " " + errCode + " " + errDesc + " ErroneusRecord: " + data);
-	}
+        // File
+        Path filePath = Paths.get(logFilePath);
+        if (!Files.exists(filePath)) {
+            Files.createFile(filePath);
+        }
+    }
 
-	public static void logInfo(String errPath, String errDesc, String data, int rowIndex) {
-		String timeStamp = getTimeStamp();
+    String getTimeStamp() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+    }
 
-		logInvalidData(
-				"\n" + timeStamp + " " + "INFO" + " " + "path:" + errPath + " " + errDesc + " ErroneusRecord: " + data + " Row Index: " + rowIndex);
-	}
+    public void createFolder(String folderPath) throws IOException {
+        Path path = Paths.get(folderPath);
+        Files.createDirectories(path);
+    }
 
-	public static String getLogFolderPath() {
-		return logFolderPath;
-	}
+    public void createFile(String filePath) throws IOException {
+        Path path = Paths.get(filePath);
+        Files.createFile(path);
+    }
 
-	public static String getLogFilePath() {
-		return logFilePath;
-	}
+    public void resetLogFile() throws IOException {
+        if (logFilePath == null) {
+            throw new IllegalStateException("Log file path is not set.");
+        }
 
-	public static void setLogFolderPath(String logFolderPath) {
-		LoggerService.logFolderPath = logFolderPath;
-	}
+        Path filePath = Paths.get(logFilePath);
+        if (Files.exists(filePath)) {
+            Files.delete(filePath);
+        }
+        Files.createFile(filePath);
+    }
 
-	public static void setLogFilePath(String logFilePath) {
-		LoggerService.logFilePath = logFilePath;
-	}
+    public String getLogFilePath() {
+        return logFilePath;
+    }
 
-	public static void createFolder(String folderPath) throws IOException {
-		Path path = Paths.get(folderPath);
-		Files.createDirectories(path);
-	}
-
-	public static void createFile(String filePath) throws IOException {
-		Path path = Paths.get(filePath);
-		Files.createFile(path);
-	}
-
-	public static void resetLogFile() throws IOException {
-		Path filePath = Paths.get(logFilePath);
-		if(Files.exists(filePath)) {
-			Files.delete(filePath);
-		}
-		Files.createFile(filePath);
-	}
+    public void setLogFilePath(String logFilePath) { //NOSONAR
+        this.logFilePath = logFilePath;
+    }
 }

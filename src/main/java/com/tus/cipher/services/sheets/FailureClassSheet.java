@@ -11,16 +11,18 @@ import com.tus.cipher.dto.sheets.FailureClass;
 import com.tus.cipher.services.LoggerService;
 
 @Component
-public class FailureClassSheet extends BaseSheetProcessor{
+public class FailureClassSheet extends BaseSheetProcessor {
 
 	private static final String SHEET_NAME = "Failure Class Table";
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private FailureClassDAO failureClassDAO;
 	List<FailureClass> validRows = new ArrayList<>();
+	LoggerService logger;
 
 	public FailureClassSheet(FailureClassDAO failureClassDAO) {
 		this.failureClassDAO = failureClassDAO;
+		this.logger = LoggerService.INSTANCE;
 	}
 
 	@Override
@@ -34,7 +36,7 @@ public class FailureClassSheet extends BaseSheetProcessor{
 			validRows.add(failureClass);
 
 		} catch (Exception e) {
-			LoggerService.logInfo("sysadmin/import", "FailureClassSheet:processRow", e.getMessage(), r.getRowNum());
+			logger.logInfo("sysadmin/import", "FailureClassSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

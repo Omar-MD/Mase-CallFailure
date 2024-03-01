@@ -7,24 +7,21 @@ $(document).ready(function() {
     //------------------------  LOGIN & HOME  ------------------------
     //------------------------------------------------------------------
 
+    // Landing Page
+    $('#nav-bar').on('click', '#header-content', function() {
+        homeNav('#landing-window');
+    });
+
     // Login
     $('#loginSubmit').on('click', function(event) {
         event.preventDefault();
         login();
     });
 
-    // Landing Page
-    $('#nav-bar').on('click', '#header-content', function() {
-        homeNav('#landing-window');
-    });
-
     // Logout
     $('#logout-nav-link').on('click', function() {
-        $('#home-section').addClass('d-none');
-        $('#login-section').removeClass('d-none');
-        $('#logout-nav-link').addClass('d-none');
+        showLogin();
     });
-
 
     //------------------------------------------------------------------
     //------------------------  SYSTEM ADMIN  -----------------------
@@ -174,4 +171,9 @@ const showHome = function() {
     $('#logout-nav-link').removeClass('d-none');
 }
 
+const showLogin = function() {
+    $('#home-section').addClass('d-none');
+    $('#login-section').removeClass('d-none');
+    $('#logout-nav-link').addClass('d-none');
+}
 

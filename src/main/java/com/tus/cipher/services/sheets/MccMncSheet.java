@@ -11,16 +11,18 @@ import com.tus.cipher.dto.sheets.MccMnc;
 import com.tus.cipher.services.LoggerService;
 
 @Component
-public class MccMncSheet extends BaseSheetProcessor{
+public class MccMncSheet extends BaseSheetProcessor {
 
 	private static final String SHEET_NAME = "MCC - MNC Table";
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private MccMncDAO mccMncDAO;
 	List<MccMnc> validRows = new ArrayList<>();
+	LoggerService logger;
 
 	public MccMncSheet(MccMncDAO mccMncDAO) {
 		this.mccMncDAO = mccMncDAO;
+		this.logger = LoggerService.INSTANCE;
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class MccMncSheet extends BaseSheetProcessor{
 			validRows.add(mccMnc);
 
 		} catch (Exception e) {
-			LoggerService.logInfo("sysadmin/import", "MccMncSheet:processRow", e.getMessage(), r.getRowNum());
+			logger.logInfo("sysadmin/import", "MccMncSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 
