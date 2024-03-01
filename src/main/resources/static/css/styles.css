@@ -11,6 +11,22 @@ body {
     height: 10vh;
 }
 
+.nav-link i {
+    font-size: 24px; 
+    margin-right: 5px;
+    color: white; 
+}
+
+.nav-link {
+    color: inherit;
+    font-size: 20px;
+    transition: color 0.3s; 
+}
+
+.nav-link:hover {
+    color: #ffc107; 
+}
+
 #nav-aside-divider {
     position: absolute;
     margin: 0;
