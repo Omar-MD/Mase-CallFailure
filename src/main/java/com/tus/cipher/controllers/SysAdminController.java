@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
+import com.tus.cipher.dto.CreateUserRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.AccountFactory;
 import com.tus.cipher.responses.ApiError;
@@ -27,27 +28,28 @@ public class SysAdminController {
 	}
 
 	@PostMapping("/accounts")
-	public ApiResponse<Account> addAccount(@Valid @RequestBody Account account) {
-		account = AccountFactory.createAccount(account);
-		if (!securePassword(account)) {
+	public ApiResponse<CreateUserRequest> addAccount(@Valid @RequestBody CreateUserRequest newUser) {
+
+		if (!securePassword(newUser.getPassword())) {
 			ApiError error = ApiError.of("Password not secure", "password length must be at least 8 characters");
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
 
-		Optional<Account> accountOptional = accountRepository.findByUsername(account.getUsername());
+		Optional<Account> accountOptional = accountRepository.findByUsername(newUser.getUsername());
 		if (accountOptional.isPresent()) {
-			// Account already exist in database already
 			ApiError error = ApiError.of("Username already exist", "");
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
+
 		} else {
 			// Create the new Account
-			Account savedAccoount = accountRepository.save(account);
-			return ApiResponse.success(HttpStatus.OK.value(), savedAccoount);
+			Account account = AccountFactory.createAccount(newUser.getUsername(), newUser.getPassword(), newUser.getRole());
+			accountRepository.save(account);
+			return ApiResponse.success(HttpStatus.OK.value(), newUser);
 		}
 
 	}
 
-	boolean securePassword(Account account) {
-		return account.getPassword().length() >= 8;
+	boolean securePassword(String password) {
+		return password.length() >= 8;
 	}
 }
