@@ -2,8 +2,6 @@ Feature: Testing Query Response Times
   Testing to ensure each response time is less than 2 seconds
 
   Background: 
-    * def result = karate.callSingle('prep_query.feature')
-    * def TestUtil = Java.type('com.tus.cipher.TestUtil')
     * url baseUrl
 
   Scenario: Query 1 reponse time check "query/imsi-failures/{imsi}"
@@ -15,7 +13,7 @@ Feature: Testing Query Response Times
     And assert responseTime < 2000
 
   Scenario: Query 2  "query/imsi-failure-count-time"
-    * def query = {imsi: 344930000000011, startDate: "#(TestUtil.getDate(2015, 1, 27))", endDate: "#(TestUtil.getDate(2024, 2, 24))"}
+    * def query = {imsi: 344930000000011, startDate: "#(FileUtil.getDate(2015, 1, 27))", endDate: "#(FileUtil.getDate(2024, 2, 24))"}
     Given path "query/imsi-failure-count-time"
     And header Content-Type = 'application/json'
     And params query
@@ -25,7 +23,7 @@ Feature: Testing Query Response Times
     And assert responseTime < 2000
 
   Scenario: Query 3  "query/imsi-failures-time"
-    * def query = {startDate: "#(TestUtil.getDate(2015, 1, 27))", endDate: "#(TestUtil.getDate(2024, 2, 24))"}
+    * def query = {startDate: "#(FileUtil.getDate(2015, 1, 27))", endDate: "#(FileUtil.getDate(2024, 2, 24))"}
     Given path "query/imsi-failures-time"
     And header Content-Type = 'application/json'
     And params query
@@ -35,7 +33,7 @@ Feature: Testing Query Response Times
     And assert responseTime < 2000
 
   Scenario: Query 4 "query/model-failure-count"
-    * def query = {tac: 33000253, startDate: "#(TestUtil.getDate(2015, 1, 27))", endDate: "#(TestUtil.getDate(2024, 2, 24))"}
+    * def query = {tac: 33000253, startDate: "#(FileUtil.getDate(2015, 1, 27))", endDate: "#(FileUtil.getDate(2024, 2, 24))"}
     Given path "query/model-failure-count"
     And header Content-Type = 'application/json'
     And params query
@@ -63,7 +61,7 @@ Feature: Testing Query Response Times
     And assert responseTime < 2000
 
   Scenario: Query 6 "query/imsi-failures-count-duration"
-    * def query = {startDate: "#(TestUtil.getDate(2015, 1, 27))", endDate: "#(TestUtil.getDate(2024, 2, 24))"}
+    * def query = {startDate: "#(FileUtil.getDate(2015, 1, 27))", endDate: "#(FileUtil.getDate(2024, 2, 24))"}
     Given path "query/imsi-failures-count-duration"
     And header Content-Type = 'application/json'
     And params query
