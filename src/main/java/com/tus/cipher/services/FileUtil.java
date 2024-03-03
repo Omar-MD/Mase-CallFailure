@@ -75,8 +75,4 @@ public class FileUtil {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		return dateTime.format(formatter);
 	}
-
-	public static long getLong(String str) {
-		return Long.parseLong(str);
-	}
 }
