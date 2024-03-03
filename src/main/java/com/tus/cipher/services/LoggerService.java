@@ -58,12 +58,16 @@ public enum LoggerService { // NOSONAR
 
     public void createFolder(String folderPath) throws IOException {
         Path path = Paths.get(folderPath);
-        Files.createDirectories(path);
+        if (!Files.exists(path)) {
+        	 Files.createDirectories(path);
+        }
     }
 
     public void createFile(String filePath) throws IOException {
         Path path = Paths.get(filePath);
-        Files.createFile(path);
+        if (!Files.exists(path)) {
+            Files.createFile(path);
+        }
     }
 
     public void resetLogFile() throws IOException {
