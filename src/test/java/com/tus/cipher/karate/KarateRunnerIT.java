@@ -1,12 +1,16 @@
 package com.tus.cipher.karate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
-import com.intuit.karate.junit5.Karate;
+import com.intuit.karate.Results;
+import com.intuit.karate.Runner;
 import com.tus.cipher.services.FileUtil;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -22,9 +26,10 @@ class KarateRunnerIT {
 		FileUtil.prepareFiles(".", "call-failure-data", filesToMove, excludedFiles);
 	}
 
-	@Karate.Test
-	Karate executeTests() {
-		System.setProperty("local.server.port", String.valueOf(randomServerPort));
-		return Karate.run("classpath:com/tus/cipher/karate/orchestrator.feature").relativeTo(getClass());
-	}
+	@Test
+    void executeTests() {
+        System.setProperty("local.server.port", String.valueOf(randomServerPort));
+        Results results = Runner.path("classpath:com/tus/cipher/karate").parallel(1);
+        assertEquals(0, results.getFailCount(), results.getErrorMessages());
+    }
 }

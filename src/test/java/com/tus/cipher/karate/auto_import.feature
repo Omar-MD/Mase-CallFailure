@@ -2,7 +2,7 @@ Feature: Automatic Import
   Testing the automatic import functionality
 
   Background: 
-    * configure retry = {count: 15, interval: 1150}
+    * configure retry = {count: 15, interval: 2500}
     * url baseUrl
 
   Scenario: Auto import not triggered
