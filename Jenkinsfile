@@ -32,7 +32,7 @@ pipeline {
                 }
             }
         }
-
+        
         stage('Deploy(SCP EC2') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-sshKey', keyFileVariable: 'SSH_KEY')]) {
@@ -43,20 +43,14 @@ pipeline {
             }
         }   
     }
-
+    
     post {
         success {
-            // This block will be executed if the pipeline is successful
             echo 'Pipeline successful!'
-
-            // You can add additional post-success actions here
         }
-
+        
         failure {
-            // This block will be executed if the pipeline fails
             echo 'Pipeline failed!'
-
-            // You can add additional post-failure actions here
         }
     }
 }
