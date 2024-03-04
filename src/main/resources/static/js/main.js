@@ -46,8 +46,8 @@ const login = function() {
                     break;
             }
         },
-        error: function() {
-            alert('Error during request. Incorrect username or password');
+        error: function(err) {
+            console.log(err);
         }
     });
 };
