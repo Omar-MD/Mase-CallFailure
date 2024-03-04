@@ -10,5 +10,4 @@ public class MaseProjectApplication {
 		SpringApplication.run(MaseProjectApplication.class, args);
 		System.out.println("Group Project Application Running");
 	}
-
 }
