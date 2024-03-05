@@ -44,7 +44,7 @@ Feature: Testing Query Response Times
     And match response.status == 'Success'
     And assert responseTime < 2000
 
-  Scenario: Query ? "/imsi-failures-class/{failureClass}"
+  Scenario: Query 4.5 "/imsi-failures-class/{failureClass}"
     Given path "query/imsi-failures-class/1"
     And header Content-Type = 'application/json'
     When method GET

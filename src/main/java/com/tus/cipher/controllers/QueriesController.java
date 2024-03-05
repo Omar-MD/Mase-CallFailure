@@ -116,7 +116,7 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
 	}
 
-	// Query ?
+	// Query 4.5
 	@GetMapping("/imsi-failures-class/{failureClass}")
 	public ApiResponse<List<Long>> getIMSIFailureClasses(
 			@PathVariable("failureClass") Long failureClass) {

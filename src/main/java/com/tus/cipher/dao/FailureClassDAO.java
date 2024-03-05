@@ -13,6 +13,4 @@ public interface FailureClassDAO extends JpaRepository<FailureClass, Long> {
 
 	@Query(value = "SELECT DISTINCT failure_code FROM failure_class", nativeQuery = true)
 	List<Integer> findDistinctFailureCodes();
-
-	List<FailureClass> findAll();
 }

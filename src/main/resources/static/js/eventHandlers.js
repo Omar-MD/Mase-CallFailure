@@ -89,7 +89,7 @@ $(document).ready(function() {
         getModelFailureCount();
     });
 
-    // Query #?
+    // Query 4.5
     $('#sidebar-content').on('click', '#cause-failure-imsi-list-sidebar', function() {
         addFailureCauseCodeDropdown('#cause-failure-imsi-list-dropdown');
         homeNav('#cause-failure-imsi-list-window');

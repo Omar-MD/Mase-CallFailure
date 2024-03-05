@@ -31,10 +31,10 @@ const addFailureCauseCodeDropdown = function(dropdownID) {
     });
 }
 
-// Query ?
+// Query 4.5
 const getIMSIFailureForFailureCauseClass = function() {
 
-    var dropdown = $("#cause-failure-imsi-list-dropdown");
+    let dropdown = $("#cause-failure-imsi-list-dropdown");
     let failureClass = dropdown.val();
 
     $.ajax({
