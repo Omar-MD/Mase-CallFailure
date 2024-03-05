@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.CallFailureDAO;
+import com.tus.cipher.dao.FailureClassDAO;
+import com.tus.cipher.dto.sheets.FailureClass;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 
@@ -25,21 +27,29 @@ public class QueriesController {
 	private static final String DATE_ERR_DETAIL = "End date must be after start date";
 
 	private final CallFailureDAO callFailureDAO;
+	private final FailureClassDAO failureClassDAO;
 
-	public QueriesController(CallFailureDAO callFailureDAO) {
+	public QueriesController(CallFailureDAO callFailureDAO, FailureClassDAO failureClassDAO) {
 		this.callFailureDAO = callFailureDAO;
+		this.failureClassDAO = failureClassDAO;
 	}
 
 	@GetMapping("/imsi-failures")
-	public ApiResponse<Object> getImsiFailures() {
+	public ApiResponse<List<Long>> getImsiFailures() {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
 		return ApiResponse.success(HttpStatus.OK.value(), listValidImsi);
 	}
 
 	@GetMapping("/model-failures")
-	public ApiResponse<Object> getModelsWithFailure() {
+	public ApiResponse<List<Long>> getModelsWithFailure() {
 		List<Long> listValidTac = callFailureDAO.listTac();
 		return ApiResponse.success(HttpStatus.OK.value(), listValidTac);
+	}
+
+	@GetMapping("/failure-cause-classes")
+	public ApiResponse<List<FailureClass>> getIMSIFailureForCauseClass() {
+		List<FailureClass> listFailureClasses = failureClassDAO.findAll();
+		return ApiResponse.success(HttpStatus.OK.value(), listFailureClasses);
 	}
 
 	// Query #1
@@ -105,6 +115,15 @@ public class QueriesController {
 		long modelfailurecount = callFailureDAO.getModelFaliureCount(startDate, endDate, tac);
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
 	}
+
+	// Query 4.5
+	@GetMapping("/imsi-failures-class/{failureClass}")
+	public ApiResponse<List<Long>> getIMSIFailureClasses(
+			@PathVariable("failureClass") Long failureClass) {
+		List<Long> imsiFailures = callFailureDAO.getIMSIsWithFailureClass(failureClass);
+		return ApiResponse.success(HttpStatus.OK.value(), imsiFailures);
+	}
+
 
 	// Query #5
 	@GetMapping("/model-failures/{tac}")

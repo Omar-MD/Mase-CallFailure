@@ -15,17 +15,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.CallFailureDAO;
+import com.tus.cipher.dao.FailureClassDAO;
+import com.tus.cipher.dto.sheets.FailureClass;
 import com.tus.cipher.responses.ApiResponse;
 
 class QueriesControllerTest {
 
 	private QueriesController queriesController;
 	private CallFailureDAO callFailureDAOMock;
+	private FailureClassDAO failureClassDAOMock;
 
 	@BeforeEach
 	void setUp() {
 		callFailureDAOMock = mock(CallFailureDAO.class);
-		queriesController = new QueriesController(callFailureDAOMock);
+		failureClassDAOMock = mock(FailureClassDAO.class);
+		queriesController = new QueriesController(callFailureDAOMock, failureClassDAOMock);
 	}
 
 	@Test
@@ -33,7 +37,7 @@ class QueriesControllerTest {
 		List<Long> imsiList = Arrays.asList(123456L, 789012L);
 		when(callFailureDAOMock.listImsi()).thenReturn(imsiList);
 
-		ApiResponse<Object> response = queriesController.getImsiFailures();
+		ApiResponse<List<Long>> response = queriesController.getImsiFailures();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.getData() instanceof List);
@@ -75,11 +79,23 @@ class QueriesControllerTest {
 		List<Long> validTacList = Arrays.asList(123456L, 789012L);
 		when(callFailureDAOMock.listTac()).thenReturn(validTacList);
 
-		ApiResponse<Object> response = queriesController.getModelsWithFailure();
+		ApiResponse<List<Long>> response = queriesController.getModelsWithFailure();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.getData() instanceof List);
 		assertEquals(validTacList, response.getData());
+	}
+
+	@Test
+	void testGetFailureClasses() {
+		List<FailureClass> failureClasses = Arrays.asList(new FailureClass(), new FailureClass());
+		when(failureClassDAOMock.findAll()).thenReturn(failureClasses);
+
+		ApiResponse<List<FailureClass>> response = queriesController.getIMSIFailureForCauseClass();
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		assertEquals(failureClasses, response.getData());
 	}
 
 	@Test
@@ -130,6 +146,20 @@ class QueriesControllerTest {
 	}
 
 	@Test
+	void testGetImsiFailuresWithTimeError() {
+
+		LocalDateTime end = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		LocalDateTime start = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+
+		ApiResponse<Object> response = queriesController.findImsiFailures(start, end);
+
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+	}
+
+	@Test
 	void testGetModelFailureCount() {
 		long tac = 12345L;
 		LocalDateTime start = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
@@ -141,6 +171,30 @@ class QueriesControllerTest {
 
 		assertEquals("Success", response.getStatus());
 		assertEquals(expectedCount, (long) response.getData());
+	}
+
+	@Test
+	void testGetModelFailureCountError() {
+		long tac = 12345L;
+		LocalDateTime end = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		LocalDateTime start = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+
+		ApiResponse<Long> response = queriesController.getModelsFaliureCount(start, end, tac);
+
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+	}
+
+	@Test
+	void testGetIMSIFailureClasses() {
+		List<Long> imsisList = Arrays.asList(1000L, 2000L, 3000L, 4000L, 5000L);
+		when(callFailureDAOMock.getIMSIsWithFailureClass(1L)).thenReturn(imsisList);
+		ApiResponse<List<Long>> response = queriesController.getIMSIFailureClasses(1L);
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List<?>);
+		assertEquals(response.getData(), imsisList);
 	}
 
 	@Test
