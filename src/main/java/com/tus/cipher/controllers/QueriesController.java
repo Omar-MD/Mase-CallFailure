@@ -35,13 +35,13 @@ public class QueriesController {
 	}
 
 	@GetMapping("/imsi-failures")
-	public ApiResponse<Object> getImsiFailures() {
+	public ApiResponse<List<Long>> getImsiFailures() {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
 		return ApiResponse.success(HttpStatus.OK.value(), listValidImsi);
 	}
 
 	@GetMapping("/model-failures")
-	public ApiResponse<Object> getModelsWithFailure() {
+	public ApiResponse<List<Long>> getModelsWithFailure() {
 		List<Long> listValidTac = callFailureDAO.listTac();
 		return ApiResponse.success(HttpStatus.OK.value(), listValidTac);
 	}

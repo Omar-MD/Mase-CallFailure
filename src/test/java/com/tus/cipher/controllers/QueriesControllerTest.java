@@ -37,7 +37,7 @@ class QueriesControllerTest {
 		List<Long> imsiList = Arrays.asList(123456L, 789012L);
 		when(callFailureDAOMock.listImsi()).thenReturn(imsiList);
 
-		ApiResponse<Object> response = queriesController.getImsiFailures();
+		ApiResponse<List<Long>> response = queriesController.getImsiFailures();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.getData() instanceof List);
@@ -79,7 +79,7 @@ class QueriesControllerTest {
 		List<Long> validTacList = Arrays.asList(123456L, 789012L);
 		when(callFailureDAOMock.listTac()).thenReturn(validTacList);
 
-		ApiResponse<Object> response = queriesController.getModelsWithFailure();
+		ApiResponse<List<Long>> response = queriesController.getModelsWithFailure();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.getData() instanceof List);
