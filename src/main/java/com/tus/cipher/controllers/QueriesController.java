@@ -171,4 +171,30 @@ public class QueriesController {
 		}
 		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
+	
+	// Query #7
+		@GetMapping("/top10-market-operator-cellid-combinations")
+		public ApiResponse<Object> getTop10MarketOperatorCellIdCombinations(
+				@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+				@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
+
+			if (endDate.isBefore(startDate)) {
+				ApiError error = ApiError.of(DATE_ERR, DATE_ERR_DETAIL);
+				return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
+			}
+
+			List<Object[]> listTop10MarketOperatorCellIdCombinations = callFailureDAO.top10MarketOperatorCellIdCombinations(startDate,
+					endDate);
+
+			List<Map<String, Object>> responseList = new ArrayList<>();
+			for (Object[] entry : listTop10MarketOperatorCellIdCombinations) {
+				Map<String, Object> result = new HashMap<>();
+				result.put("mcc", entry[0]);
+				result.put("mnc", entry[1]);
+				result.put("cell_id", entry[2]);
+				result.put("failure_count", entry[3]);
+				responseList.add(result);
+			}
+			return ApiResponse.success(HttpStatus.OK.value(), responseList);
+		}
 }
