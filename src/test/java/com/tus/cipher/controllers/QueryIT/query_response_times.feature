@@ -44,6 +44,14 @@ Feature: Testing Query Response Times
     And match response.status == 'Success'
     And assert responseTime < 2000
 
+  Scenario: Query ? "/imsi-failures-class/{failureClass}"
+    Given path "query/imsi-failures-class/1"
+    And header Content-Type = 'application/json'
+    When method GET
+    Then response.statusCode == 200
+    And match response.status == 'Success'
+    And assert responseTime < 2000
+
   Scenario: Query 5 "query/model-failures/{tac}"
     * def query = {tac: 33000253}
     Given path "query/model-failures/33000253"

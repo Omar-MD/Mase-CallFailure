@@ -47,7 +47,7 @@ public class QueriesController {
 	}
 
 	@GetMapping("/failure-cause-classes")
-	public ApiResponse<List<FailureClass>> getIMSIFailureForCuaseClass() {
+	public ApiResponse<List<FailureClass>> getIMSIFailureForCauseClass() {
 		List<FailureClass> listFailureClasses = failureClassDAO.findAll();
 		return ApiResponse.success(HttpStatus.OK.value(), listFailureClasses);
 	}
