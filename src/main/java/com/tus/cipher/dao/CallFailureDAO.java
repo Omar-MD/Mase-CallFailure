@@ -41,6 +41,9 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	@Query(value = "SELECT COUNT (cf.tac) FROM call_failure cf WHERE cf.tac = :tac and cf.date_time BETWEEN :startDate AND :endDate", nativeQuery = true)
 	Long getModelFaliureCount(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate, @Param("tac") Long tac );
 
+	// query ?
+	@Query(value = "SELECT DISTINCT (cf.imsi) FROM call_failure cf WHERE cf.failure_code = :failureClass", nativeQuery = true)
+	List<Long> getIMSIsWithFailureClass(@Param("failureClass") Long failureClass);
 
 	// Query #5
 	@Query(value = "SELECT cf.cause_code, cf.event_id, COUNT(*) as failure_count " + "FROM call_failure cf "

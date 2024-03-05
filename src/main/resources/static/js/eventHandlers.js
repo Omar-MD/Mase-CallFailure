@@ -89,6 +89,17 @@ $(document).ready(function() {
         getModelFailureCount();
     });
 
+    // Query #?
+    $('#sidebar-content').on('click', '#cause-failure-imsi-list-sidebar', function() {
+        addFailureCauseCodeDropdown('#cause-failure-imsi-list-dropdown');
+        homeNav('#cause-failure-imsi-list-window');
+    });
+    $("#cause-failure-imsi-list-btn").on('click', function(event) {
+        event.preventDefault();
+        homeNav('#cause-failure-imsi-datatable-window');
+        getIMSIFailureForFailureCauseClass();
+    });
+
 
     // Query #5
     $('#sidebar-content').on('click', '#model-failures-type-count-sidebar', function() {

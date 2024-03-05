@@ -25,7 +25,7 @@ class QueriesControllerTest {
 	@BeforeEach
 	void setUp() {
 		callFailureDAOMock = mock(CallFailureDAO.class);
-		queriesController = new QueriesController(callFailureDAOMock);
+		queriesController = new QueriesController(callFailureDAOMock, null);
 	}
 
 	@Test

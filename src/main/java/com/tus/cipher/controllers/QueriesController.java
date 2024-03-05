@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.CallFailureDAO;
+import com.tus.cipher.dao.FailureClassDAO;
+import com.tus.cipher.dto.sheets.FailureClass;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 
@@ -25,9 +27,11 @@ public class QueriesController {
 	private static final String DATE_ERR_DETAIL = "End date must be after start date";
 
 	private final CallFailureDAO callFailureDAO;
+	private final FailureClassDAO failureClassDAO;
 
-	public QueriesController(CallFailureDAO callFailureDAO) {
+	public QueriesController(CallFailureDAO callFailureDAO, FailureClassDAO failureClassDAO) {
 		this.callFailureDAO = callFailureDAO;
+		this.failureClassDAO = failureClassDAO;
 	}
 
 	@GetMapping("/imsi-failures")
@@ -40,6 +44,12 @@ public class QueriesController {
 	public ApiResponse<Object> getModelsWithFailure() {
 		List<Long> listValidTac = callFailureDAO.listTac();
 		return ApiResponse.success(HttpStatus.OK.value(), listValidTac);
+	}
+
+	@GetMapping("/failure-cause-classes")
+	public ApiResponse<List<FailureClass>> getIMSIFailureForCuaseClass() {
+		List<FailureClass> listFailureClasses = failureClassDAO.findAll();
+		return ApiResponse.success(HttpStatus.OK.value(), listFailureClasses);
 	}
 
 	// Query #1
@@ -105,6 +115,15 @@ public class QueriesController {
 		long modelfailurecount = callFailureDAO.getModelFaliureCount(startDate, endDate, tac);
 		return ApiResponse.success(HttpStatus.OK.value(), modelfailurecount);
 	}
+
+	// Query ?
+	@GetMapping("/imsi-failures-class/{failureClass}")
+	public ApiResponse<List<Long>> getIMSIFailureClasses(
+			@PathVariable("failureClass") Long failureClass) {
+		List<Long> imsiFailures = callFailureDAO.getIMSIsWithFailureClass(failureClass);
+		return ApiResponse.success(HttpStatus.OK.value(), imsiFailures);
+	}
+
 
 	// Query #5
 	@GetMapping("/model-failures/{tac}")
