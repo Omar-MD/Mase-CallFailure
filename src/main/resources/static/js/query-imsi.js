@@ -145,5 +145,33 @@ const getIMSIFailuresCountDuration = function() {
         error: function(error) {
             console.error("Error in AJAX request:", error);
         }
-    });
+    });  
 }
+
+//Query 7
+//getIMSIUniqueCauseCodeFailure
+
+const getIMSIUniqueCauseCodeFailure = function() {
+    let imsi = $("#imsi-unique-dropdown").val();
+
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/imsi-unique-failures/" + imsi,
+        success: function(res) {
+            if (res.statusCode === 200) {
+               updateDataTable('imsi-unique-failure', res.data, null);
+
+            } else {
+              
+
+            }
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+};
+
+
+
+

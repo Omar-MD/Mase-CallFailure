@@ -57,4 +57,13 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 			+ "WHERE date_time >= :startDate AND date_time <= :endDate " + "GROUP BY IMSI", nativeQuery = true)
 	List<Object[]> findAllImsiFailureCountAndDuration(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
+	
+	//Query 7
+	//findImsiUniqueEventCauseDescriptions(imsi)
+	@Query(value = "SELECT DISTINCT cf.cause_code, cf.event_id, ec.description " + "FROM call_failure cf "
+			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
+			+ "WHERE cf.imsi = :imsi", nativeQuery = true)
+	List<Object[]> findImsiUniqueEventCauseDescriptions(@Param("imsi") Long imsi);
+	
+	
 }

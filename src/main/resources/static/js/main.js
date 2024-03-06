@@ -139,6 +139,7 @@ const updateSideBar = function(role) {
             sidebar.append(`
                 <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
                 <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
+                <button type="button" id="imsi-unique-failure-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Unique IMSI Failure</button>
             `);
         default:
             break;
