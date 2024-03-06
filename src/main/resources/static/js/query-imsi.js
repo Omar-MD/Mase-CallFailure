@@ -112,7 +112,7 @@ const getIMSIFailuresTime = function() {
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
             if (res.status == "Success") {
-                updateDataTable('imsi-failures-time', res.data, []);
+                updateDataTable('imsi-failures-time', res.data, ['causeCode', 'eventId', 'description']);
                 $("#imsi-failures-time-datatable-caption").text("IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
             } else {
                 console.log("Error:", res.error);
@@ -159,11 +159,9 @@ const getIMSIUniqueCauseCodeFailure = function() {
         url: rootUrl + "/query/imsi-unique-failures/" + imsi,
         success: function(res) {
             if (res.statusCode === 200) {
-               updateDataTable('imsi-unique-failure', res.data, null);
-
+               updateDataTable('imsi-unique-failure', res.data, ['eventId', 'causeCode', 'description']);
             } else {
               
-
             }
         },
         error: function(err) {
