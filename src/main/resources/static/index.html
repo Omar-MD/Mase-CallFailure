@@ -228,7 +228,40 @@
                     <div class="mt-2 d-none" role="alert" id="imsi-failure-count-time-result"></div>
                 </div>
             </main>
-            
+					<!-- Query #3 -->
+					<!-- IMSI Unique Query Section -->
+					<main class="col-md-10 text-center response-window home-content" id="imsi-uniqe-query-failure-window">
+						<div class="container col-sm-6 card">
+							<div class="col-md-8 offset-md-2">
+								<h3 class="text-center mb-4">Search IMSI Call Failure Cause Codes</h3>
+								<form>
+									<div class="mb-3">
+										<label class="control-label">Affected IMSI</label>
+										<select class="form-select" name="imsi-dropdown" id="imsi-unique-dropdown"></select>
+									</div>
+									<div>
+										<button type="button" class="btn btn-dark" id="imsiUniqueFailures-btn">Search</button>
+									</div>
+								</form>
+							</div>
+					</main>
+					<main class="col-md-10 text-center d-none response-window home-content" id="imsi-datatable-unique-failure-window">
+						<div class="container col-sm-10 card">
+							<h4 class="mb-3">Unique Cause Codes for IMSI</h4>
+							<table class="display table-condensed" id="imsi-unique-failure-datatable">
+								<caption><b>Affected IMSI# <span class="imsi" id="imsi-id"></span> Failure Details: Event ID, Cause Code and
+										Description</b></caption>
+								<thead>
+									<tr>
+										<th>Event ID</th>
+										<th>Cause Code</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</main>
             
             <!-- 
                 =============================================================================
