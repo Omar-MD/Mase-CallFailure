@@ -253,25 +253,5 @@ class QueriesControllerTest {
 	}
 
 	// Query 7
-	@Test
-	void testGetImsiUniqueFailures() {
-		long imsi = 1234L;
 
-		List<Long> imsis = Arrays.asList(1234L, 123456L, 789012L);
-
-		when(callFailureDAOMock.listImsi()).thenReturn(imsis);
-
-		List<Object[]> imsiFailures = new ArrayList<>();
-		imsiFailures.add(new Object[] { 1, 100, 10 });
-		imsiFailures.add(new Object[] { 2, 200, 5 });
-
-		when(callFailureDAOMock.findImsiUniqueEventCauseDescriptions(imsi)).thenReturn(imsiFailures);
-
-		ApiResponse<Object> response = queriesController.findImsiUniqueFailures(imsi);
-
-		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-		assertTrue(response.getData() instanceof List);
-		List<?> responseData = (List<?>) response.getData();
-		assertEquals(imsiFailures.size(), responseData.size());
-	}
 }
