@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
-import com.tus.cipher.dto.CreateUserRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.AccountFactory;
+import com.tus.cipher.requests.CreateUserRequest;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 

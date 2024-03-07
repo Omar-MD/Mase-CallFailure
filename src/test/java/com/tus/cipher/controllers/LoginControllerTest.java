@@ -16,9 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.AccountRepository;
-import com.tus.cipher.dto.LoginRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
+import com.tus.cipher.requests.LoginRequest;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 

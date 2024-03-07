@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tus.cipher.dao.AccountRepository;
-import com.tus.cipher.dto.LoginRequest;
 import com.tus.cipher.dto.accounts.Account;
+import com.tus.cipher.requests.LoginRequest;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 

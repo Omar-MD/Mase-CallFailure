@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.AccountRepository;
-import com.tus.cipher.dto.CreateUserRequest;
 import com.tus.cipher.dto.accounts.Account;
 import com.tus.cipher.dto.accounts.EmployeeRole;
+import com.tus.cipher.requests.CreateUserRequest;
 import com.tus.cipher.responses.ApiResponse;
 
 class SysAdminControllerTest {
