@@ -147,3 +147,26 @@ const getIMSIFailuresCountDuration = function() {
         }
     });
 }
+
+//Query#RF
+const getTop10ImsiFailureTime = function() {
+    let startDate = $("#top10-imsi-failure-time-start-date").val();
+    let endDate = $("#top10-imsi-failure-time-end-date").val();
+
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/top10-imsi-failures-time",
+        data: { startDate: startDate, endDate: endDate },
+        success: function(res) {
+            if (res.status == "Success") {
+                updateDataTable('top10-imsi-failure-time', res.data, []);
+                $("#top10-imsi-failure-time-datatable-caption").text("TOP 10 IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+            } else {
+                console.log("Error:", res.error);
+            }
+        },
+        error: function(error) {
+            console.error("Error in AJAX request:", error);
+        }
+    });
+}
