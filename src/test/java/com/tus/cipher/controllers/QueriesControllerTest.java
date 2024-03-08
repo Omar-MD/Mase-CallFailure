@@ -251,4 +251,30 @@ class QueriesControllerTest {
         // Assert the result
         assertEquals(expectedResult, actualResult);
 	}
+	
+	@Test
+    public void testGetTop10MarketOperatorCellIdCombinationsValidDate() {
+        LocalDateTime startDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
+        LocalDateTime endDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
+        List<Object[]> testListTop10MocCombinations = new ArrayList<>();
+        Object[] testMocObject1 = {505, 71, 3, 3599};
+        Object[] testMocObject2 = {440, 11, 2, 3494};
+        testListTop10MocCombinations.add(testMocObject1);
+        testListTop10MocCombinations.add(testMocObject2);
+        when(callFailureDAOMock.top10MarketOperatorCellIdCombinations(startDate, endDate)).thenReturn(testListTop10MocCombinations);
+        ApiResponse<Object> response = queriesController.getTop10MarketOperatorCellIdCombinations(startDate, endDate);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+        assertEquals("Success", response.getStatus());
+    }
+	
+	@Test
+    public void testGetTop10MarketOperatorCellIdCombinationsInvalidDate() {
+        LocalDateTime endDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
+        LocalDateTime startDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
+        ApiResponse<Object> response = queriesController.getTop10MarketOperatorCellIdCombinations(startDate, endDate);
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+    }
 }
