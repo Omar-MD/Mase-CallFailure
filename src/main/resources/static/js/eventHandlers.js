@@ -122,6 +122,17 @@ $(document).ready(function() {
         getIMSIFailuresCountDuration();
         homeNav('#imsi-failures-count-duration-datatable-window');
     });
+    
+    // Query # RF
+    
+     $('#sidebar-content').on('click', '#top10-imsi-failure-time-sidebar', function() {
+        homeNav('#top10-imsi-failure-time-window');
+    });
+    $("#top10-imsi-failure-time-btn").on('click', function(event) {
+        event.preventDefault();
+        getTop10ImsiFailureTime();
+        homeNav('#top10-imsi-failure-time-datatable-window');
+    });
 });
 
 const homeNav = function(pageID) {
