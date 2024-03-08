@@ -71,3 +71,13 @@ Feature: Testing Query Response Times
     Then response.statusCode == 200
     And match response.status == 'Success'
     And assert responseTime < 2000
+
+  Scenario: Query 7  "query/top10-market-operator-cellid-combinations"
+    * def query = {startDate: "#(TestUtil.getDate(2019, 1, 1))", endDate: "#(TestUtil.getDate(2024, 3, 8))"}
+    Given path "query/top10-market-operator-cellid-combinations"
+    And header Content-Type = 'application/json'
+    And params query
+    When method GET
+    Then response.statusCode == 200
+    And match response.status == 'Success'
+    And assert responseTime < 2000  
