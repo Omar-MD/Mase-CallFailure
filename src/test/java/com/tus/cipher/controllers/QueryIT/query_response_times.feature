@@ -73,7 +73,7 @@ Feature: Testing Query Response Times
     And assert responseTime < 2000
     
   Scenario: Query RF  "query/top10-imsi-failures-time"
-	*def query = {startDate: "#(TestUtil.getDate(2019, 4, 4))", endDate: "#(TestUtil.getDate(2024, 1, 2))"}
+	* def query = {startDate: "#(TestUtil.getDate(2019, 4, 4))", endDate: "#(TestUtil.getDate(2024, 1, 2))"}
 	Given path "query/top10-imsi-failures-time"
 	And header Content-Type = 'application/json'
 	And params query
