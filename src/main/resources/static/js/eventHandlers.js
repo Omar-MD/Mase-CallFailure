@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     // Logout
     $('#logout-nav-link').on('click', function() {
-        showLogin();
+        logout();
     });
 
     //------------------------------------------------------------------
@@ -177,3 +177,11 @@ const showLogin = function() {
     $('#logout-nav-link').addClass('d-none');
 }
 
+const logout = function() {
+     if (localStorage.getItem('role') === RoleType.SYSTEM_ADMINISTRATOR) {
+        clearInterval(interval_ID);
+    }
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    showLogin();
+};

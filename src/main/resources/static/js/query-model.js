@@ -17,6 +17,7 @@ const addModelDropdown = function(dropdownID) {
         url: rootUrl + "/query/model-failures",
         contentType: 'application/json',
         dataType: "json",
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 res.data.forEach(model => {
@@ -49,7 +50,8 @@ const getModelFailureCount = function() {
         url: rootUrl + "/query/model-failure-count",
         contentType: 'application/json',
         dataType: "json",
-        data: { "endDate": endDate, "startDate": startDate, "tac": model },
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
+        data: { "endDate": endDate, "startDate": startDate, "tac": model },   
         success: function(res) {
             if (res.statusCode === 200) {
                 msg.removeClass().addClass("alert alert-info").html(`
@@ -85,6 +87,7 @@ const getModelFailuresTypeCount = function() {
         url: rootUrl + "/query/model-failures/" + model,
         contentType: 'application/json',
         dataType: "json",
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);

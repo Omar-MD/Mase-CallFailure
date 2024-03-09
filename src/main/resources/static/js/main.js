@@ -3,11 +3,13 @@
 const rootUrl = "http://localhost:8081";
 
 const RoleType = {
-    ADMIN: 'SYSTEM_ADMINISTRATOR',
+    SYSTEM_ADMINISTRATOR: 'SYSTEM_ADMINISTRATOR',
     CUSTOMER_SERVICE_REP: 'CUSTOMER_SERVICE_REP',
     NETWORK_ENGINEER: 'NETWORK_ENGINEER',
     SUPPORT_ENGINEER: 'SUPPORT_ENGINEER'
 }
+
+let interval_ID;
 
 const login = function() {
     let username = $('#username').val();
@@ -15,7 +17,7 @@ const login = function() {
     let errorMsg = $('#errorMsg');
 
     errorMsg.remove();
-
+    
     $.ajax({
         type: 'POST',
         url: rootUrl + "/authenticate",
@@ -23,28 +25,31 @@ const login = function() {
         data: JSON.stringify({ "username": username, "password": password }),
         dataType: "json",
         success: function(response) {
-            console.log(response)
-            switch (response.data) {
-                case 'SYSTEM_ADMINISTRATOR':
-                    loadContentForRole(RoleType.ADMIN, username);
-                    showHome();
-                    break;
-                case 'CUSTOMER_SERVICE_REP':
-                    loadContentForRole(RoleType.CUSTOMER_SERVICE_REP, username);
-                    showHome();
-                    break;
-                case 'NETWORK_ENGINEER':
-                    loadContentForRole(RoleType.NETWORK_ENGINEER, username);
-                    showHome();
-                    break;
-                case 'SUPPORT_ENGINEER':
-                    loadContentForRole(RoleType.SUPPORT_ENGINEER, username);
-                    showHome();
-                    break;
-                default:
-                    errorMsg.remove();
-                    $('#login-card').append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
-                    break;
+            if (response.statusCode === 200) {
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('role', response.data.role);
+                switch (response.data.role) {
+                    case 'SYSTEM_ADMINISTRATOR':
+                        loadContentForRole(RoleType.SYSTEM_ADMINISTRATOR, username);
+                        showHome();
+                        interval_ID = setInterval(checkImportStatus, 5000);
+                        break;
+                    case 'CUSTOMER_SERVICE_REP':
+                        loadContentForRole(RoleType.CUSTOMER_SERVICE_REP, username);
+                        showHome();
+                        break;
+                    case 'NETWORK_ENGINEER':
+                        loadContentForRole(RoleType.NETWORK_ENGINEER, username);
+                        showHome();
+                        break;
+                    case 'SUPPORT_ENGINEER':
+                        loadContentForRole(RoleType.SUPPORT_ENGINEER, username);
+                        showHome();
+                        break;
+                }
+            }else {
+                errorMsg.remove();
+                $('#login-card').append(`<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>${response.error.errorMsg}!</strong> ${response.error.details}</div>`).show();
             }
         },
         error: function(err) {
@@ -61,7 +66,7 @@ const loadContentForRole = function(role, username) {
     $('#landing-username').html($('<h3>').addClass('mb-1').text(`Welcome ` + username + `...`))
 
     switch (role) {
-        case RoleType.ADMIN:
+        case RoleType.SYSTEM_ADMINISTRATOR:
             header.html(
                 `<h2>System Admin Control Panel<h2>`
             );

@@ -11,6 +11,7 @@ const createAccount = function() {
         type: 'POST',
         url: rootUrl + "/sysadmin/accounts",
         contentType: 'application/json',
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         data: JSON.stringify({ "username": username, "password": password, "role": role }),
         dataType: "json",
         success: function(res) {
@@ -57,6 +58,7 @@ const importDataset = function() {
         type: 'POST',
         url: rootUrl + "/sysadmin/import",
         contentType: 'application/json',
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         data: JSON.stringify({ "filename": filename }),
         dataType: "json",
         success: function(res) {
@@ -100,6 +102,7 @@ const checkImportStatus = function() {
         type: 'GET',
         url: rootUrl + "/sysadmin/auto-import-status",
         contentType: 'application/json',
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 importStatus.html(res.data);
@@ -110,6 +113,3 @@ const checkImportStatus = function() {
         }
     });
 }
-
-setInterval(checkImportStatus, 50000);
-

@@ -17,6 +17,7 @@ const addImsiDropdown = function(dropdownId) {
         url: rootUrl + "/query/imsi-failures",
         contentType: 'application/json',
         dataType: "json",
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 res.data.forEach(imsi => {
@@ -43,6 +44,7 @@ const getIMSIFailures = function() {
         url: rootUrl + "/query/imsi-failures/" + imsi,
         contentType: 'application/json',
         dataType: "json",
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('imsi-failure', res.data, ['eventId', 'causeCode', 'description']);
@@ -72,6 +74,7 @@ const getIMSIFailureCountTime = function() {
         type: "GET",
         url: rootUrl + "/query/imsi-failure-count-time",
         data: { imsi: imsi, startDate: startDate, endDate: endDate },
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.statusCode === 200) {
                 msg.removeClass().addClass("alert alert-info")
@@ -110,6 +113,7 @@ const getIMSIFailuresTime = function() {
         type: "GET",
         url: rootUrl + "/query/imsi-failures-time",
         data: { startDate: startDate, endDate: endDate },
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('imsi-failures-time', res.data, ['causeCode', 'eventId', 'description']);
@@ -134,6 +138,7 @@ const getIMSIFailuresCountDuration = function() {
         type: "GET",
         url: rootUrl + "/query/imsi-failures-count-duration",
         data: { startDate: startDate, endDate: endDate },
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('imsi-count-duration', res.data, ["imsi", "failureCount", "totalDuration"]);

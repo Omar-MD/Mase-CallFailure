@@ -34,9 +34,9 @@ public class SecurityConfig{
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests( auth -> auth
-                		.antMatchers("/authenticate").permitAll()
-                		.antMatchers("/sysadmin/**").hasAuthority("SYSTEM_ADMINISTRATOR")
-                		.anyRequest().authenticated()
+                		.antMatchers("/sysadmin/**").authenticated()
+                		.antMatchers("/query/**").authenticated()
+                		.anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

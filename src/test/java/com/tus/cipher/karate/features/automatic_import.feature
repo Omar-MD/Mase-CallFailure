@@ -5,7 +5,7 @@ Feature: Automatic Import
   Background: 
     * url baseUrl
     * header Authorization = 'Bearer ' + getAuthToken('admin', 'password', 'ADMIN')
-    * configure retry = {count: 15, interval: 2000}
+    * configure retry = {count: 15, interval: 2500}
 
   Scenario: Auto import not triggered
     Given path 'sysadmin/auto-import-status'

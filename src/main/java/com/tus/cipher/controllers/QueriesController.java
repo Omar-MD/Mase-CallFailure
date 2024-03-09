@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,7 @@ public class QueriesController {
 	}
 
 	// Query #1
+	@PreAuthorize("hasAuthority('CUSTOMER_SERVICE_REP') or hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/imsi-failures/{imsi}")
 	public ApiResponse<Object> findImsiFailures(@PathVariable("imsi") long imsi) {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
@@ -77,6 +79,7 @@ public class QueriesController {
 	}
 
 	// Query #2
+	@PreAuthorize("hasAuthority('CUSTOMER_SERVICE_REP') or hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/imsi-failure-count-time")
 	public ApiResponse<Long> getImsiFailureCountTimeRange(@RequestParam("imsi") Long imsi,
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
@@ -90,6 +93,7 @@ public class QueriesController {
 	}
 
 	// Query #3
+	@PreAuthorize("hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/imsi-failures-time")
 	public ApiResponse<Object> findImsiFailures(
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
@@ -103,6 +107,7 @@ public class QueriesController {
 	}
 
 	// Query #4
+	@PreAuthorize("hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/model-failure-count")
 	public ApiResponse<Long> getModelsFaliureCount(
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
@@ -126,6 +131,7 @@ public class QueriesController {
 
 
 	// Query #5
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/model-failures/{tac}")
 	public ApiResponse<Object> findModelsFailureTypesWithCount(@PathVariable("tac") long tac) {
 		List<Long> listValidTac = callFailureDAO.listTac();
@@ -148,6 +154,7 @@ public class QueriesController {
 	}
 
 	// Query #6
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/imsi-failures-count-duration")
 	public ApiResponse<Object> getcallFailureCountAndDuration(
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
