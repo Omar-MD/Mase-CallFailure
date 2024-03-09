@@ -171,11 +171,11 @@ public class QueriesController {
 		}
 		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
-	
+
 	//Query#RF
-	
+
 	@GetMapping("/top10-imsi-failures-time")
-	public ApiResponse<Object> getTop10ImsiFailures(
+	public ApiResponse<List<Map<String, Object>>> getTop10ImsiFailures(
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
 			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
 
@@ -184,6 +184,13 @@ public class QueriesController {
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
 		List<Object[]> top10ImsiList = callFailureDAO.findTop10IMSIWithFailures(startDate, endDate);
-		return ApiResponse.success(HttpStatus.OK.value(), top10ImsiList);
+		List<Map<String, Object>> responseList = new ArrayList<>();
+		for (Object[] entry : top10ImsiList) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("imsi", entry[0]);
+			result.put("failureCount", entry[1]);
+			responseList.add(result);
+		}
+		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
 }

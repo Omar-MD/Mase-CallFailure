@@ -105,7 +105,7 @@ const getIMSIFailureCountTime = function() {
 const getIMSIFailuresTime = function() {
     let startDate = $("#imsi-failures-time-start-date").val();
     let endDate = $("#imsi-failures-time-end-date").val();
-
+	console.log(startDate, endDate)
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/imsi-failures-time",
