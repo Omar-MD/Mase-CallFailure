@@ -102,3 +102,13 @@ body {
 #header-content {
 	font-size: 175%;
 }
+
+#logo img {
+    max-height: 7vh;
+    width: auto;
+    margin-left: 10px;
+}
+
+#logout-nav-link:hover {
+    color: white !important;
+}
