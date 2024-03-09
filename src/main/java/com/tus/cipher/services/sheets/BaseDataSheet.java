@@ -17,7 +17,7 @@ import com.tus.cipher.services.LoggerService;
 public class BaseDataSheet extends BaseSheetProcessor {
 
 	private static final String SHEET_NAME = "Base Data";
-	private static final int MAX_BATCH_SIZE = 512;
+	private static final int MAX_BATCH_SIZE = 5120;
 
 	private final CallFailureDAO callFailureDAO;
 	private DataValidator validator;

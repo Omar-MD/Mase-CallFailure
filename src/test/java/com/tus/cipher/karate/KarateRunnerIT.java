@@ -21,18 +21,15 @@ class KarateRunnerIT {
 
 	@BeforeAll
 	static void setup() {
-		List<String> filesToMove = List.of("TUS_CallFailureData3A.xls", "TUS_CallFailureData3B.xls");
-		List<String> excludedFiles = List.of("TUS_CallFailureData.xls", "wrong.xls");
+		List<String> filesToMove = List.of("TUS_CallFailureData3A.xls", "TUS_CallFailureData.xls");
+		List<String> excludedFiles = List.of("TUS_CallFailureData3B.xls", "wrong.xls");
 		FileUtil.prepareFiles(".", "call-failure-data", filesToMove, excludedFiles);
 	}
 
 	@Test
-    void executeImportFeatures() {
+    void executeFeatures() {
 		System.setProperty("local.server.port", String.valueOf(randomServerPort));
-        Results results = Runner.path(
-        		"classpath:com/tus/cipher/karate/import/man_import.feature",
-        		"classpath:com/tus/cipher/karate/import/auto_import.feature")
-        .parallel(2);
+        Results results = Runner.path("classpath:com/tus/cipher/karate/features").parallel(1);
         assertEquals(0, results.getFailCount(), results.getErrorMessages());
     }
 }
