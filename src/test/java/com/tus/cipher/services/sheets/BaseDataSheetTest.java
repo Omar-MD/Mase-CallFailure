@@ -42,7 +42,7 @@ class BaseDataSheetTest {
     @Test
     void testSheetNameAndBatchSize() {
         assertEquals("Base Data", baseDataSheet.getSheetName());
-        assertEquals(512, baseDataSheet.getBatchSize());
+        assertEquals(5120, baseDataSheet.getBatchSize());
     }
 
     @Test
