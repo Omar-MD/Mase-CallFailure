@@ -2,7 +2,7 @@ package com.tus.cipher.requests;
 
 import com.tus.cipher.dto.accounts.EmployeeRole;
 
-public class CreateUserRequest {
+public class CreateAccountRequest {
 	private String username;
 	private String password;
 	private EmployeeRole role;

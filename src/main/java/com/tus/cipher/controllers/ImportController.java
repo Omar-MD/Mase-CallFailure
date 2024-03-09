@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +45,7 @@ public class ImportController {
 		this.importService = importService;
 	}
 
+	@PreAuthorize("hasAuthority('SYSTEM_ADMINISTRATOR')")
 	@PostMapping("/import")
 	public ApiResponse<String> importData(@Valid @RequestBody ImportRequest importRequest) throws IOException {
 		try {
@@ -54,6 +56,23 @@ public class ImportController {
 			ApiError error = ApiError.of("Import failed", e.getMessage());
 			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
+	}
+
+	@PreAuthorize("hasAuthority('SYSTEM_ADMINISTRATOR')")
+	@GetMapping("/auto-import-status")
+	public ApiResponse<String> checkImportStatus() {
+
+		status = (status == null)? NO_AUTO: status;
+		lastImportSuccess = (lastImportSuccess == null) ? "N/A": lastImportSuccess;
+		summary = (summary ==null)? "No automatic import triggered": summary;
+
+		StringBuilder htmlContentBuilder = new StringBuilder("<h4>Automatic Import</h4>");
+		htmlContentBuilder.append("<div class=\"alert alert-info\" role=\"alert\">")
+		.append("<strong>Status:</strong> ").append(status).append("<br/>")
+		.append("<strong>Last Import:</strong> ").append(lastImportSuccess).append("<br/>")
+		.append(summary).append("</div>");
+
+		return ApiResponse.success(determineStatusCode(status), htmlContentBuilder.toString());
 	}
 
 	String importFile(String filename) throws IOException {
@@ -90,22 +109,6 @@ public class ImportController {
 			logger.logMsg(e.getMessage());
 			updateLastImportStatus(AUTO_FAIL, "Automatic import Failed: \n" + e.getMessage());
 		}
-	}
-
-	@GetMapping("/auto-import-status")
-	public ApiResponse<String> checkImportStatus() {
-
-		status = (status == null)? NO_AUTO: status;
-		lastImportSuccess = (lastImportSuccess == null) ? "N/A": lastImportSuccess;
-		summary = (summary ==null)? "No automatic import triggered": summary;
-
-		StringBuilder htmlContentBuilder = new StringBuilder("<h4>Automatic Import</h4>");
-		htmlContentBuilder.append("<div class=\"alert alert-info\" role=\"alert\">")
-		.append("<strong>Status:</strong> ").append(status).append("<br/>")
-		.append("<strong>Last Import:</strong> ").append(lastImportSuccess).append("<br/>")
-		.append(summary).append("</div>");
-
-		return ApiResponse.success(determineStatusCode(status), htmlContentBuilder.toString());
 	}
 
 	private int determineStatusCode(String importStatus) {

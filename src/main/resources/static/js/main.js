@@ -18,11 +18,12 @@ const login = function() {
 
     $.ajax({
         type: 'POST',
-        url: rootUrl + "/login",
+        url: rootUrl + "/authenticate",
         contentType: 'application/json',
         data: JSON.stringify({ "username": username, "password": password }),
         dataType: "json",
         success: function(response) {
+            console.log(response)
             switch (response.data) {
                 case 'SYSTEM_ADMINISTRATOR':
                     loadContentForRole(RoleType.ADMIN, username);

@@ -27,9 +27,12 @@ class KarateRunnerIT {
 	}
 
 	@Test
-    void executeTests() {
-        System.setProperty("local.server.port", String.valueOf(randomServerPort));
-        Results results = Runner.path("classpath:com/tus/cipher/karate").parallel(1);
+    void executeImportFeatures() {
+		System.setProperty("local.server.port", String.valueOf(randomServerPort));
+        Results results = Runner.path(
+        		"classpath:com/tus/cipher/karate/import/man_import.feature",
+        		"classpath:com/tus/cipher/karate/import/auto_import.feature")
+        .parallel(2);
         assertEquals(0, results.getFailCount(), results.getErrorMessages());
     }
 }

@@ -4,6 +4,8 @@ Feature: Automatic Import
   Background: 
     * configure retry = {count: 15, interval: 2500}
     * url baseUrl
+    * def adminResponse = karate.callSingle('classpath:com/tus/cipher/karate/auth.feature?admin', {'username': 'admin', 'password': 'password' })
+    * header Authorization = 'Bearer ' + adminResponse.authToken
 
   Scenario: Auto import not triggered
     Given path 'sysadmin/auto-import-status'
@@ -14,7 +16,7 @@ Feature: Automatic Import
     * print '[x]  auto_import: NO_AUTO'
 
   Scenario: Auto import Failed
-    * FileUtil.moveFileToDest('wrong.xls', 'call-failure-data' )
+    * fileUtil.moveFileToDest('wrong.xls', 'call-failure-data' )
     * print '[*] Moved wrong.xls to  call-failure-data/'
     Given path 'sysadmin/auto-import-status'
     And header Content-Type = 'application/json'
@@ -24,7 +26,7 @@ Feature: Automatic Import
     * print '[x] auto_import: AUTO_FAIL'
 
   Scenario: Auto import success
-    * FileUtil.moveFileToDest('TUS_CallFailureData.xls', 'call-failure-data' )
+    * fileUtil.moveFileToDest('TUS_CallFailureData.xls', 'call-failure-data' )
     * print '[*] Moved TUS_CallFailureData.xls to call-failure-data/'
     Given path 'sysadmin/auto-import-status'
     And header Content-Type = 'application/json'

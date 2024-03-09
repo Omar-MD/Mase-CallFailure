@@ -111,5 +111,5 @@ const checkImportStatus = function() {
     });
 }
 
-setInterval(checkImportStatus, 5000);
+setInterval(checkImportStatus, 50000);
 
