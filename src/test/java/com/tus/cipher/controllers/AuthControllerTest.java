@@ -14,11 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 
-import com.tus.cipher.jwt.AccountService;
-import com.tus.cipher.jwt.JwtService;
 import com.tus.cipher.requests.AuthRequest;
 import com.tus.cipher.responses.ApiResponse;
 import com.tus.cipher.responses.AuthResponse;
+import com.tus.cipher.services.AccountService;
+import com.tus.cipher.services.JwtService;
 
 
 class AuthControllerTest {

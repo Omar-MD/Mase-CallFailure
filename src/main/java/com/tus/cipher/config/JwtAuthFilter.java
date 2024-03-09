@@ -1,4 +1,4 @@
-package com.tus.cipher.jwt;
+package com.tus.cipher.config;
 
 import java.io.IOException;
 
@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.tus.cipher.services.AccountService;
+import com.tus.cipher.services.JwtService;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {

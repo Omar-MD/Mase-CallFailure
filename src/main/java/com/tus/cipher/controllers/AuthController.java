@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tus.cipher.jwt.AccountService;
-import com.tus.cipher.jwt.JwtService;
 import com.tus.cipher.requests.AuthRequest;
 import com.tus.cipher.responses.ApiError;
 import com.tus.cipher.responses.ApiResponse;
 import com.tus.cipher.responses.AuthResponse;
+import com.tus.cipher.services.AccountService;
+import com.tus.cipher.services.JwtService;
 
 @RestController
 public class AuthController {
