@@ -21,7 +21,7 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 
 
 	// Query #1
-	@Query(value = "SELECT DISTINCT cf.cause_code, cf.event_id, ec.description " + "FROM call_failure cf "
+	@Query(value = "SELECT cf.cause_code, cf.event_id, ec.description " + "FROM call_failure cf "
 			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
 			+ "WHERE cf.imsi = :imsi", nativeQuery = true)
 	List<Object[]> findImsiEventCauseDescriptions(@Param("imsi") Long imsi);
@@ -56,5 +56,13 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	@Query(value = "SELECT imsi, COUNT(*) AS num_failures, SUM(duration) AS total_duration " + "FROM call_failure "
 			+ "WHERE date_time >= :startDate AND date_time <= :endDate " + "GROUP BY IMSI", nativeQuery = true)
 	List<Object[]> findAllImsiFailureCountAndDuration(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+
+	//Query #8
+	@Query(value = "SELECT DISTINCT cf.cause_code, cf.event_id, ec.description " + "FROM call_failure cf "
+			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
+			+ "WHERE cf.imsi = :imsi", nativeQuery = true)
+	List<Object[]> findImsiUniqueEventCauseDescriptions(@Param("imsi") Long imsi);
+
 
 }

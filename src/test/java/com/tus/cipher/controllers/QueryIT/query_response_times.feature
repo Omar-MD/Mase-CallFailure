@@ -71,3 +71,11 @@ Feature: Testing Query Response Times
     Then response.statusCode == 200
     And match response.status == 'Success'
     And assert responseTime < 2000
+
+  Scenario: Query 8 "query/imsi-unique-failures/"
+    Given path "query/imsi-unique-failures/344930000000011"
+    And header Content-Type = 'application/json'
+    When method GET
+    Then response.statusCode == 200
+    And match response.status == 'Success'
+    And assert responseTime < 2000

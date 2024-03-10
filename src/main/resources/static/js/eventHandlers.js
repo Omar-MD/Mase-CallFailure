@@ -122,6 +122,19 @@ $(document).ready(function() {
         getIMSIFailuresCountDuration();
         homeNav('#imsi-failures-count-duration-datatable-window');
     });
+    
+	//Query #8
+	$('#sidebar-content').on('click', '#imsi-unique-failure-sidebar', function() {
+		addImsiDropdown('#imsi-unique-dropdown');
+		homeNav('#imsi-uniqe-query-failure-window');
+	});
+	$("#imsiUniqueFailures-btn").on('click', function(event) {
+		event.preventDefault();
+		getIMSIUniqueCauseCodeFailure();
+		homeNav('#imsi-datatable-unique-failure-window');
+	});
+    
+    
 });
 
 const homeNav = function(pageID) {
