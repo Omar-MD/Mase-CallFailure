@@ -183,5 +183,6 @@ const logout = function() {
     }
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    homeNav('#landing-window');
     showLogin();
 };
