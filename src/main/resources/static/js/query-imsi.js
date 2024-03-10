@@ -125,7 +125,7 @@ const getIMSIFailuresTime = function() {
 }
 
 
-// Query 6
+// Query #6
 const getIMSIFailuresCountDuration = function() {
     let startDate = $("#imsi-failures-count-duration-start-date").val();
     let endDate = $("#imsi-failures-count-duration-end-date").val();
@@ -148,7 +148,7 @@ const getIMSIFailuresCountDuration = function() {
     });  
 }
 
-//Query 7
+//Query #8
 const getIMSIUniqueCauseCodeFailure = function() {
     let imsi = $("#imsi-unique-dropdown").val();
 
@@ -159,7 +159,7 @@ const getIMSIUniqueCauseCodeFailure = function() {
             if (res.statusCode === 200) {
                updateDataTable('imsi-unique-failure', res.data, ['eventId', 'causeCode', 'description']);
             } else {
-              
+               console.log("Error:", res.error);
             }
         },
         error: function(err) {
@@ -167,9 +167,5 @@ const getIMSIUniqueCauseCodeFailure = function() {
         }
     });
 };
-
-
-
-
 
 

@@ -171,9 +171,8 @@ public class QueriesController {
 		}
 		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
-	
-	// Query #7
 
+	// Query #8
 	@GetMapping("/imsi-unique-failures/{imsi}")
 	public ApiResponse<Object> findImsiUniqueFailures(@PathVariable("imsi") long imsi) {
 		List<Long> listValidImsi = callFailureDAO.listImsi();
