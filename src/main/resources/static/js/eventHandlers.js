@@ -123,8 +123,7 @@ $(document).ready(function() {
         homeNav('#imsi-failures-count-duration-datatable-window');
     });
     
-    // Query # RF
-    
+    // Query #9
      $('#sidebar-content').on('click', '#top10-imsi-failure-time-sidebar', function() {
         homeNav('#top10-imsi-failure-time-window');
     });

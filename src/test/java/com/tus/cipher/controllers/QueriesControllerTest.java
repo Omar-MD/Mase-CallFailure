@@ -253,10 +253,8 @@ class QueriesControllerTest {
 		assertEquals(expectedResult, actualResult);
 	}
 
-	// query#RF
-
 	@Test
-	public void testGetTop10ImsiFailuresValidDate() {
+	void testGetTop10ImsiFailuresValidDate() {
 		LocalDateTime startDate = LocalDateTime.of(2019, 4, 4, 6, 4, 2);
 		LocalDateTime endDate = LocalDateTime.of(2024, 1, 2, 3, 4, 5);
 		List<Object[]> testListTop10ImsiFailures = new ArrayList<>();

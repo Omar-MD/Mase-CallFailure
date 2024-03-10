@@ -72,7 +72,7 @@ Feature: Testing Query Response Times
     And match response.status == 'Success'
     And assert responseTime < 2000
     
-  Scenario: Query RF  "query/top10-imsi-failures-time"
+  Scenario: Query 9  "query/top10-imsi-failures-time"
 	* def query = {startDate: "#(TestUtil.getDate(2019, 4, 4))", endDate: "#(TestUtil.getDate(2024, 1, 2))"}
 	Given path "query/top10-imsi-failures-time"
 	And header Content-Type = 'application/json'
