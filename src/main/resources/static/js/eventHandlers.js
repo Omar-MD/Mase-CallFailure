@@ -123,6 +123,17 @@ $(document).ready(function() {
         homeNav('#imsi-failures-count-duration-datatable-window');
     });
     
+
+    // Query #9
+     $('#sidebar-content').on('click', '#top10-imsi-failure-time-sidebar', function() {
+        homeNav('#top10-imsi-failure-time-window');
+    });
+    $("#top10-imsi-failure-time-btn").on('click', function(event) {
+        event.preventDefault();
+        getTop10ImsiFailureTime();
+        homeNav('#top10-imsi-failure-time-datatable-window');
+    });
+
     // Query #7
     $('#sidebar-content').on('click', '#top10-moc-combinations-sidebar', function() {
         homeNav('#top10-moc-combinations-window');
@@ -143,6 +154,7 @@ $(document).ready(function() {
 		getIMSIUniqueCauseCodeFailure();
 		homeNav('#imsi-datatable-unique-failure-window');
 	});
+
 });
 
 const homeNav = function(pageID) {
