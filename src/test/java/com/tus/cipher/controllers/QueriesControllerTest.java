@@ -252,6 +252,7 @@ class QueriesControllerTest {
         assertEquals(expectedResult, actualResult);
 	}
 	
+	// Query 7
 	@Test
     public void testGetTop10MarketOperatorCellIdCombinationsValidDate() {
         LocalDateTime startDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
@@ -277,4 +278,27 @@ class QueriesControllerTest {
 		assertEquals("End date must be after start date", response.getError().getDetails());
 		assertEquals("Bad Date Range", response.getError().getErrorMsg());
     }
+
+	// Query 8
+	@Test
+	void testGetImsiUniqueFailures() {
+		long imsi = 1234L;
+
+		List<Long> imsis = Arrays.asList(1234L, 123456L, 789012L);
+
+		when(callFailureDAOMock.listImsi()).thenReturn(imsis);
+
+		List<Object[]> imsiFailures = new ArrayList<>();
+		imsiFailures.add(new Object[] { 1, 100, 10 });
+		imsiFailures.add(new Object[] { 2, 200, 5 });
+
+		when(callFailureDAOMock.findImsiUniqueEventCauseDescriptions(imsi)).thenReturn(imsiFailures);
+
+		ApiResponse<Object> response = queriesController.findImsiUniqueFailures(imsi);
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		List<?> responseData = (List<?>) response.getData();
+		assertEquals(imsiFailures.size(), responseData.size());
+	}
 }

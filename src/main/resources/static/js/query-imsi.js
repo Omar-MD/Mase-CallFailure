@@ -112,7 +112,7 @@ const getIMSIFailuresTime = function() {
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
             if (res.status == "Success") {
-                updateDataTable('imsi-failures-time', res.data, []);
+                updateDataTable('imsi-failures-time', res.data, ['causeCode', 'eventId', 'description']);
                 $("#imsi-failures-time-datatable-caption").text("IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
             } else {
                 console.log("Error:", res.error);
@@ -125,7 +125,7 @@ const getIMSIFailuresTime = function() {
 }
 
 
-// Query 6
+// Query #6
 const getIMSIFailuresCountDuration = function() {
     let startDate = $("#imsi-failures-count-duration-start-date").val();
     let endDate = $("#imsi-failures-count-duration-end-date").val();
@@ -145,5 +145,27 @@ const getIMSIFailuresCountDuration = function() {
         error: function(error) {
             console.error("Error in AJAX request:", error);
         }
-    });
+    });  
 }
+
+//Query #8
+const getIMSIUniqueCauseCodeFailure = function() {
+    let imsi = $("#imsi-unique-dropdown").val();
+
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/imsi-unique-failures/" + imsi,
+        success: function(res) {
+            if (res.statusCode === 200) {
+               updateDataTable('imsi-unique-failure', res.data, ['eventId', 'causeCode', 'description']);
+            } else {
+               console.log("Error:", res.error);
+            }
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+};
+
+
