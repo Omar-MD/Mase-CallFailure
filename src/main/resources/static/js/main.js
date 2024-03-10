@@ -129,6 +129,8 @@ const updateSideBar = function(role) {
                 <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count & Duration</button>
                 <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
                 <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top10 Imsi Failures</button>
+                <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 MOC Combinations</button>
+
             `);
         case RoleType.SUPPORT_ENGINEER:
             sidebar.append(`
@@ -140,6 +142,7 @@ const updateSideBar = function(role) {
             sidebar.append(`
                 <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
                 <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
+                <button type="button" id="imsi-unique-failure-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Unique IMSI Failure</button>
             `);
         default:
             break;

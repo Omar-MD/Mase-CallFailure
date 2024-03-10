@@ -71,6 +71,7 @@ Feature: Testing Query Response Times
     Then response.statusCode == 200
     And match response.status == 'Success'
     And assert responseTime < 2000
+
     
   Scenario: Query 9  "query/top10-imsi-failures-time"
 	* def query = {startDate: "#(TestUtil.getDate(2019, 4, 4))", endDate: "#(TestUtil.getDate(2024, 1, 2))"}
@@ -82,4 +83,23 @@ Feature: Testing Query Response Times
 	And match response.status == 'Success'
 	And assert responseTime < 2000  
 
-    
+
+
+  Scenario: Query 7  "query/top10-market-operator-cellid-combinations"
+    * def query = {startDate: "#(TestUtil.getDate(2019, 1, 1))", endDate: "#(TestUtil.getDate(2024, 3, 8))"}
+    Given path "query/top10-market-operator-cellid-combinations"
+    And header Content-Type = 'application/json'
+    And params query
+    When method GET
+    Then response.statusCode == 200
+    And match response.status == 'Success'
+    And assert responseTime < 2000  
+
+  Scenario: Query 8 "query/imsi-unique-failures/"
+    Given path "query/imsi-unique-failures/344930000000011"
+    And header Content-Type = 'application/json'
+    When method GET
+    Then response.statusCode == 200
+    And match response.status == 'Success'
+    And assert responseTime < 2000
+
