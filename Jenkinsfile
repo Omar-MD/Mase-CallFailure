@@ -20,7 +20,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 script {
-                    sh 'mvn clean package'
+                    sh 'mvn clean verify package'
                 }
             }
         }
