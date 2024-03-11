@@ -89,5 +89,13 @@ body {
 
 /* Chart related CSSS */
 .chart {
+    /* 
+        Becuase the modals are created by javascript, the !important tags are needed 
+        otherwise this css is too low in the hierarchy and is not applied
+        
+        Don't ask me why that is the case 
+    */
+    height: auto !important;
+    width: auto !important;
     padding: 2vh;
 }
