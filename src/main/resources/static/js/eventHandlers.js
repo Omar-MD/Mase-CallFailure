@@ -124,7 +124,6 @@ $(document).ready(function() {
     });
     $("#imsi-failures-count-duration-btn").on('click', function(event) {
         event.preventDefault();
-        // buildChart("imsi-failures-count-duration");
         getIMSIFailuresCountDuration();
         homeNav('#imsi-failures-count-duration-datatable-window');
     });

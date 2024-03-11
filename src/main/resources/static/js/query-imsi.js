@@ -142,13 +142,10 @@ const getIMSIFailuresCountDuration = function() {
             if (res.status == "Success") {
                 updateDataTable('imsi-count-duration', res.data, ["imsi", "failureCount", "totalDuration"]);
                 $("#imsi-failures-count-duration-datatable-caption").text("IMSI Failures Count and Duration - " + startDate.replace('T', ' ') + " to " + endDate.replace('T', ' '));
-                // addMondal("imsi-failures-count-duration-datatable", "imsi-failures-count-duration");
-                console.log(res)
                 const imsiList = res.data.map(entry => entry.imsi);
                 const failureCountList = res.data.map(entry => entry.failureCount);
                 addChart("imsi-failures-count-duration-datatable-window", "imsi-failures-count-duration", 
                         "IMSI Failure Counts and Duration", "Number of Failures", imsiList, failureCountList)
-                // renderChart("IMSI Failure Counts and Duration", "Number of Failures", imsiList, failureCountList)
             } else {
                 console.log("Error:", res.error);
             }
