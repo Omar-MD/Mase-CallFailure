@@ -17,6 +17,7 @@ const addModelDropdown = function(dropdownID) {
         url: rootUrl + "/query/model-failures",
         contentType: 'application/json',
         dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 res.data.forEach(model => {
@@ -40,8 +41,6 @@ const getModelFailureCount = function() {
     let model = $('#model-failure-count-dropdown').val();
     let msg = $("#model-failure-count-result");
 
-    console.log(model);
-    
     msg.html("");
 
     $.ajax({
@@ -49,6 +48,7 @@ const getModelFailureCount = function() {
         url: rootUrl + "/query/model-failure-count",
         contentType: 'application/json',
         dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         data: { "endDate": endDate, "startDate": startDate, "tac": model },
         success: function(res) {
             if (res.statusCode === 200) {
@@ -78,13 +78,13 @@ const getModelFailureCount = function() {
 // Query #5
 const getModelFailuresTypeCount = function() {
     let model = $("#model-failures-type-count-dropdown").val();
-    console.log("Model: " + model);
 
     $.ajax({
         type: 'GET',
         url: rootUrl + "/query/model-failures/" + model,
         contentType: 'application/json',
         dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);

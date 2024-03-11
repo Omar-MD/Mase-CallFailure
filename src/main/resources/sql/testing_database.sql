@@ -1,8 +1,7 @@
 
 -- Insert test accounts
 INSERT INTO accounts (username, password, role) VALUES 
-	('admin', 'password', 'SYSTEM_ADMINISTRATOR'),
-	('support', 'password', 'SUPPORT_ENGINEER'),
-    ('customer', 'password', 'CUSTOMER_SERVICE_REP'),
-    ('netEng', 'password', 'NETWORK_ENGINEER');
-    
+	('admin', '$2a$10$5l3n0SFJYpUImCvooXLuJOXYGCftlXOkvU1Bm9TsBhIbanoWdZWyO', 'SYSTEM_ADMINISTRATOR'),
+	('support', '$2a$10$5l3n0SFJYpUImCvooXLuJOXYGCftlXOkvU1Bm9TsBhIbanoWdZWyO', 'SUPPORT_ENGINEER'),
+    ('customer', '$2a$10$5l3n0SFJYpUImCvooXLuJOXYGCftlXOkvU1Bm9TsBhIbanoWdZWyO', 'CUSTOMER_SERVICE_REP'),
+    ('engineer', '$2a$10$5l3n0SFJYpUImCvooXLuJOXYGCftlXOkvU1Bm9TsBhIbanoWdZWyO', 'NETWORK_ENGINEER');    

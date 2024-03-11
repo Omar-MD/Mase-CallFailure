@@ -3,11 +3,13 @@
 const rootUrl = "http://localhost:8081";
 
 const RoleType = {
-    ADMIN: 'SYSTEM_ADMINISTRATOR',
+    SYSTEM_ADMINISTRATOR: 'SYSTEM_ADMINISTRATOR',
     CUSTOMER_SERVICE_REP: 'CUSTOMER_SERVICE_REP',
     NETWORK_ENGINEER: 'NETWORK_ENGINEER',
     SUPPORT_ENGINEER: 'SUPPORT_ENGINEER'
 }
+
+let interval_ID;
 
 const login = function() {
     let username = $('#username').val();
@@ -15,39 +17,47 @@ const login = function() {
     let errorMsg = $('#errorMsg');
 
     errorMsg.remove();
-
+    
     $.ajax({
         type: 'POST',
-        url: rootUrl + "/login",
+        url: rootUrl + "/authenticate",
         contentType: 'application/json',
         data: JSON.stringify({ "username": username, "password": password }),
         dataType: "json",
         success: function(response) {
-            switch (response.data) {
-                case 'SYSTEM_ADMINISTRATOR':
-                    loadContentForRole(RoleType.ADMIN, username);
-                    showHome();
-                    break;
-                case 'CUSTOMER_SERVICE_REP':
-                    loadContentForRole(RoleType.CUSTOMER_SERVICE_REP, username);
-                    showHome();
-                    break;
-                case 'NETWORK_ENGINEER':
-                    loadContentForRole(RoleType.NETWORK_ENGINEER, username);
-                    showHome();
-                    break;
-                case 'SUPPORT_ENGINEER':
-                    loadContentForRole(RoleType.SUPPORT_ENGINEER, username);
-                    showHome();
-                    break;
-                default:
-                    errorMsg.remove();
-                    $('#login-card').append("<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>Error!</strong> Incorrect Username or password</div>").show();
-                    break;
+            if (response.statusCode === 200) {
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('role', response.data.role);
+                
+                switch (response.data.role) {
+                    case 'SYSTEM_ADMINISTRATOR':
+                        loadContentForRole(RoleType.SYSTEM_ADMINISTRATOR, username);
+                        showHome();
+                        interval_ID = setInterval(checkImportStatus, 5000);
+                        break;
+                        
+                    case 'CUSTOMER_SERVICE_REP':
+                        loadContentForRole(RoleType.CUSTOMER_SERVICE_REP, username);
+                        showHome();
+                        break;
+                        
+                    case 'NETWORK_ENGINEER':
+                        loadContentForRole(RoleType.NETWORK_ENGINEER, username);
+                        showHome();
+                        break;
+                        
+                    case 'SUPPORT_ENGINEER':
+                        loadContentForRole(RoleType.SUPPORT_ENGINEER, username);
+                        showHome();
+                        break;
+                }
+            }else {
+                errorMsg.remove();
+                $('#login-card').append(`<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>${response.error.errorMsg}!</strong> ${response.error.details}</div>`).show();
             }
         },
-        error: function() {
-            alert('Error during request. Incorrect username or password');
+        error: function(err) {
+            console.log(err);
         }
     });
 };
@@ -60,7 +70,7 @@ const loadContentForRole = function(role, username) {
     $('#landing-username').html($('<h3>').addClass('mb-1').text(`Welcome ` + username + `...`))
 
     switch (role) {
-        case RoleType.ADMIN:
+        case RoleType.SYSTEM_ADMINISTRATOR:
             header.html(
                 `<h2>System Admin Control Panel<h2>`
             );
@@ -70,20 +80,16 @@ const loadContentForRole = function(role, username) {
                 `<button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Import Data</button>
                  <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Create User</button>`
             );
-
             userRole.html(
                 `<h4 class="mb-1" id="user-role">System Administrator</h4>`
             );
-
             break;
 
         case RoleType.CUSTOMER_SERVICE_REP:
             header.html(
                 `Customer Service Representive Control Panel`
             ); 
-
             updateSideBar(role);
-
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Customer Service Rep</h4>`
             );
@@ -93,9 +99,7 @@ const loadContentForRole = function(role, username) {
             header.html(
                 `Support Engineer Control Panel`
             );
-
             updateSideBar(role);
-
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Support Engineer</h4>`
             );
@@ -106,9 +110,7 @@ const loadContentForRole = function(role, username) {
             header.html(
                 `Network Engineer Control Panel`
             );
-
             updateSideBar(role);
-
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Network Engineer</h4>`
             );
@@ -118,25 +120,23 @@ const loadContentForRole = function(role, username) {
 const updateSideBar = function(role) {
 
     const sidebar = $('#sidebar-content');
-
-    // Clear the sidebar
+    
     sidebar.html("");
-
-    // No breaks;
     switch (role) {
         case RoleType.NETWORK_ENGINEER:
             sidebar.append(`
                 <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count & Duration</button>
                 <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
-                <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top10 Imsi Failures</button>
+                <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 IMSI Failures</button>
                 <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 MOC Combinations</button>
-
+                <hr class="text-white d-block"/>
             `);
         case RoleType.SUPPORT_ENGINEER:
             sidebar.append(`
                 <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
                 <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button>
                 <button type="button" id="cause-failure-imsi-list-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures for Cause Class</button>
+                <hr class="text-white d-block"/>
             `);
         case RoleType.CUSTOMER_SERVICE_REP:
             sidebar.append(`
@@ -150,7 +150,7 @@ const updateSideBar = function(role) {
 }
 
 const updateDataTable = function(tableId, data, headers) {
-    // Check if DataTable is already initialized
+
     let datatable = $(`#${tableId}-datatable`).DataTable();
     if (datatable) {
         datatable.clear().draw();
@@ -160,7 +160,6 @@ const updateDataTable = function(tableId, data, headers) {
             "bScrollCollapse": true
         });
     }
-
     data.forEach(function(item) {
         if (headers && headers.length > 0) {
             let rowData = [];
@@ -173,7 +172,6 @@ const updateDataTable = function(tableId, data, headers) {
             datatable.row.add([item]);
         }
     });
-
     datatable.draw();
 };
 

@@ -15,74 +15,77 @@ import org.junit.jupiter.api.Test;
 
 class LoggerServiceTest {
 
-	private static final String TEST_LOG_FOLDER_PATH = "logs";
-	private static final String TEST_LOG_FILE_PATH = "logs/import_log.txt";
+    private static final String TEST_LOG_FOLDER_PATH = "logs";
+    private static final String TEST_LOG_FILE_PATH = "logs/test_log.txt";
 
-	@BeforeEach
-	void setUp() {
-		LoggerService.setLogFilePath(TEST_LOG_FILE_PATH);
-	}
+    private LoggerService logger = LoggerService.INSTANCE;
 
-	@AfterEach
-	void tearDown() throws IOException {
-		// Delete test log folder and files after each test
-		Path testFolderPath = Paths.get(TEST_LOG_FOLDER_PATH);
-		if (Files.exists(testFolderPath)) {
-			Files.walk(testFolderPath).map(Path::toFile).forEach(File::delete);
-		}
-	}
+    @BeforeEach
+    void setUp() throws IOException {
+        logger.setLogFilePath(TEST_LOG_FILE_PATH);
+        logger.resetLogFile();
+    }
 
-	@Test
-	void resetLogFileTest() throws IOException {
-		String errorMessage = "Test error message";
-		LoggerService.logInvalidData(errorMessage);
-		Path filePath = Paths.get(TEST_LOG_FILE_PATH);
-		LoggerService.resetLogFile();
-		assertTrue(Files.exists(filePath), "Log file should exist");
-		assertEquals("", Files.readString(filePath).trim(), "Log file should be empty");
-	}
+    @AfterEach
+    void tearDown() throws IOException {
+        Path testFolderPath = Paths.get(TEST_LOG_FOLDER_PATH);
+        if (Files.exists(testFolderPath)) {
+            Files.walk(testFolderPath).map(Path::toFile).forEach(File::delete);
+        }
+    }
 
-	@Test
-	void checkLogPath_shouldCreateFolderAndFileIfNotExist() {
-		LoggerService.checkLogPath();
-		Path folderPath = Paths.get(TEST_LOG_FOLDER_PATH);
-		Path filePath = Paths.get(TEST_LOG_FILE_PATH);
-		assertTrue(Files.exists(folderPath), "Log folder should be created");
-		assertTrue(Files.exists(filePath), "Log file should be created");
-	}
+    @Test
+    void resetLogFileTest() throws IOException {
+        String errorMessage = "Test error message";
+        logger.logMsg(errorMessage);
+        Path filePath = Paths.get(TEST_LOG_FILE_PATH);
+        logger.resetLogFile();
+        assertTrue(Files.exists(filePath), "Log file should exist");
+        assertEquals("", Files.readString(filePath).trim(), "Log file should be empty");
+    }
 
-	@Test
-	void checkLogPath_shouldNotRecreateFolderAndFileIfExist() throws IOException {
-		LoggerService.createFolder(TEST_LOG_FOLDER_PATH);
-		LoggerService.createFile(TEST_LOG_FILE_PATH);
-		LoggerService.checkLogPath();
-		Path folderPath = Paths.get(TEST_LOG_FOLDER_PATH);
-		Path filePath = Paths.get(TEST_LOG_FILE_PATH);
-		assertTrue(Files.exists(folderPath), "Log folder should exist");
-		assertTrue(Files.exists(filePath), "Log file should exist");
-	}
+    @Test
+    void checkLogPath_shouldCreateFolderAndFileIfNotExist() throws IOException {
+    	logger.checkLogPath();
+        Path folderPath = Paths.get(TEST_LOG_FOLDER_PATH);
+        Path filePath = Paths.get(TEST_LOG_FILE_PATH);
+        assertTrue(Files.exists(folderPath), "Log folder should be created");
+        assertTrue(Files.exists(filePath), "Log file should be created");
+    }
 
-	@Test
-	void logInvalidData_shouldAppendErrorMessageToFile() throws IOException {
-		String errorMessage = "Test error message";
-		LoggerService.logInvalidData(errorMessage);
-		Path filePath = Paths.get(TEST_LOG_FILE_PATH);
-		assertTrue(Files.exists(filePath), "Log file should be created");
-		assertEquals(errorMessage, Files.readString(filePath).trim(), "Log file content should match");
-	}
+    @Test
+    void checkLogPath_shouldNotRecreateFolderAndFileIfExist() throws IOException {
+    	logger.createFolder(TEST_LOG_FOLDER_PATH); // Creating folder
+    	logger.createFile(TEST_LOG_FILE_PATH); // Creating file
+    	logger.checkLogPath();
+        Path folderPath = Paths.get(TEST_LOG_FOLDER_PATH);
+        Path filePath = Paths.get(TEST_LOG_FILE_PATH);
+        assertTrue(Files.exists(folderPath), "Log folder should exist");
+        assertTrue(Files.exists(filePath), "Log file should exist");
+    }
 
-	@Test
-	void loggerService_shouldLogErrorDetailsToFile() throws IOException {
-		String data = "Test data";
-		String errDesc = "Test error description";
-		String errSeverity = "ERROR";
-		String errCode = "1001";
+    @Test
+    void logMsg_shouldAppendMessageToFile() throws IOException {
+        String errorMessage = "Test error message";
+        logger.logMsg(errorMessage);
+        Path filePath = Paths.get(TEST_LOG_FILE_PATH);
+        assertTrue(Files.exists(filePath), "Log file should be created");
+        String expectedLog = String.format("%s INFO msg: %s", logger.getTimeStamp(), errorMessage);
+        String actualLog = Files.readString(filePath).trim();
+        assertEquals(expectedLog, actualLog, "Log file content should match"); }
 
-		LoggerService.log(data, errDesc, errSeverity, errCode);
-		Path filePath = Paths.get(TEST_LOG_FILE_PATH);
-		assertTrue(Files.exists(filePath), "Log file should be created");
-		String expectedLog = String.format("%s %s %s %s ErroneusRecord: %s", LoggerService.getTimeStamp(), errSeverity,
-				errCode, errDesc, data);
-		assertEquals(expectedLog, Files.readString(filePath).trim(), "Log file content should match");
-	}
+    @Test
+    void logInfo_shouldLogInfoDetailsToFile() throws IOException {
+        String data = "Test data";
+        String errDesc = "Test error description";
+        int rowIndex = 123;
+
+        logger.logInfo(data, errDesc, data, rowIndex);
+        Path filePath = Paths.get(TEST_LOG_FILE_PATH);
+        assertTrue(Files.exists(filePath), "Log file should be created");
+
+        String expectedLog = String.format("%s INFO path %s %s ErroneusRecord: %s Row Index: %d",
+        		logger.getTimeStamp(), data, errDesc, data, rowIndex);
+        assertEquals(expectedLog, Files.readString(filePath).trim(), "Log file content should match");
+    }
 }

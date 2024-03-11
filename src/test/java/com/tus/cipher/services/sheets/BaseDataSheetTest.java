@@ -19,6 +19,7 @@ import org.mockito.ArgumentMatchers;
 import com.tus.cipher.dao.CallFailureDAO;
 import com.tus.cipher.dto.sheets.CallFailure;
 import com.tus.cipher.services.DataValidator;
+import com.tus.cipher.services.LoggerService;
 
 class BaseDataSheetTest {
 
@@ -26,6 +27,7 @@ class BaseDataSheetTest {
     private CallFailureDAO callFailureDAO;
     private DataValidator validator;
     private Row rowMock;
+    private LoggerService logger = LoggerService.INSTANCE;
 
     @BeforeEach
     public void setUp() {
@@ -33,14 +35,14 @@ class BaseDataSheetTest {
     	validator = mock(DataValidator.class);
         baseDataSheet = new BaseDataSheet(callFailureDAO);
         baseDataSheet.setValidator(validator);
-
+        logger.setLogFilePath("logs/test_log.txt");
         rowMock = mock(Row.class);
     }
 
     @Test
     void testSheetNameAndBatchSize() {
         assertEquals("Base Data", baseDataSheet.getSheetName());
-        assertEquals(512, baseDataSheet.getBatchSize());
+        assertEquals(5120, baseDataSheet.getBatchSize());
     }
 
     @Test
@@ -82,6 +84,7 @@ class BaseDataSheetTest {
 
         // Simulate exception to represent an invalid row
         when(rowMock.getCell(0).getLocalDateTimeCellValue()).thenThrow(new RuntimeException("Invalid cell value"));
+
 
         baseDataSheet.processRow(rowMock);
 

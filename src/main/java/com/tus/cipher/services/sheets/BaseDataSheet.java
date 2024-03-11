@@ -17,14 +17,16 @@ import com.tus.cipher.services.LoggerService;
 public class BaseDataSheet extends BaseSheetProcessor {
 
 	private static final String SHEET_NAME = "Base Data";
-	private static final int MAX_BATCH_SIZE = 512;
+	private static final int MAX_BATCH_SIZE = 5120;
 
 	private final CallFailureDAO callFailureDAO;
 	private DataValidator validator;
 	List<CallFailure> validRows = new ArrayList<>();
+	LoggerService logger;
 
 	public BaseDataSheet(CallFailureDAO callFailureDAO) {
 		this.callFailureDAO = callFailureDAO;
+		this.logger = LoggerService.INSTANCE;
 	}
 
 	public void setValidator(DataValidator validator) {
@@ -61,7 +63,7 @@ public class BaseDataSheet extends BaseSheetProcessor {
 			validRows.add(callFailure);
 
 		} catch (Exception e){
-			LoggerService.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage(), r.getRowNum());
+			logger.logInfo("sysadmin/import", "BaseDataSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

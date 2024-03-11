@@ -11,16 +11,18 @@ import com.tus.cipher.dto.sheets.Ue;
 import com.tus.cipher.services.LoggerService;
 
 @Component
-public class UeSheet extends BaseSheetProcessor{
+public class UeSheet extends BaseSheetProcessor {
 
 	private static final String SHEET_NAME = "UE Table";
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private final UeDAO ueDAO;
 	List<Ue> validRows = new ArrayList<>();
+	LoggerService logger;
 
 	public UeSheet(UeDAO ueDAO) {
 		this.ueDAO = ueDAO;
+		this.logger = LoggerService.INSTANCE;
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class UeSheet extends BaseSheetProcessor{
 			validRows.add(ue);
 
 		} catch (Exception e) {
-			LoggerService.logInfo("sysadmin/import", "UeSheet:processRow", e.getMessage(), r.getRowNum());
+			logger.logInfo("sysadmin/import", "UeSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

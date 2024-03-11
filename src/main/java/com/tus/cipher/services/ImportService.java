@@ -29,7 +29,7 @@ public class ImportService {
 			System.out.println("\n\nImport in progress...");
 			importReferenceSheets(workbook);
 			importBaseData(workbook);
-			System.out.println("Import complete!\n\n");
+			System.out.println("*** Import complete! ***\n\n");
 	}
 
 	void importReferenceSheets(HSSFWorkbook workbook) {

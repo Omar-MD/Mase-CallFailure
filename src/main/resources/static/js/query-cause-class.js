@@ -16,6 +16,7 @@ const addFailureCauseCodeDropdown = function(dropdownID) {
         url: rootUrl + "/query/failure-cause-classes",
         contentType: 'application/json',
         dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 res.data.forEach(cause_class => {
@@ -33,7 +34,6 @@ const addFailureCauseCodeDropdown = function(dropdownID) {
 
 // Query 4.5
 const getIMSIFailureForFailureCauseClass = function() {
-
     let dropdown = $("#cause-failure-imsi-list-dropdown");
     let failureClass = dropdown.val();
 
@@ -42,12 +42,13 @@ const getIMSIFailureForFailureCauseClass = function() {
         url: rootUrl + "/query/imsi-failures-class/" + failureClass,
         contentType: 'application/json',
         dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('cause-failure-imsi', res.data, []);
-                var selectElement = document.getElementById("cause-failure-imsi-list-dropdown");
-                var selectedOption = selectElement.options[selectElement.selectedIndex];
-                var selectedText = selectedOption.text;
+                let selectElement = document.getElementById("cause-failure-imsi-list-dropdown");
+                let selectedOption = selectElement.options[selectElement.selectedIndex];
+                let selectedText = selectedOption.text;
                 $("#failure-class-datatable-caption").text(selectedText);
             } else {
                 console.log("Error:", res.error);
@@ -67,6 +68,7 @@ const getTop10MocCombinations = function() {
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/top10-market-operator-cellid-combinations",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
             if (res.status == "Success") {
