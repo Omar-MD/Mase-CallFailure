@@ -1,4 +1,4 @@
-package com.tus.cipher.dto;
+package com.tus.cipher.requests;
 
 public class ImportRequest {
 	private String filename;

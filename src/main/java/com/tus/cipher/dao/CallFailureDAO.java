@@ -19,6 +19,10 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	@Query(value = "SELECT DISTINCT cf.tac FROM call_failure cf ", nativeQuery = true)
 	List<Long> listTac();
 
+	/*
+	 *  CUSTOMER SERVICE REP QUERIES
+	 */
+
 	// Query #1
 	@Query(value = "SELECT cf.cause_code, cf.event_id, ec.description " + "FROM call_failure cf "
 			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
@@ -28,6 +32,16 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	// Query #2
     @Query("SELECT COUNT(c) FROM CallFailure c WHERE c.imsi = :imsi AND c.dateTime BETWEEN :startDate AND :endDate")
     long countByImsiAndDateTimeBetween(@Param("imsi") Long imsi, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate );
+
+	//Query #8
+	@Query(value = "SELECT DISTINCT cf.cause_code, cf.event_id, ec.description " + "FROM call_failure cf "
+			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
+			+ "WHERE cf.imsi = :imsi", nativeQuery = true)
+	List<Object[]> findImsiUniqueEventCauseDescriptions(@Param("imsi") Long imsi);
+
+	/*
+	 *  SUPPORT ENGINEER QUERIES
+	 */
 
     //Query #3
 	@Query("SELECT DISTINCT c.imsi FROM CallFailure c WHERE c.dateTime BETWEEN :startDate AND :endDate")
@@ -40,6 +54,10 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	// query 4.5
 	@Query(value = "SELECT DISTINCT (cf.imsi) FROM call_failure cf WHERE cf.failure_code = :failureClass", nativeQuery = true)
 	List<Long> getIMSIsWithFailureClass(@Param("failureClass") Long failureClass);
+
+	/*
+	 *  NETWORK ENGINEER QUERIES
+	 */
 
 	// Query #5
 	@Query(value = "SELECT cf.cause_code, cf.event_id, COUNT(*) as failure_count " + "FROM call_failure cf "
@@ -57,14 +75,6 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 			+ "WHERE cf.date_time BETWEEN :startDate AND :endDate GROUP BY cf.mcc, cf.mnc, cf.cell_id "
 			+ "ORDER BY failure_count DESC LIMIT 10", nativeQuery = true)
 	List<Object[]> top10MarketOperatorCellIdCombinations(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
-
-
-	//Query #8
-	@Query(value = "SELECT DISTINCT cf.cause_code, cf.event_id, ec.description " + "FROM call_failure cf "
-			+ "INNER JOIN event_cause ec ON cf.cause_code = ec.cause_code AND cf.event_id = ec.event_id "
-			+ "WHERE cf.imsi = :imsi", nativeQuery = true)
-	List<Object[]> findImsiUniqueEventCauseDescriptions(@Param("imsi") Long imsi);
-
 
 	//Query#9
 	@Query(value="SELECT c.imsi, COUNT(*) AS failureCount FROM call_failure c  WHERE c.date_time >= :startDate AND c.date_time <= :endDate GROUP BY c.imsi ORDER BY failureCount DESC LIMIT 10", nativeQuery = true)

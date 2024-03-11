@@ -18,7 +18,6 @@ class ErrorCountServiceTest {
 
 	@AfterEach
 	void tearDown() throws IOException {
-		// Delete the test log file after each test
 		Files.deleteIfExists(Paths.get(TEST_LOG_FILE));
 	}
 
@@ -34,7 +33,6 @@ class ErrorCountServiceTest {
 	void testDisplaySummaryWithErrors() {
 		int errorCount = 3;
 		String summary = ErrorCountService.displaySummary(errorCount);
-		System.out.println(summary);
 		assertTrue(summary.contains("Total Error Count: 3"));
 		assertTrue(summary.contains("Please review the log file for details."));
 	}
@@ -43,7 +41,6 @@ class ErrorCountServiceTest {
 	void testDisplaySummaryNoErrors() {
 		int errorCount = 0;
 		String summary = ErrorCountService.displaySummary(errorCount);
-		System.out.println(summary);
 		assertTrue(summary.contains("Total Error Count: 0"));
 		assertTrue(summary.contains("Import successful. No errors found."));
 	}

@@ -11,16 +11,18 @@ import com.tus.cipher.dto.sheets.EventCause;
 import com.tus.cipher.services.LoggerService;
 
 @Component
-public class EventCauseSheet extends BaseSheetProcessor{
+public class EventCauseSheet extends BaseSheetProcessor {
 
 	private static final String SHEET_NAME = "Event-Cause Table";
 	private static final int MAX_BATCH_SIZE = 128;
 
 	private final EventCauseDAO eventCauseDAO;
 	List<EventCause> validRows = new ArrayList<>();
+	LoggerService logger;
 
 	public EventCauseSheet(EventCauseDAO eventCauseDAO) {
 		this.eventCauseDAO = eventCauseDAO;
+		this.logger = LoggerService.INSTANCE;
 	}
 
 	@Override
@@ -34,8 +36,8 @@ public class EventCauseSheet extends BaseSheetProcessor{
 			EventCause eventCause = new EventCause(causeCode, eventId, description);
 			validRows.add(eventCause);
 
-		} catch(Exception e) {
-			LoggerService.logInfo("sysadmin/import", "EventCauseSheet:processRow", e.getMessage(), r.getRowNum());
+		} catch (Exception e) {
+			logger.logInfo("sysadmin/import", "EventCauseSheet:processRow", e.getMessage(), r.getRowNum());
 		}
 	}
 

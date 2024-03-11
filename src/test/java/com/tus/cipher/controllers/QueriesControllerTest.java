@@ -281,7 +281,7 @@ class QueriesControllerTest {
 
 	// Query 7
 	@Test
-    public void testGetTop10MarketOperatorCellIdCombinationsValidDate() {
+    void testGetTop10MarketOperatorCellIdCombinationsValidDate() {
         LocalDateTime startDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
         LocalDateTime endDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
         List<Object[]> testListTop10MocCombinations = new ArrayList<>();
@@ -296,7 +296,7 @@ class QueriesControllerTest {
     }
 
 	@Test
-    public void testGetTop10MarketOperatorCellIdCombinationsInvalidDate() {
+     void testGetTop10MarketOperatorCellIdCombinationsInvalidDate() {
         LocalDateTime endDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
         LocalDateTime startDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
         ApiResponse<Object> response = queriesController.getTop10MarketOperatorCellIdCombinations(startDate, endDate);
