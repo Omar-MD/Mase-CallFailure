@@ -45,9 +45,9 @@ const getIMSIFailureForFailureCauseClass = function() {
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('cause-failure-imsi', res.data, []);
-                var selectElement = document.getElementById("cause-failure-imsi-list-dropdown");
-                var selectedOption = selectElement.options[selectElement.selectedIndex];
-                var selectedText = selectedOption.text;
+                let selectElement = document.getElementById("cause-failure-imsi-list-dropdown");
+                let selectedOption = selectElement.options[selectElement.selectedIndex];
+                let selectedText = selectedOption.text;
                 $("#failure-class-datatable-caption").text(selectedText);
             } else {
                 console.log("Error:", res.error);

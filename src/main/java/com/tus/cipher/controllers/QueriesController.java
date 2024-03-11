@@ -26,6 +26,10 @@ import com.tus.cipher.responses.ApiResponse;
 public class QueriesController {
 	private static final String DATE_ERR = "Bad Date Range";
 	private static final String DATE_ERR_DETAIL = "End date must be after start date";
+	private static final String CAUSE_CODE = "causeCode";
+	private static final String EVENT_ID = "eventId";
+	private static final String DESCRIPTION = "description";
+
 
 	private final CallFailureDAO callFailureDAO;
 	private final FailureClassDAO failureClassDAO;
@@ -53,6 +57,10 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), listFailureClasses);
 	}
 
+	/*
+	 *  CUSTOMER SERVICE REP QUERIES
+	 */
+
 	// Query #1
 	@PreAuthorize("hasAuthority('CUSTOMER_SERVICE_REP') or hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/imsi-failures/{imsi}")
@@ -65,9 +73,9 @@ public class QueriesController {
 			List<Map<String, Object>> responseList = new ArrayList<>();
 			for (Object[] entry : imsiEventCauseDescriptions) {
 				Map<String, Object> result = new HashMap<>();
-				result.put("causeCode", entry[0]);
-				result.put("eventId", entry[1]);
-				result.put("description", entry[2]);
+				result.put(CAUSE_CODE, entry[0]);
+				result.put(EVENT_ID, entry[1]);
+				result.put(DESCRIPTION, entry[2]);
 				responseList.add(result);
 			}
 
@@ -91,6 +99,36 @@ public class QueriesController {
 		Long count = callFailureDAO.countByImsiAndDateTimeBetween(imsi, startDate, endDate);
 		return ApiResponse.success(HttpStatus.OK.value(), count);
 	}
+
+	// Query #8
+	@PreAuthorize("hasAuthority('CUSTOMER_SERVICE_REP') or hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
+	@GetMapping("/imsi-unique-failures/{imsi}")
+	public ApiResponse<Object> findImsiUniqueFailures(@PathVariable("imsi") long imsi) {
+		List<Long> listValidImsi = callFailureDAO.listImsi();
+
+		if (listValidImsi.contains(imsi)) {
+			List<Object[]> imsiEventCauseDescriptions = callFailureDAO.findImsiUniqueEventCauseDescriptions(imsi);
+
+			List<Map<String, Object>> responseList = new ArrayList<>();
+			for (Object[] entry : imsiEventCauseDescriptions) {
+				Map<String, Object> result = new HashMap<>();
+				result.put(CAUSE_CODE, entry[0]);
+				result.put(EVENT_ID, entry[1]);
+				result.put(DESCRIPTION, entry[2]);
+				responseList.add(result);
+			}
+
+			return ApiResponse.success(HttpStatus.OK.value(), responseList);
+		}
+
+		ApiError error = ApiError.of("Invalid Imsi", "IMSI not in database");
+		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
+
+	}
+
+	/*
+	 *  SUPPORT ENGINEER QUERIES
+	 */
 
 	// Query #3
 	@PreAuthorize("hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
@@ -122,6 +160,7 @@ public class QueriesController {
 	}
 
 	// Query 4.5
+	@PreAuthorize("hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/imsi-failures-class/{failureClass}")
 	public ApiResponse<List<Long>> getIMSIFailureClasses(
 			@PathVariable("failureClass") Long failureClass) {
@@ -129,6 +168,9 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), imsiFailures);
 	}
 
+	/*
+	 *  NETWORK ENGINEER QUERIES
+	 */
 
 	// Query #5
 	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
@@ -141,9 +183,9 @@ public class QueriesController {
 			List<Map<String, Object>> responseList = new ArrayList<>();
 			for (Object[] entry : modelsFailureTypesWithCount) {
 				Map<String, Object> result = new HashMap<>();
-				result.put("causeCode", entry[0]);
-				result.put("eventId", entry[1]);
-				result.put("failureCount", entry[2]);
+				result.put(CAUSE_CODE, entry[0]);
+				result.put(EVENT_ID, entry[1]);
+				result.put(DESCRIPTION, entry[2]);
 				responseList.add(result);
 			}
 			return ApiResponse.success(HttpStatus.OK.value(), responseList);
@@ -179,28 +221,8 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
 
-	//Query#9
-	@GetMapping("/top10-imsi-failures-time")
-	public ApiResponse<List<Map<String, Object>>> getTop10ImsiFailures(
-			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
-			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
-
-		if (endDate.isBefore(startDate)) {
-			ApiError error = ApiError.of(DATE_ERR, DATE_ERR_DETAIL);
-			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
-		}
-		List<Object[]> top10ImsiList = callFailureDAO.findTop10IMSIWithFailures(startDate, endDate);
-		List<Map<String, Object>> responseList = new ArrayList<>();
-		for (Object[] entry : top10ImsiList) {
-			Map<String, Object> result = new HashMap<>();
-			result.put("imsi", entry[0]);
-			result.put("failureCount", entry[1]);
-			responseList.add(result);
-		}
-		return ApiResponse.success(HttpStatus.OK.value(), responseList);
-	}
-
 	// Query #7
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/top10-market-operator-cellid-combinations")
 	public ApiResponse<Object> getTop10MarketOperatorCellIdCombinations(
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
@@ -226,28 +248,25 @@ public class QueriesController {
 			return ApiResponse.success(HttpStatus.OK.value(), responseList);
 		}
 
-	// Query #8
-	@GetMapping("/imsi-unique-failures/{imsi}")
-	public ApiResponse<Object> findImsiUniqueFailures(@PathVariable("imsi") long imsi) {
-		List<Long> listValidImsi = callFailureDAO.listImsi();
+	//Query#9
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
+	@GetMapping("/top10-imsi-failures-time")
+	public ApiResponse<List<Map<String, Object>>> getTop10ImsiFailures(
+			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
 
-		if (listValidImsi.contains(imsi)) {
-			List<Object[]> imsiEventCauseDescriptions = callFailureDAO.findImsiUniqueEventCauseDescriptions(imsi);
-
-			List<Map<String, Object>> responseList = new ArrayList<>();
-			for (Object[] entry : imsiEventCauseDescriptions) {
-				Map<String, Object> result = new HashMap<>();
-				result.put("causeCode", entry[0]);
-				result.put("eventId", entry[1]);
-				result.put("description", entry[2]);
-				responseList.add(result);
-			}
-
-			return ApiResponse.success(HttpStatus.OK.value(), responseList);
+		if (endDate.isBefore(startDate)) {
+			ApiError error = ApiError.of(DATE_ERR, DATE_ERR_DETAIL);
+			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
-
-		ApiError error = ApiError.of("Invalid Imsi", "IMSI not in database");
-		return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
-
+		List<Object[]> top10ImsiList = callFailureDAO.findTop10IMSIWithFailures(startDate, endDate);
+		List<Map<String, Object>> responseList = new ArrayList<>();
+		for (Object[] entry : top10ImsiList) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("imsi", entry[0]);
+			result.put("failureCount", entry[1]);
+			responseList.add(result);
+		}
+		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
 }
