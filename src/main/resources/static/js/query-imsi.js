@@ -67,7 +67,6 @@ const getIMSIFailureCountTime = function() {
     let endDate = $("#imsi-failure-count-time-end-date").val();
     let msg = $("#imsi-failure-count-time-result");
 
-    console.log(imsi, startDate, endDate);
     msg.html("");
 
     $.ajax({
@@ -108,7 +107,7 @@ const getIMSIFailureCountTime = function() {
 const getIMSIFailuresTime = function() {
     let startDate = $("#imsi-failures-time-start-date").val();
     let endDate = $("#imsi-failures-time-end-date").val();
-    console.log(startDate, endDate)
+
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/imsi-failures-time",
@@ -116,7 +115,7 @@ const getIMSIFailuresTime = function() {
         headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
-                updateDataTable('imsi-failures-time', res.data, ['causeCode', 'eventId', 'description']);
+                updateDataTable('imsi-failures-time', res.data, []);
                 $("#imsi-failures-time-datatable-caption").text("IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
             } else {
                 console.log("Error:", res.error);
@@ -179,14 +178,14 @@ const getIMSIUniqueCauseCodeFailure = function() {
 const getTop10ImsiFailureTime = function() {
     let startDate = $("#top10-imsi-failure-time-start-date").val();
     let endDate = $("#top10-imsi-failure-time-end-date").val();
-    console.log(startDate, endDate)
+
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/top10-imsi-failures-time",
         headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
-            console.log(res.data)
+
             if (res.status == "Success") {
                 updateDataTable('top10-imsi-failure-time', res.data, ["imsi", "failureCount"]);
                 $("#top10-imsi-failure-time-datatable-caption").text("TOP 10 IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));

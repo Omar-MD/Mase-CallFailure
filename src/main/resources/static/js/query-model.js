@@ -41,8 +41,6 @@ const getModelFailureCount = function() {
     let model = $('#model-failure-count-dropdown').val();
     let msg = $("#model-failure-count-result");
 
-    console.log(model);
-
     msg.html("");
 
     $.ajax({
@@ -80,7 +78,6 @@ const getModelFailureCount = function() {
 // Query #5
 const getModelFailuresTypeCount = function() {
     let model = $("#model-failures-type-count-dropdown").val();
-    console.log("Model: " + model);
 
     $.ajax({
         type: 'GET',

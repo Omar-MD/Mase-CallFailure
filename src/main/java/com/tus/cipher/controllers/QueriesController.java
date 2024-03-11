@@ -29,6 +29,7 @@ public class QueriesController {
 	private static final String CAUSE_CODE = "causeCode";
 	private static final String EVENT_ID = "eventId";
 	private static final String DESCRIPTION = "description";
+	private static final String FAILURE_COUNT = "failureCount";
 
 
 	private final CallFailureDAO callFailureDAO;
@@ -185,7 +186,7 @@ public class QueriesController {
 				Map<String, Object> result = new HashMap<>();
 				result.put(CAUSE_CODE, entry[0]);
 				result.put(EVENT_ID, entry[1]);
-				result.put(DESCRIPTION, entry[2]);
+				result.put(FAILURE_COUNT, entry[2]);
 				responseList.add(result);
 			}
 			return ApiResponse.success(HttpStatus.OK.value(), responseList);
@@ -214,7 +215,7 @@ public class QueriesController {
 		for (Object[] entry : listImsiFailureCountAndDuration) {
 			Map<String, Object> result = new HashMap<>();
 			result.put("imsi", entry[0]);
-			result.put("failureCount", entry[1]);
+			result.put(FAILURE_COUNT, entry[1]);
 			result.put("totalDuration", entry[2]);
 			responseList.add(result);
 		}
@@ -264,7 +265,7 @@ public class QueriesController {
 		for (Object[] entry : top10ImsiList) {
 			Map<String, Object> result = new HashMap<>();
 			result.put("imsi", entry[0]);
-			result.put("failureCount", entry[1]);
+			result.put(FAILURE_COUNT, entry[1]);
 			responseList.add(result);
 		}
 		return ApiResponse.success(HttpStatus.OK.value(), responseList);
