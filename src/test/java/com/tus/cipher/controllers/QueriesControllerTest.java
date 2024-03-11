@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -235,20 +236,97 @@ class QueriesControllerTest {
 
 	@Test
 	void testGetCallFailuresWithCountAndDuration() {
-		 // Mock data
-        LocalDateTime startDate = LocalDateTime.of(2024, 1, 1, 0, 0);
-        LocalDateTime endDate = LocalDateTime.of(2024, 1, 31, 23, 59);
+		// Mock data
+		LocalDateTime startDate = LocalDateTime.of(2024, 1, 1, 0, 0);
+		LocalDateTime endDate = LocalDateTime.of(2024, 1, 31, 23, 59);
 
-        List<Object[]> expectedResult = new ArrayList<>();
-         expectedResult.add(new Object[] { "IMSI_1", 10L, 3600L });
-         expectedResult.add(new Object[] { "IMSI_2", 5L, 1800L });
+		List<Object[]> expectedResult = new ArrayList<>();
+		expectedResult.add(new Object[] { "IMSI_1", 10L, 3600L });
+		expectedResult.add(new Object[] { "IMSI_2", 5L, 1800L });
 
-        when(callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate)).thenReturn(expectedResult);
+		when(callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate)).thenReturn(expectedResult);
 
-        // Call the method from your service class that uses the repository method
-        List<Object[]> actualResult = callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate);
+		// Call the method from your service class that uses the repository method
+		List<Object[]> actualResult = callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate);
 
-        // Assert the result
-        assertEquals(expectedResult, actualResult);
+		// Assert the result
+		assertEquals(expectedResult, actualResult);
 	}
+
+//Query 9
+	@Test
+	void testGetTop10ImsiFailuresValidDate() {
+		LocalDateTime startDate = LocalDateTime.of(2019, 4, 4, 6, 4, 2);
+		LocalDateTime endDate = LocalDateTime.of(2024, 1, 2, 3, 4, 5);
+		List<Object[]> testListTop10ImsiFailures = new ArrayList<>();
+		when(callFailureDAOMock.findTop10IMSIWithFailures(startDate, endDate)).thenReturn(testListTop10ImsiFailures);
+		ApiResponse<List<Map<String, Object>>> response = queriesController.getTop10ImsiFailures(startDate, endDate);
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertEquals("Success", response.getStatus());
+	}
+
+	@Test
+
+	void testGetTop10ImsiFailuresInValidDate() {
+		LocalDateTime endDate = LocalDateTime.of(2015, 5, 5, 5, 5, 5);
+		LocalDateTime startDate = LocalDateTime.of(2024, 4, 4, 4, 4, 4);
+		ApiResponse<List<Map<String, Object>>> response = queriesController.getTop10ImsiFailures(startDate, endDate);
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+	}
+
+
+
+	// Query 7
+	@Test
+    public void testGetTop10MarketOperatorCellIdCombinationsValidDate() {
+        LocalDateTime startDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
+        LocalDateTime endDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
+        List<Object[]> testListTop10MocCombinations = new ArrayList<>();
+        Object[] testMocObject1 = {505, 71, 3, 3599};
+        Object[] testMocObject2 = {440, 11, 2, 3494};
+        testListTop10MocCombinations.add(testMocObject1);
+        testListTop10MocCombinations.add(testMocObject2);
+        when(callFailureDAOMock.top10MarketOperatorCellIdCombinations(startDate, endDate)).thenReturn(testListTop10MocCombinations);
+        ApiResponse<Object> response = queriesController.getTop10MarketOperatorCellIdCombinations(startDate, endDate);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+        assertEquals("Success", response.getStatus());
+    }
+
+	@Test
+    public void testGetTop10MarketOperatorCellIdCombinationsInvalidDate() {
+        LocalDateTime endDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
+        LocalDateTime startDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
+        ApiResponse<Object> response = queriesController.getTop10MarketOperatorCellIdCombinations(startDate, endDate);
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+    }
+
+	// Query 8
+	@Test
+	void testGetImsiUniqueFailures() {
+		long imsi = 1234L;
+
+		List<Long> imsis = Arrays.asList(1234L, 123456L, 789012L);
+
+		when(callFailureDAOMock.listImsi()).thenReturn(imsis);
+
+		List<Object[]> imsiFailures = new ArrayList<>();
+		imsiFailures.add(new Object[] { 1, 100, 10 });
+		imsiFailures.add(new Object[] { 2, 200, 5 });
+
+		when(callFailureDAOMock.findImsiUniqueEventCauseDescriptions(imsi)).thenReturn(imsiFailures);
+
+		ApiResponse<Object> response = queriesController.findImsiUniqueFailures(imsi);
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		List<?> responseData = (List<?>) response.getData();
+		assertEquals(imsiFailures.size(), responseData.size());
+	}
+
 }

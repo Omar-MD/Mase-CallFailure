@@ -58,3 +58,26 @@ const getIMSIFailureForFailureCauseClass = function() {
         }
     });
 };
+
+// Query #7
+const getTop10MocCombinations = function() {
+    let startDate = $("#top10-moc-combinations-start-date").val();
+    let endDate = $("#top10-moc-combinations-end-date").val();
+
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/top10-market-operator-cellid-combinations",
+        data: { startDate: startDate, endDate: endDate },
+        success: function(res) {
+            if (res.status == "Success") {
+                updateDataTable('top10-moc-combinations', res.data, ['mcc', 'mnc', 'cell_id', 'failure_count']);
+                $("#top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+            } else {
+                console.log("Error:", res.error);
+            }
+        },
+        error: function(error) {
+            console.error("Error in AJAX request:", error);
+        }
+    });
+}
