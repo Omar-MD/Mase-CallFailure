@@ -493,12 +493,19 @@
 				</div>
 
 				<div class="modal fade" id="imsi-failures-count-duration-chart-modal">
-					<div class="modal-dialog modal-dialog-centered">
-						<div class="modal-content" id="imsi-failures-count-duration-chart-container">
-							<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-								<h1 class="h2" id="imsi-failures-count-duration-chart-title">All Orders</h1>
+					<div class="modal-dialog modal-dialog-centered modal-lg">
+						<div class="modal-content">
+							<!-- Mondal Title -->
+							<div class="modal-header">
+								<h1 class="modal-title" id="imsi-failures-count-duration-chart-title">Graph Title</h1>
+								<!-- 'x' button in the top right -->
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
 							</div>
-							<canvas class="chart" id="imsi-failures-count-duration-chart"></canvas>
+							<div class="modal-body" id="imsi-failures-count-duration-chart-container">
+								<canvas class="chart" id="imsi-failures-count-duration-chart"></canvas>
+							</div>
 						</div>
 					</div>
 				</div>

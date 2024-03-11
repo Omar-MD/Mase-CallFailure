@@ -141,7 +141,7 @@ const getIMSIFailuresCountDuration = function() {
                 console.log(res)
                 const imsiList = res.data.map(entry => entry.imsi);
                 const failureCountList = res.data.map(entry => entry.failureCount);
-                renderChart(imsiList, failureCountList)
+                renderChart("IMSI Failure Counts and Duration", "Number of Failures", imsiList, failureCountList)
             } else {
                 console.log("Error:", res.error);
             }

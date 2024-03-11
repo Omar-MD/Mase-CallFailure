@@ -86,3 +86,8 @@ body {
 #header-content {
 	font-size: 175%;
 }
+
+/* Chart related CSSS */
+.chart {
+    padding: 2vh;
+}

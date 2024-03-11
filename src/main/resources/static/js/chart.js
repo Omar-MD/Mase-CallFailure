@@ -19,33 +19,22 @@ const buildChart = function (chartName) {
 
 
 /*
- *
- *
- *
- *
- *
- *
- *
- *
+ * This function takes in 4 arguments
+ *	1. The title of the chart, this will be displayed in the header of the modal
+ *  2. The chart key. This will be used in the key for the chart to denote what the chart data is
+ *  3&4. The x and y data, this must be in an array and not a map or JSON object
  */
-var renderChart = function (xData, yData) {
-	//console.log(plotData);
-	$('#'+currentChartStr+'-chart-title').text("IMSI Failure Counts and Duration");
-	// destroyAndRecreate();
-	// console.log(plotData);
-	// const brand = plotData.map((x) => x.id);
-	// const quantity = plotData.map((x) => x.quantity);
-	// console.log(brand);
-	//console.log(quantity);
-	console.log(xData);
-	console.log(yData);
+var renderChart = function (title, key, xData, yData) {
+	$('#'+currentChartStr+'-chart-title').text(title);
+	// console.log(xData);
+	// console.log(yData);
 	const ctx = document.getElementById(currentChartStr+"-chart").getContext('2d');
 	new Chart(ctx, {
 		type: 'bar',
 		data: {
 			labels: xData,
 			datasets: [{
-				label: 'Quantity of items per order (Order id)', 
+				label: key, 
 				data: yData, 
 				backgroundColor: '#198754',
 				borderWidth: 1
