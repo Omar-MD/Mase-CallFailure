@@ -181,8 +181,7 @@ const logout = function() {
      if (localStorage.getItem('role') === RoleType.SYSTEM_ADMINISTRATOR) {
         clearInterval(interval_ID);
     }
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    localStorage.clear();
     homeNav('#landing-window');
     showLogin();
 };
