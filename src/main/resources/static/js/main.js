@@ -130,6 +130,8 @@ const updateSideBar = function(role) {
                 <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
                 <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top10 Imsi Failures</button>
                 <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 MOC Combinations</button>
+                <button type="button" id="search-operator-btn-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 Operator</button>
+
 
             `);
         case RoleType.SUPPORT_ENGINEER:
