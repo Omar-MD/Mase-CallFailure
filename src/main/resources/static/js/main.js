@@ -127,15 +127,16 @@ const updateSideBar = function(role) {
             sidebar.append(`
                 <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count & Duration</button>
                 <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
-                <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top10 Imsi Failures</button>
+                <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 IMSI Failures</button>
                 <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 MOC Combinations</button>
-
+                <hr class="text-white d-block"/>
             `);
         case RoleType.SUPPORT_ENGINEER:
             sidebar.append(`
                 <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
                 <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button>
                 <button type="button" id="cause-failure-imsi-list-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures for Cause Class</button>
+                <hr class="text-white d-block"/>
             `);
         case RoleType.CUSTOMER_SERVICE_REP:
             sidebar.append(`

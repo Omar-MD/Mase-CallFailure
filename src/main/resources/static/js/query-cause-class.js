@@ -16,6 +16,7 @@ const addFailureCauseCodeDropdown = function(dropdownID) {
         url: rootUrl + "/query/failure-cause-classes",
         contentType: 'application/json',
         dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 res.data.forEach(cause_class => {
@@ -42,6 +43,7 @@ const getIMSIFailureForFailureCauseClass = function() {
         url: rootUrl + "/query/imsi-failures-class/" + failureClass,
         contentType: 'application/json',
         dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('cause-failure-imsi', res.data, []);
@@ -67,6 +69,7 @@ const getTop10MocCombinations = function() {
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/top10-market-operator-cellid-combinations",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
             if (res.status == "Success") {

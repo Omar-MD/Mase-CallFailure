@@ -17,7 +17,7 @@ const addImsiDropdown = function(dropdownId) {
         url: rootUrl + "/query/imsi-failures",
         contentType: 'application/json',
         dataType: "json",
-        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 res.data.forEach(imsi => {
@@ -44,7 +44,7 @@ const getIMSIFailures = function() {
         url: rootUrl + "/query/imsi-failures/" + imsi,
         contentType: 'application/json',
         dataType: "json",
-        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('imsi-failure', res.data, ['eventId', 'causeCode', 'description']);
@@ -74,7 +74,7 @@ const getIMSIFailureCountTime = function() {
         type: "GET",
         url: rootUrl + "/query/imsi-failure-count-time",
         data: { imsi: imsi, startDate: startDate, endDate: endDate },
-        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.statusCode === 200) {
                 msg.removeClass().addClass("alert alert-info")
@@ -108,12 +108,12 @@ const getIMSIFailureCountTime = function() {
 const getIMSIFailuresTime = function() {
     let startDate = $("#imsi-failures-time-start-date").val();
     let endDate = $("#imsi-failures-time-end-date").val();
-	console.log(startDate, endDate)
+    console.log(startDate, endDate)
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/imsi-failures-time",
         data: { startDate: startDate, endDate: endDate },
-        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('imsi-failures-time', res.data, ['causeCode', 'eventId', 'description']);
@@ -138,7 +138,7 @@ const getIMSIFailuresCountDuration = function() {
         type: "GET",
         url: rootUrl + "/query/imsi-failures-count-duration",
         data: { startDate: startDate, endDate: endDate },
-        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('imsi-count-duration', res.data, ["imsi", "failureCount", "totalDuration"]);
@@ -150,7 +150,7 @@ const getIMSIFailuresCountDuration = function() {
         error: function(error) {
             console.error("Error in AJAX request:", error);
         }
-    });  
+    });
 }
 
 //Query #8
@@ -160,11 +160,12 @@ const getIMSIUniqueCauseCodeFailure = function() {
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/imsi-unique-failures/" + imsi,
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.statusCode === 200) {
-               updateDataTable('imsi-unique-failure', res.data, ['eventId', 'causeCode', 'description']);
+                updateDataTable('imsi-unique-failure', res.data, ['eventId', 'causeCode', 'description']);
             } else {
-               console.log("Error:", res.error);
+                console.log("Error:", res.error);
             }
         },
         error: function(err) {
@@ -178,13 +179,14 @@ const getIMSIUniqueCauseCodeFailure = function() {
 const getTop10ImsiFailureTime = function() {
     let startDate = $("#top10-imsi-failure-time-start-date").val();
     let endDate = $("#top10-imsi-failure-time-end-date").val();
-	console.log(startDate, endDate)
+    console.log(startDate, endDate)
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/top10-imsi-failures-time",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
-			console.log(res.data)
+            console.log(res.data)
             if (res.status == "Success") {
                 updateDataTable('top10-imsi-failure-time', res.data, ["imsi", "failureCount"]);
                 $("#top10-imsi-failure-time-datatable-caption").text("TOP 10 IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
@@ -197,8 +199,3 @@ const getTop10ImsiFailureTime = function() {
         }
     });
 }
-
-
-
-
-
