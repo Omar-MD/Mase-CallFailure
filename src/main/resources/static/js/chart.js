@@ -1,28 +1,21 @@
 
-
-let currentChartStr = ""
-
-/*
- * Pass in the name for the chart eg "imsi-failures-count-duration"
- * This function will
- *  1. Remove all the chart elements
- *  2. Get the chart container by appending "-chart-container" to the input
- *  3. Create a new chart inside the chart container with the id being the input with "-chart" appeneded
- *  4. Save current chart name into currentChartStr
- */ 
-// const buildChart = function (chartName) {
-//     $(".chart").remove();
-//     $("#"+chartName+"-chart-container").append(`<canvas id="${chartName+"-chart"}"></canvas>`)
-//     currentChartStr = chartName
-// }
-
 /*
  * 	This function creats a button that spawns a modal in the id of "whereToAdd"
  *
  *	The mondal has ids derived from the second parameter "modalName"
  */
-const addMondal = function(whereToAdd, modalName) {
-	let mondal = `
+const addMondal = function (whereToAdd, modalName) {
+
+	
+	let oldChart = $('#' + modalName + "-chart");
+	if (oldChart.length) {
+		// Remove old chart
+		oldChart.remove();
+		// Add new chart
+		$("#" + modalName + "-chart-container").append(`<canvas class="chart" id="${modalName}-chart"></canvas>`)
+	} else {
+		// Add new button and model
+		let modal = `
 		<div class="mb-3">
 			<button type="button" class="btn btn-dark" data-toggle="modal"
 				data-target="#${modalName}-chart-modal">Show Graph</button>
@@ -30,7 +23,7 @@ const addMondal = function(whereToAdd, modalName) {
 		<div class="modal fade" id="${modalName}-chart-modal">
 			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
-					<!-- Mondal Title -->
+					<!-- Modal Title -->
 					<div class="modal-header">
 						<h1 class="modal-title" id="${modalName}-chart-title">Graph Title</h1>
 						<!-- 'x' button in the top right -->
@@ -43,16 +36,14 @@ const addMondal = function(whereToAdd, modalName) {
 					</div>
 				</div>
 			</div>
-		</div>
-	`
-	// Adds a '#' if one is not supplied
-	if (whereToAdd.length > 0 && whereToAdd.charAt(0) != '#') {
-		whereToAdd = "#" + whereToAdd;
-	}
-	$(whereToAdd).append(mondal);
+		</div>`
 
-	// Saves the modal name so we render it later
-	currentChartStr = modalName;
+		// Adds a '#' if one is not supplied
+		if (whereToAdd.length > 0 && whereToAdd.charAt(0) != '#') {
+			whereToAdd = "#" + whereToAdd;
+		}
+		$(whereToAdd).append(modal);
+	}
 }
 
 /*
@@ -61,26 +52,36 @@ const addMondal = function(whereToAdd, modalName) {
  *  2. The chart key. This will be used in the key for the chart to denote what the chart data is
  *  3&4. The x and y data, this must be in an array and not a map or JSON object
  */
-var renderChart = function(title, key, xData, yData) {
-	$('#'+currentChartStr+'-chart-title').text(title);
+var renderChart = function (modalName, title, key, xData, xLabel, yData, yLabel) {
+	$('#' + modalName + '-chart-title').text(title);
 	// console.log(xData);
 	// console.log(yData);
-	const ctx = document.getElementById(currentChartStr+"-chart").getContext('2d');
+	const ctx = document.getElementById(modalName + "-chart").getContext('2d');
 	new Chart(ctx, {
 		type: 'bar',
 		data: {
 			labels: xData,
 			datasets: [{
-				label: key, 
-				data: yData, 
+				label: key,
+				data: yData,
 				backgroundColor: '#198754',
 				borderWidth: 1
 			}]
 		},
 		options: {
 			scales: {
+				x: {
+					title: {
+						display: true,
+						text: xLabel
+					}
+				},
 				y: {
-					beginAtZero: true
+					beginAtZero: true,
+					title: {
+						display: true,
+						text: yLabel
+					}
 				}
 			}
 		}
@@ -88,7 +89,12 @@ var renderChart = function(title, key, xData, yData) {
 };
 
 
-const addChart = function (whereToAdd, modalName, title, key, xData, yData) {
-	addMondal(whereToAdd, modalName);
-	renderChart(title, key, xData, yData);
+// const addChartParamList = function (whereToAdd, modalName, title, key, xData, xLabel, yData, yLabel) {
+// 	addMondal(whereToAdd, modalName);
+// 	renderChart(modalName, title, key, xData, xLabel, yData, yLabel);
+// }
+
+const addChart = function (chartData) {
+	addMondal(chartData.whereToAdd, chartData.modalName);
+	renderChart(chartData.modalName, chartData.title, chartData.key, chartData.xData, chartData.xLabel, chartData.yData, chartData.yLabel);
 }
