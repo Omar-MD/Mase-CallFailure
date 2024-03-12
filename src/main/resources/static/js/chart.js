@@ -52,49 +52,17 @@ const addMondal = function (whereToAdd, modalName) {
  *  2. The chart key. This will be used in the key for the chart to denote what the chart data is
  *  3&4. The x and y data, this must be in an array and not a map or JSON object
  */
-var renderChart = function (modalName, title, key, xData, xLabel, yData, yLabel) {
+var renderChart = function (modalName, title, chartDetails) {
 	$('#' + modalName + '-chart-title').text(title);
 	// console.log(xData);
 	// console.log(yData);
 	const ctx = document.getElementById(modalName + "-chart").getContext('2d');
-	new Chart(ctx, {
-		type: 'bar',
-		data: {
-			labels: xData,
-			datasets: [{
-				label: key,
-				data: yData,
-				backgroundColor: '#198754',
-				borderWidth: 1
-			}]
-		},
-		options: {
-			scales: {
-				x: {
-					title: {
-						display: true,
-						text: xLabel
-					}
-				},
-				y: {
-					beginAtZero: true,
-					title: {
-						display: true,
-						text: yLabel
-					}
-				}
-			}
-		}
-	});
+	new Chart(ctx, chartDetails);
 };
 
 
-// const addChartParamList = function (whereToAdd, modalName, title, key, xData, xLabel, yData, yLabel) {
-// 	addMondal(whereToAdd, modalName);
-// 	renderChart(modalName, title, key, xData, xLabel, yData, yLabel);
-// }
-
 const addChart = function (chartData) {
 	addMondal(chartData.whereToAdd, chartData.modalName);
-	renderChart(chartData.modalName, chartData.title, chartData.key, chartData.xData, chartData.xLabel, chartData.yData, chartData.yLabel);
+	renderChart(chartData.modalName, chartData.title, chartData.chartDetails);
 }
+
