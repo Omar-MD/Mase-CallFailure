@@ -152,7 +152,7 @@ const getIMSIFailuresCountDuration = function() {
                     modalName: "imsi-failures-count-duration", 
                     title: "IMSI Failure Counts and Duration", 
                     chartDetails: {
-                        type: 'bar',
+                        type: 'scatter',
                         data: {
                             labels: durationList,
                             datasets: [{
@@ -177,7 +177,22 @@ const getIMSIFailuresCountDuration = function() {
                                         text: "# of Failures"
                                     }
                                 }
-                            }
+                            },
+							plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        title: function (tooltipItems) {
+                                            if (!tooltipItems.length) {
+                                                return '';
+                                            }
+                                            let index = tooltipItems[0];
+                                            let x = index.dataIndex;
+                                            let imsi = imsiList[x];
+                                            return `IMSI: ${imsi}`;
+                                        }
+                                    }
+								}
+							}
                         }
                     },
                     clickHandler: (event) => {
