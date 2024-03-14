@@ -50,17 +50,20 @@ const addMondal = function (whereToAdd, modalName) {
  *  2. The chart key. This will be used in the key for the chart to denote what the chart data is
  *  3&4. The x and y data, this must be in an array and not a map or JSON object
  */
-var renderChart = function (modalName, title, chartDetails) {
+var renderChart = function (modalName, title, chartDetails, clickHandler) {
 	$('#' + modalName + '-chart-title').text(title);
 	// console.log(xData);
 	// console.log(yData);
 	const ctx = document.getElementById(modalName + "-chart").getContext('2d');
 	new Chart(ctx, chartDetails);
+	if(clickHandler) {
+		document.getElementById(modalName + "-chart").onclick = clickHandler;
+	}
 };
 
 
 const addChart = function (chartData) {
 	addMondal(chartData.whereToAdd, chartData.modalName);
-	renderChart(chartData.modalName, chartData.title, chartData.chartDetails);
+	renderChart(chartData.modalName, chartData.title, chartData.chartDetails, chartData.clickHandler);
 }
 
