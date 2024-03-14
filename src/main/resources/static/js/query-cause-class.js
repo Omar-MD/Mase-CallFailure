@@ -100,8 +100,13 @@ const getTop10MocCombinations = function() {
             if (res.status == "Success") {
                 updateDataTable('top10-moc-combinations', res.data, ["mcc", "mnc", "cell_id", "failure_count"]);
                 $("#top10-moc-combinations-datatable-caption").text("top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
-                const imsiList = res.data.map(entry => entry.cell_id+ entry.mcc+ entry.mnc);
-                const failureCountList = res.data.map(entry => entry.failureCount);
+                
+                
+                const imsiList = res.data.map(entry => (entry.cell_id+"/"+ entry.mcc+"/"+ entry.mnc));
+                const failureCountList = res.data.map(entry => entry.failure_count);
+                console.log(res);
+                console.log(imsiList);
+                console.log(failureCountList);
 
                 // =================================================================
                 addChart({
@@ -113,7 +118,7 @@ const getTop10MocCombinations = function() {
                         data: {
                             labels: imsiList,
                             datasets: [{
-                                label: "Number of Failures",
+                                label: "Failure Count",
                                 data: failureCountList,
                                 backgroundColor: '#198754',
                                 borderWidth: 1
