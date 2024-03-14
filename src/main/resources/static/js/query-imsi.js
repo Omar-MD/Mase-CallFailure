@@ -262,7 +262,7 @@ const getTop10ImsiFailureTime = function() {
 							datasets: [{
 								label: "Number of Failures",
 								data: top10ImsiFailureCountList,
-								backgroundColor: '#00008B',
+								backgroundColor: '#008080',
 								borderWidth: 1
 							}]
 						},
