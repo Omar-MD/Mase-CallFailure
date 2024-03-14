@@ -102,7 +102,50 @@ const getTop10MocCombinations = function() {
                 $("#top10-moc-combinations-datatable-caption").text("top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
                 const imsiList = res.data.map(entry => entry.cell_id+ entry.mcc+ entry.mnc);
                 const failureCountList = res.data.map(entry => entry.failureCount);
-                }
+
+                // =================================================================
+                addChart({
+                    whereToAdd: "top10-moc-combinations-datatable-window", 
+                    modalName: "top10-moc-combinations", 
+                    title: "Top 10 Market/Operator/Cell ID Combinations", 
+                    chartDetails: {
+                        type: 'bar',
+                        data: {
+                            labels: imsiList,
+                            datasets: [{
+                                label: "Number of Failures",
+                                data: failureCountList,
+                                backgroundColor: '#198754',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: "imsi" 
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "# of Failures"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                // =================================================================
+                
+            } else {
+                console.log("Error:", res.error);
+            }
+        },
+        error: function(error) {
+            console.error("Error in AJAX request:", error);
         }
     });
 }
