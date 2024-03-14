@@ -143,6 +143,7 @@ const getIMSIFailuresCountDuration = function() {
                 updateDataTable('imsi-count-duration', res.data, ["imsi", "failureCount", "totalDuration"]);
                 $("#imsi-failures-count-duration-datatable-caption").text("IMSI Failures Count and Duration - " + startDate.replace('T', ' ') + " to " + endDate.replace('T', ' '));
                 const imsiList = res.data.map(entry => entry.imsi);
+                const durationList = res.data.map(entry => entry.totalDuration);
                 const failureCountList = res.data.map(entry => entry.failureCount);
 
                 // =================================================================
@@ -153,7 +154,7 @@ const getIMSIFailuresCountDuration = function() {
                     chartDetails: {
                         type: 'bar',
                         data: {
-                            labels: imsiList,
+                            labels: durationList,
                             datasets: [{
                                 label: "Number of Failures",
                                 data: failureCountList,
@@ -166,7 +167,7 @@ const getIMSIFailuresCountDuration = function() {
                                 x: {
                                     title: {
                                         display: true,
-                                        text: "imsi" 
+                                        text: "imsi"  
                                     }
                                 },
                                 y: {
@@ -177,6 +178,23 @@ const getIMSIFailuresCountDuration = function() {
                                     }
                                 }
                             }
+                        }
+                    },
+                    clickHandler: (event) => {
+                        let canvas = event.currentTarget;
+
+                        // Get the chart instance associated with the canvas
+                        let chartInstance = Chart.getChart(canvas);
+                    
+                        // Get the element under the click
+                        let elements = chartInstance.getElementsAtEventForMode(event, 'nearest', { intersect: true }, false);
+                    
+                        if (elements.length > 0) {
+                            let index = elements[0].index;
+                            let datasetIndex = elements[0].datasetIndex;
+                            let label = chartInstance.data.labels[index];
+                            let value = chartInstance.data.datasets[datasetIndex].data[index];
+                            console.log("Clicked on " + label + " with value " + value);
                         }
                     }
                 });
