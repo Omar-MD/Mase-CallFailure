@@ -130,7 +130,6 @@ const updateSideBar = function(role) {
                 <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 IMSI Failures</button>
                 <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 MOC Combinations</button>
                 <hr class="text-white d-block"/>
-
             `);
         case RoleType.SUPPORT_ENGINEER:
             sidebar.append(`
