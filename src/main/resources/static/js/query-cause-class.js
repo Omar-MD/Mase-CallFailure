@@ -100,8 +100,8 @@ const getTop10MocCombinations = function() {
             if (res.status == "Success") {
                 updateDataTable('top10-moc-combinations', res.data, ["mcc", "mnc", "cell_id", "failure_count"]);
                 $("#top10-moc-combinations-datatable-caption").text("top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
-                const marketList = res.data.map(entry => entry.cell_id+ entry.mcc+ entrymnc);
-                const operatorCountList = res.data.map(entry => entry.failureCount);
+                const imsiList = res.data.map(entry => entry.cell_id+ entry.mcc+ entry.mnc);
+                const failureCountList = res.data.map(entry => entry.failureCount);
                 }
         }
     });
