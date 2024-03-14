@@ -147,7 +147,7 @@ const getIMSIFailuresCountDuration = function() {
 
                 // =================================================================
                 addChart({
-                    whereToAdd: "imsi-failures-count-duration-datatable-window", 
+                    whereToAdd: "imsi-failures-count-duration-container", 
                     modalName: "imsi-failures-count-duration", 
                     title: "IMSI Failure Counts and Duration", 
                     chartDetails: {

@@ -15,10 +15,9 @@ const addMondal = function (whereToAdd, modalName) {
 		$("#" + modalName + "-chart-container").append(`<canvas class="chart" id="${modalName}-chart"></canvas>`)
 	} else {
 		let modal = `
-		<div class="mb-3">
-			<button type="button" class="btn btn-dark" data-toggle="modal"
-				data-target="#${modalName}-chart-modal">Show Graph</button>
-		</div>
+		<div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#${modalName}-chart-modal" >Visualise</button>
+        </div>
 		<div class="modal fade" id="${modalName}-chart-modal">
 			<div class="modal-dialog modal-dialog-centered modal-xl">
 				<div class="modal-content">
