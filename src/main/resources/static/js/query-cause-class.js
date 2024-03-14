@@ -104,9 +104,13 @@ const getTop10MocCombinations = function() {
                 
                 const imsiList = res.data.map(entry => (entry.cell_id+"/"+ entry.mcc+"/"+ entry.mnc));
                 const failureCountList = res.data.map(entry => entry.failure_count);
+                const totalFailures = failureCountList.reduce((a,b) => a+b, 0);
+                const failurePercentages = res.data.map(entry => (entry.failure_count / totalFailures) * 100);
+
                 console.log(res);
                 console.log(imsiList);
                 console.log(failureCountList);
+                console.log(failurePercentages);
 
                 // =================================================================
 				addChart({
@@ -134,6 +138,8 @@ const getTop10MocCombinations = function() {
                                     title: {
                                         display: true,
                                         text: "cell_id/mcc/mnc" 
+                                        
+                                        
                                     }
                                 },
                                 y: {
@@ -143,7 +149,27 @@ const getTop10MocCombinations = function() {
                                         text: "# of Failures"
                                     }
                                 }
-                            }
+                                  
+                            },
+							plugins: {
+								legend: {
+									display: false,
+								},
+								tooltip: {
+									callbacks: {
+										title: (items) => {
+											if (!items.length) {
+												return '';
+											}
+											const item = items[0];
+											const x = item.parsed.x;
+											const min = x - 0.5;
+											const max = x + 0.5;
+											return `%Failues: ${min} - ${max}`;
+										}
+									}
+								}
+							}
                         }
                     }
                 });
