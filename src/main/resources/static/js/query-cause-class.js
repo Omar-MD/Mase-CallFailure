@@ -60,7 +60,7 @@ const getIMSIFailureForFailureCauseClass = function() {
     });
 };
 
-// Query #7
+/*// Query #7
 const getTop10MocCombinations = function() {
     let startDate = $("#top10-moc-combinations-start-date").val();
     let endDate = $("#top10-moc-combinations-end-date").val();
@@ -69,8 +69,10 @@ const getTop10MocCombinations = function() {
         type: "GET",
         url: rootUrl + "/query/top10-market-operator-cellid-combinations",
         headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
+        
         data: { startDate: startDate, endDate: endDate },
         success: function(res) {
+			console.log(res)
             if (res.status == "Success") {
                 updateDataTable('top10-moc-combinations', res.data, ['mcc', 'mnc', 'cell_id', 'failure_count']);
                 $("#top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
@@ -80,6 +82,27 @@ const getTop10MocCombinations = function() {
         },
         error: function(error) {
             console.error("Error in AJAX request:", error);
+        }
+    });
+}*/
+
+// Query #7B
+const getTop10MocCombinations = function() {
+    let startDate = $("#top10-moc-combinations-start-date").val();
+    let endDate = $("#top10-moc-combinations-end-date").val();
+
+    $.ajax({
+        type: "GET",
+        url: rootUrl + "/query/top10-market-operator-cellid-combinations",
+        data: { startDate: startDate, endDate: endDate },
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
+        success: function(res) {
+            if (res.status == "Success") {
+                updateDataTable('top10-moc-combinations', res.data, ["mcc", "mnc", "cell_id", "failure_count"]);
+                $("#top10-moc-combinations-datatable-caption").text("top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+                const imsiList = res.data.map(entry => entry.cell_id+ entry.mcc+ entrymnc);
+                const failureCountList = res.data.map(entry => entry.failureCount);
+                }
         }
     });
 }
