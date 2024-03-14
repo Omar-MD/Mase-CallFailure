@@ -143,6 +143,7 @@ const getIMSIFailuresCountDuration = function() {
                 updateDataTable('imsi-count-duration', res.data, ["imsi", "failureCount", "totalDuration"]);
                 $("#imsi-failures-count-duration-datatable-caption").text("IMSI Failures Count and Duration - " + startDate.replace('T', ' ') + " to " + endDate.replace('T', ' '));
                 const imsiList = res.data.map(entry => entry.imsi);
+                const durationList = res.data.map(entry => entry.totalDuration);
                 const failureCountList = res.data.map(entry => entry.failureCount);
 
                 // =================================================================
@@ -153,7 +154,7 @@ const getIMSIFailuresCountDuration = function() {
                     chartDetails: {
                         type: 'bar',
                         data: {
-                            labels: imsiList,
+                            labels: durationList,
                             datasets: [{
                                 label: "Number of Failures",
                                 data: failureCountList,
@@ -166,7 +167,7 @@ const getIMSIFailuresCountDuration = function() {
                                 x: {
                                     title: {
                                         display: true,
-                                        text: "imsi" 
+                                        text: "imsi"  
                                     }
                                 },
                                 y: {
