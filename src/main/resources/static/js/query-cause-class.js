@@ -117,7 +117,7 @@ const getTop10MocCombinations = function() {
 
                 // =================================================================
 				addChart({
-					whereToAdd: "top10-moc-combinations-datatable-window",
+					whereToAdd: "top10-moc-combinations-container",
 					modalName: "top10-moc-combinations",
 					title: "Top 10 Market/Operator/Cell ID Combinations",
 					chartDetails: {
