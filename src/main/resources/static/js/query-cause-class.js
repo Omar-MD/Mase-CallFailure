@@ -158,15 +158,14 @@ const getTop10MocCombinations = function() {
 								},
 								tooltip: {
 									callbacks: {
-										title: (items) => {
-											if (!items.length) {
-												return '';
-											}
-											const item = items[0];
-											const x = item.parsed.x;
-											const min = x - 0.5;
-											const max = x + 0.5;
-											return `%Failues: ${min} - ${max}`;
+										// Modify the title callback to display the failure percentage
+										title: function(tooltipItems, data) {
+											// Get the index of the hovered item
+											let index = tooltipItems[0].dataIndex;
+											// Access the failure percentages for the hovered item
+											let failurePercentage = data.datasets[0].failurePercentages[index];
+											// Return the custom tooltip title
+											return `Failure Percentage: ${failurePercentage.toFixed(2)}%`;
 										}
 									}
 								}
