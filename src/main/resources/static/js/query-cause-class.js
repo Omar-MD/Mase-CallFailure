@@ -109,20 +109,24 @@ const getTop10MocCombinations = function() {
                 console.log(failureCountList);
 
                 // =================================================================
-                addChart({
-                    whereToAdd: "top10-moc-combinations-datatable-window", 
-                    modalName: "top10-moc-combinations", 
-                    title: "Top 10 Market/Operator/Cell ID Combinations", 
-                    chartDetails: {
-                        type: 'bar',
-                        data: {
-                            labels: imsiList,
-                            datasets: [{
-                                label: "Failure Count",
-                                data: failureCountList,
-                                backgroundColor: '#198754',
-                                borderWidth: 1
-                            }]
+				addChart({
+					whereToAdd: "top10-moc-combinations-datatable-window",
+					modalName: "top10-moc-combinations",
+					title: "Top 10 Market/Operator/Cell ID Combinations",
+					chartDetails: {
+						type: 'bar',
+						data: {
+							labels: imsiList,
+							datasets: [{
+								label: "Failure Count",
+								data: failureCountList,
+								backgroundColor: 'gray',
+								borderColor: 'red',
+								borderWidth: 1,
+								barPercentage: 1,
+								categoryPercentage: 1,
+								borderRadius: 5,
+							}]
                         },
                         options: {
                             scales: {
