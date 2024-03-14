@@ -127,13 +127,12 @@ body {
 }
 
 .custom-close {
-    /* Add any custom styles here */
     background: none;
     border: none;
     color: black;
-    font-size: 48px; /* Adjust font size as needed */
+    font-size: 48px;
 }
 
 .custom-close:hover {
-    color: red; /* Change color on hover if desired */
+    color: red;
 }
