@@ -87,8 +87,47 @@ const getModelFailuresTypeCount = function() {
         headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
+                
                 updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);
                 $("#model-id").text(model);
+                let eventCauseList = res.data.map(entry => entry.eventId + '_' + entry.causeCode);
+                let failureCountList = res.data.map(entry => entry.failureCount);
+                // =================================================================
+                addChart({
+                    whereToAdd: "model-failures-type-count-container",
+                    modalName: "model-failures-type-count",
+                    title: "Model Failures Type Count",
+                    chartDetails: {
+                        type: 'bar',
+                        data: {
+                            labels: eventCauseList,
+                            datasets: [{
+                                label: "Number of Failures",
+                                data: failureCountList,
+                                backgroundColor: '#198754',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: "Event Id- Cause Code"
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "# of Failures"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                // =================================================================
             } else {
                 console.log("Error:", res.error);
             }

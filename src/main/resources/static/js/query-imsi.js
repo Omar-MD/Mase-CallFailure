@@ -145,51 +145,68 @@ const getIMSIFailuresCountDuration = function() {
 				const imsiList = res.data.map(entry => entry.imsi);
 				const failureCountList = res.data.map(entry => entry.failureCount);
 
-				// =================================================================
-				addChart({
-					whereToAdd: "imsi-failures-count-duration-datatable-window",
-					modalName: "imsi-failures-count-duration",
-					title: "IMSI Failure Counts and Duration",
-					chartDetails: {
-						type: 'bar',
-						data: {
-							labels: imsiList,
-							datasets: [{
-								label: "Number of Failures",
-								data: failureCountList,
-								backgroundColor: '#198754',
-								borderWidth: 1
-							}]
-						},
-						options: {
-							scales: {
-								x: {
-									title: {
-										display: true,
-										text: "imsi"
-									}
-								},
-								y: {
-									beginAtZero: true,
-									title: {
-										display: true,
-										text: "# of Failures"
-									}
-								}
-							}
-						}
-					}
-				});
-				// =================================================================
+                // =================================================================
+                addChart({
+                    whereToAdd: "imsi-failures-count-duration-container", 
+                    modalName: "imsi-failures-count-duration", 
+                    title: "IMSI Failure Counts and Duration", 
+                    chartDetails: {
+                        type: 'bar',
+                        data: {
+                            labels: imsiList,
+                            datasets: [{
+                                label: "Number of Failures",
+                                data: failureCountList,
+                                backgroundColor: '#198754',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: "imsi" 
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "# of Failures"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    clickHandler: (event) => {
+                        let canvas = event.currentTarget;
 
-			} else {
-				console.log("Error:", res.error);
-			}
-		},
-		error: function(error) {
-			console.error("Error in AJAX request:", error);
-		}
-	});
+                        // Get the chart instance associated with the canvas
+                        let chartInstance = Chart.getChart(canvas);
+                    
+                        // Get the element under the click
+                        let elements = chartInstance.getElementsAtEventForMode(event, 'nearest', { intersect: true }, false);
+                    
+                        if (elements.length > 0) {
+                            let index = elements[0].index;
+                            let datasetIndex = elements[0].datasetIndex;
+                            let label = chartInstance.data.labels[index];
+                            let value = chartInstance.data.datasets[datasetIndex].data[index];
+                            console.log("Clicked on " + label + " with value " + value);
+                        }
+                    }
+                });
+                // =================================================================
+                
+            } else {
+                console.log("Error:", res.error);
+            }
+        },
+        error: function(error) {
+            console.error("Error in AJAX request:", error);
+        }
+    });
 }
 
 //Query #8
@@ -235,7 +252,7 @@ const getTop10ImsiFailureTime = function() {
 				//=======================================graph codes====================
 
 				addChart({
-					whereToAdd: "top10-imsi-failure-time-datatable-window",
+					whereToAdd: "top10-imsi-failure-time-container",
 					modalName: "top10-imsi-failure-time",
 					title: "TOP 10 IMSI Failure ",
 					chartDetails: {
