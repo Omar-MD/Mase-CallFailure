@@ -158,19 +158,23 @@ const getTop10MocCombinations = function() {
 								},
 								tooltip: {
 									callbacks: {
-										// Modify the title callback to display the failure percentage
-										title: function(tooltipItems, data) {
-											// Get the index of the hovered item
-											let index = tooltipItems[0].dataIndex;
-											// Access the failure percentages for the hovered item
-											let failurePercentage = data.datasets[0].failurePercentages[index];
-											// Return the custom tooltip title
+										title: function(tooltipItems) {
+											console.log(tooltipItems)
+											//console.log(data)
+										   if (!tooltipItems.length) {
+												return '';
+											}
+											let index = tooltipItems[0];
+											let x = index.parsed.x;
+											console.log(x)
+											let failurePercentage = failurePercentages[x];
+											console.log(failurePercentages);
 											return `Failure Percentage: ${failurePercentage.toFixed(2)}%`;
 										}
 									}
 								}
 							}
-                        }
+						}
                     }
                 });
                 // =================================================================
