@@ -93,6 +93,8 @@ const getTop10MocCombinations = function() {
 const getTop10MocCombinations = function() {
     let startDate = $("#top10-moc-combinations-start-date").val();
     let endDate = $("#top10-moc-combinations-end-date").val();
+    
+    
 
     $.ajax({
         type: "GET",
@@ -114,6 +116,8 @@ const getTop10MocCombinations = function() {
                 console.log(imsiList);
                 console.log(failureCountList);
                 console.log(failurePercentages);
+                
+                
 
                 // =================================================================
 				addChart({
@@ -191,3 +195,4 @@ const getTop10MocCombinations = function() {
         }
     });
 }
+
