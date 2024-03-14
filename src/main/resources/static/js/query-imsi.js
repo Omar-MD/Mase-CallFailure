@@ -249,7 +249,8 @@ const getTop10ImsiFailureTime = function() {
 				const top10imsiList = res.data.map(entry => entry.imsi);
 				const top10ImsiFailureCountList = res.data.map(entry => entry.failureCount);
 				console.log(res);
-				//=======================================graph codes====================
+				
+				//==========================graph visualization codes====================
 
 				addChart({
 					whereToAdd: "top10-imsi-failure-time-container",
@@ -286,7 +287,6 @@ const getTop10ImsiFailureTime = function() {
 					}
 				});
 				// =================================================================
-
 
 			} else {
 				console.log("Error:", res.error);
