@@ -147,7 +147,7 @@ const getIMSIFailuresCountDuration = function() {
 
                 // =================================================================
                 addChart({
-                    whereToAdd: "imsi-failures-count-duration-datatable-window", 
+                    whereToAdd: "imsi-failures-count-duration-container", 
                     modalName: "imsi-failures-count-duration", 
                     title: "IMSI Failure Counts and Duration", 
                     chartDetails: {
@@ -177,6 +177,23 @@ const getIMSIFailuresCountDuration = function() {
                                     }
                                 }
                             }
+                        }
+                    },
+                    clickHandler: (event) => {
+                        let canvas = event.currentTarget;
+
+                        // Get the chart instance associated with the canvas
+                        let chartInstance = Chart.getChart(canvas);
+                    
+                        // Get the element under the click
+                        let elements = chartInstance.getElementsAtEventForMode(event, 'nearest', { intersect: true }, false);
+                    
+                        if (elements.length > 0) {
+                            let index = elements[0].index;
+                            let datasetIndex = elements[0].datasetIndex;
+                            let label = chartInstance.data.labels[index];
+                            let value = chartInstance.data.datasets[datasetIndex].data[index];
+                            console.log("Clicked on " + label + " with value " + value);
                         }
                     }
                 });
