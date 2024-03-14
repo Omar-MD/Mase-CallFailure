@@ -124,6 +124,7 @@ const getTop10MocCombinations = function() {
 							datasets: [{
 								label: "Failure Count",
 								data: failureCountList,
+								failurePercentages: failurePercentages,
 								backgroundColor: 'gray',
 								borderColor: 'red',
 								borderWidth: 1,
