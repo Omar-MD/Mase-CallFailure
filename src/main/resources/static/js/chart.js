@@ -25,7 +25,7 @@ const addMondal = function (whereToAdd, modalName) {
 					<div class="modal-header">
 						<h2 class="modal-title" id="${modalName}-chart-title">Graph Title</h2>
 						<!-- 'x' button in the top right -->
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<button type="button" class="close custom-close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
