@@ -301,16 +301,30 @@ const getTop10ImsiFailureTime = function() {
                         options: {
                             scales: {
                                 x: {
+									ticks: {
+                                        font: {
+                                            size: 14
+                                        }
+                                    },
                                     title: {
                                         display: true,
-                                        text: "TOP 10 IMSI"
+                                        text: "TOP 10 IMSI",
+										font: {
+                                            size: 24,
+                                        }
                                     }
                                 },
                                 y: {
                                     beginAtZero: true,
                                     title: {
                                         display: true,
-                                        text: "No. of Failures"
+                                        text: "No. of Failures",
+										font: {
+                                            size: 24,
+                                        }
+                                    },
+									ticks: {
+                                        fontSize: 14
                                     }
                                 }
                             }

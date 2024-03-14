@@ -90,7 +90,7 @@ const getModelFailuresTypeCount = function() {
                 
                 updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);
                 $("#model-id").text(model);
-                let eventCauseList = res.data.map(entry => entry.eventId + '_' + entry.causeCode);
+                let eventCauseList = res.data.map(entry => entry.eventId + '-' + entry.causeCode);
                 let failureCountList = res.data.map(entry => entry.failureCount);
                 // =================================================================
                 addChart({
@@ -111,16 +111,30 @@ const getModelFailuresTypeCount = function() {
                         options: {
                             scales: {
                                 x: {
+                                    ticks: {
+                                        font: {
+                                            size: 14
+                                        }
+                                    },
                                     title: {
                                         display: true,
-                                        text: "Event Id- Cause Code"
+                                        text: "Event Id - Cause Code",
+                                        font: {
+                                            size: 24,
+                                        }
                                     }
                                 },
                                 y: {
                                     beginAtZero: true,
                                     title: {
                                         display: true,
-                                        text: "# of Failures"
+                                        text: "# of Failures",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    }, 
+                                    ticks: {
+                                        fontSize: 14
                                     }
                                 }
                             }
