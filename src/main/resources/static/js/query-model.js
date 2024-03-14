@@ -94,7 +94,7 @@ const getModelFailuresTypeCount = function() {
                 let failureCountList = res.data.map(entry => entry.failureCount);
                 // =================================================================
                 addChart({
-                    whereToAdd: "model-failures-type-count-datatable-window",
+                    whereToAdd: "model-failures-type-count-container",
                     modalName: "model-failures-type-count",
                     title: "Model Failures Type Count",
                     chartDetails: {
