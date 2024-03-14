@@ -104,7 +104,7 @@ const getModelFailuresTypeCount = function() {
                             datasets: [{
                                 label: "Number of Failures",
                                 data: failureCountList,
-                                backgroundColor: '#198754',
+                                backgroundColor: '#008080',
                                 borderWidth: 1
                             }]
                         },
