@@ -159,6 +159,7 @@ const getIMSIFailuresCountDuration = function() {
                                 label: "Number of Failures",
                                 data: failureCountList,
                                 backgroundColor: '#198754',
+                                // backgroundColor: '#AF2C2C',
                                 borderWidth: 1
                             }]
                         },
@@ -167,7 +168,7 @@ const getIMSIFailuresCountDuration = function() {
                                 x: {
                                     title: {
                                         display: true,
-                                        text: "imsi"  
+                                        text: "Duration"  
                                     }
                                 },
                                 y: {
