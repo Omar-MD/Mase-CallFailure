@@ -125,3 +125,14 @@ body {
     width: 100% !important;
     padding: 2vh;
 }
+
+.custom-close {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 48px;
+}
+
+.custom-close:hover {
+    color: red;
+}

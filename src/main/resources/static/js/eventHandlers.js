@@ -182,6 +182,7 @@ const logout = function() {
         clearInterval(interval_ID);
     }
     localStorage.clear();
+    $('#header-content').text("Welcome To Login Page");
     homeNav('#landing-window');
     showLogin();
 };
