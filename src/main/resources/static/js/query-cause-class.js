@@ -129,7 +129,7 @@ const getTop10MocCombinations = function() {
                                 x: {
                                     title: {
                                         display: true,
-                                        text: "imsi" 
+                                        text: "cell_id/mcc/mnc" 
                                     }
                                 },
                                 y: {
