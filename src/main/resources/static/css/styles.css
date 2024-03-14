@@ -112,3 +112,27 @@ body {
 #logout-nav-link:hover {
     color: white !important;
 }
+
+/* Chart related CSSS */
+.chart {
+    /* 
+        Becuase the modals are created by javascript, the !important tags are needed 
+        otherwise this css is too low in the hierarchy and is not applied
+        
+        Don't ask me why that is the case 
+    */
+    height: 100% !important;
+    width: 100% !important;
+    padding: 2vh;
+}
+
+.custom-close {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 48px;
+}
+
+.custom-close:hover {
+    color: red;
+}
