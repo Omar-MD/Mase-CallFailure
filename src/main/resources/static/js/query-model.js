@@ -42,7 +42,6 @@ const getModelFailureCount = function() {
     let msg = $("#model-failure-count-result");
 
     msg.html("");
-
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/model-failure-count",

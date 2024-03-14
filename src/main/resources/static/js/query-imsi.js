@@ -68,7 +68,6 @@ const getIMSIFailureCountTime = function() {
     let msg = $("#imsi-failure-count-time-result");
 
     msg.html("");
-
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/imsi-failure-count-time",
@@ -301,7 +300,7 @@ const getTop10ImsiFailureTime = function() {
                         options: {
                             scales: {
                                 x: {
-									ticks: {
+                                    ticks: {
                                         font: {
                                             size: 14
                                         }
@@ -309,7 +308,7 @@ const getTop10ImsiFailureTime = function() {
                                     title: {
                                         display: true,
                                         text: "TOP 10 IMSI",
-										font: {
+                                        font: {
                                             size: 24,
                                         }
                                     }
@@ -319,11 +318,11 @@ const getTop10ImsiFailureTime = function() {
                                     title: {
                                         display: true,
                                         text: "No. of Failures",
-										font: {
+                                        font: {
                                             size: 24,
                                         }
                                     },
-									ticks: {
+                                    ticks: {
                                         fontSize: 14
                                     }
                                 }
