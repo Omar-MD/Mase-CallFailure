@@ -94,7 +94,7 @@ const getTop10MocCombinations = function() {
                                 label: "Failure Count",
                                 data: failureCountList,
                                 failurePercentages: failurePercentages,
-                                backgroundColor: '#557C55',
+                                backgroundColor: '#008080',
                                 borderWidth: 1,
 
                             }]
@@ -109,7 +109,7 @@ const getTop10MocCombinations = function() {
                                     },
                                     title: {
                                         display: true,
-                                        text: "mcc/mnc/cellId",
+                                        text: "Market/Operator/Cell ID Combinations",
                                         font: {
                                             size: 24,
                                         }
@@ -124,7 +124,7 @@ const getTop10MocCombinations = function() {
                                     beginAtZero: true,
                                     title: {
                                         display: true,
-                                        text: "# of Failures",
+                                        text: "Number of Call Failures",
                                         font: {
                                             size: 24,
                                         }
