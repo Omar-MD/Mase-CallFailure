@@ -64,6 +64,8 @@ const getIMSIFailureForFailureCauseClass = function() {
 const getTop10MocCombinations = function() {
     let startDate = $("#top10-moc-combinations-start-date").val();
     let endDate = $("#top10-moc-combinations-end-date").val();
+    
+    
 
     $.ajax({
         type: "GET",
@@ -80,7 +82,6 @@ const getTop10MocCombinations = function() {
                 const totalFailures = failureCountList.reduce((a, b) => a + b, 0);
                 const failurePercentages = res.data.map(entry => (entry.failure_count / totalFailures) * 100);
 
-                // =================================================================
                 addChart({
                     whereToAdd: "top10-moc-combinations-container",
                     modalName: "top10-moc-combinations",
@@ -93,12 +94,9 @@ const getTop10MocCombinations = function() {
                                 label: "Failure Count",
                                 data: failureCountList,
                                 failurePercentages: failurePercentages,
-                                backgroundColor: 'gray',
-                                borderColor: 'red',
+                                backgroundColor: '#557C55',
                                 borderWidth: 1,
-                                barPercentage: 1,
-                                categoryPercentage: 1,
-                                borderRadius: 5,
+
                             }]
                         },
                         options: {
@@ -173,3 +171,4 @@ const getTop10MocCombinations = function() {
         }
     });
 }
+
