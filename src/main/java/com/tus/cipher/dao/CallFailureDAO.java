@@ -88,6 +88,11 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	@Query(value="SELECT DATE(cf.date_time) AS date, COUNT(*) As totalFailures FROM call_failure cf  WHERE cf.event_id=:eventId AND cf.cause_code=:causeCode GROUP BY date", nativeQuery = true)
     List<Object[]> findEventCauseFailuresOverTime(@Param("eventId") Long eventId, @Param("causeCode") Long causeCode);
 
+    // Failure Causes & Counts By Cell ID
+    @Query(value="SELECT fc.description AS failure_cause, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.cause_code = fc.failure_code WHERE cf.cell_id = :cellId GROUP BY fc.description", nativeQuery = true)
+    List<Object[]> listFailureCausesCountsByCellId(@Param("cellId") Integer cellId);
+    
 }
 
 
