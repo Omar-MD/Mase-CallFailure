@@ -79,6 +79,15 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	//Query#9
 	@Query(value="SELECT c.imsi, COUNT(*) AS failureCount FROM call_failure c  WHERE c.date_time >= :startDate AND c.date_time <= :endDate GROUP BY c.imsi ORDER BY failureCount DESC LIMIT 10", nativeQuery = true)
     List<Object[]> findTop10IMSIWithFailures(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+	/*
+	 *  Drill Down Queries
+	 */
+
+    // Failure Over Time for Event ID, Cause Code
+	@Query(value="SELECT DATE(cf.date_time) AS date, COUNT(*) As totalFailures FROM call_failure cf  WHERE cf.event_id=:eventId AND cf.cause_code=:causeCode GROUP BY date", nativeQuery = true)
+    List<Object[]> findEventCauseFailuresOverTime(@Param("eventId") Long eventId, @Param("causeCode") Long causeCode);
+
 }
 
 

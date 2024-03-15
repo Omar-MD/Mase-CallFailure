@@ -278,10 +278,8 @@ const getTop10ImsiFailureTime = function() {
                 $("#top10-imsi-failure-time-datatable-caption").text("TOP 10 IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
                 const top10imsiList = res.data.map(entry => entry.imsi);
                 const top10ImsiFailureCountList = res.data.map(entry => entry.failureCount);
-                console.log(res);
 
                 //==========================graph visualization codes====================
-
                 addChart({
                     whereToAdd: "top10-imsi-failure-time-container",
                     modalName: "top10-imsi-failure-time",
@@ -309,7 +307,7 @@ const getTop10ImsiFailureTime = function() {
                                         display: true,
                                         text: "TOP 10 IMSI",
                                         font: {
-                                            size: 24,
+                                            size: 24
                                         }
                                     }
                                 },
@@ -319,16 +317,21 @@ const getTop10ImsiFailureTime = function() {
                                         display: true,
                                         text: "No. of Failures",
                                         font: {
-                                            size: 24,
+                                            size: 24
                                         }
                                     },
                                     ticks: {
-                                        fontSize: 14
+                                        font: {
+                                            size: 14
+                                        }
                                     }
                                 }
+                            },
+                            onHover: (event, chartElement) => {
+                                event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
                             }
                         }
-                    }
+                    }// Hrtr
                 });
                 // =================================================================
 

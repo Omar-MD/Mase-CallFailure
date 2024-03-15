@@ -31,7 +31,6 @@ public class QueriesController {
 	private static final String DESCRIPTION = "description";
 	private static final String FAILURE_COUNT = "failureCount";
 
-
 	private final CallFailureDAO callFailureDAO;
 	private final FailureClassDAO failureClassDAO;
 
@@ -59,7 +58,7 @@ public class QueriesController {
 	}
 
 	/*
-	 *  CUSTOMER SERVICE REP QUERIES
+	 * CUSTOMER SERVICE REP QUERIES
 	 */
 
 	// Query #1
@@ -128,7 +127,7 @@ public class QueriesController {
 	}
 
 	/*
-	 *  SUPPORT ENGINEER QUERIES
+	 * SUPPORT ENGINEER QUERIES
 	 */
 
 	// Query #3
@@ -163,14 +162,13 @@ public class QueriesController {
 	// Query 4.5
 	@PreAuthorize("hasAuthority('SUPPORT_ENGINEER') or hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/imsi-failures-class/{failureClass}")
-	public ApiResponse<List<Long>> getIMSIFailureClasses(
-			@PathVariable("failureClass") Long failureClass) {
+	public ApiResponse<List<Long>> getIMSIFailureClasses(@PathVariable("failureClass") Long failureClass) {
 		List<Long> imsiFailures = callFailureDAO.getIMSIsWithFailureClass(failureClass);
 		return ApiResponse.success(HttpStatus.OK.value(), imsiFailures);
 	}
 
 	/*
-	 *  NETWORK ENGINEER QUERIES
+	 * NETWORK ENGINEER QUERIES
 	 */
 
 	// Query #5
@@ -229,27 +227,27 @@ public class QueriesController {
 			@RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
 			@RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate) {
 
-			if (endDate.isBefore(startDate)) {
-				ApiError error = ApiError.of(DATE_ERR, DATE_ERR_DETAIL);
-				return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
-			}
-
-			List<Object[]> listTop10MarketOperatorCellIdCombinations = callFailureDAO.top10MarketOperatorCellIdCombinations(startDate,
-					endDate);
-
-			List<Map<String, Object>> responseList = new ArrayList<>();
-			for (Object[] entry : listTop10MarketOperatorCellIdCombinations) {
-				Map<String, Object> result = new HashMap<>();
-				result.put("mcc", entry[0]);
-				result.put("mnc", entry[1]);
-				result.put("cell_id", entry[2]);
-				result.put("failure_count", entry[3]);
-				responseList.add(result);
-			}
-			return ApiResponse.success(HttpStatus.OK.value(), responseList);
+		if (endDate.isBefore(startDate)) {
+			ApiError error = ApiError.of(DATE_ERR, DATE_ERR_DETAIL);
+			return ApiResponse.error(HttpStatus.BAD_REQUEST.value(), error);
 		}
 
-	//Query#9
+		List<Object[]> listTop10MarketOperatorCellIdCombinations = callFailureDAO
+				.top10MarketOperatorCellIdCombinations(startDate, endDate);
+
+		List<Map<String, Object>> responseList = new ArrayList<>();
+		for (Object[] entry : listTop10MarketOperatorCellIdCombinations) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("mcc", entry[0]);
+			result.put("mnc", entry[1]);
+			result.put("cell_id", entry[2]);
+			result.put("failure_count", entry[3]);
+			responseList.add(result);
+		}
+		return ApiResponse.success(HttpStatus.OK.value(), responseList);
+	}
+
+	// Query#9
 	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
 	@GetMapping("/top10-imsi-failures-time")
 	public ApiResponse<List<Map<String, Object>>> getTop10ImsiFailures(
@@ -270,4 +268,27 @@ public class QueriesController {
 		}
 		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
+
+	/*
+	 * Drill Down QUERIES
+	 */
+
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
+	@GetMapping("/event-cause-failures-over-time")
+	public ApiResponse<List<Map<String, Object>>> getModelsEventCauseFailuresOverTime(
+			@RequestParam("eventId") Long eventId, @RequestParam("causeCode") Long causeCode) {
+
+		List<Object[]> failuresOverTime = callFailureDAO.findEventCauseFailuresOverTime(eventId, causeCode);
+		List<Map<String, Object>> responseList = new ArrayList<>();
+		for (Object[] entry : failuresOverTime) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("date", entry[0]);
+			result.put(FAILURE_COUNT, entry[1]);
+			responseList.add(result);
+		}
+		return ApiResponse.success(HttpStatus.OK.value(), responseList);
+	}
+
+
+
 }

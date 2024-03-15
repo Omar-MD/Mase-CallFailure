@@ -125,7 +125,7 @@ const updateSideBar = function(role) {
     switch (role) {
         case RoleType.NETWORK_ENGINEER:
             sidebar.append(`
-               <hr class="pt-1 pb-1 style-hr"/>
+                <hr class="pt-1 pb-1 style-hr"/>
                 <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 (IMSI Failures)</button>
                 <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 (Market, Operator, Cell)</button>
                 <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Duration, Count)</button>

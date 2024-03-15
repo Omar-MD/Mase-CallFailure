@@ -5,8 +5,6 @@
  *	The mondal has ids derived from the second parameter "modalName"
  */
 const addMondal = function (whereToAdd, modalName) {
-
-	
 	let oldChart = $('#' + modalName + "-chart");
 	if (oldChart.length) {
 		// Remove old chart
@@ -22,12 +20,12 @@ const addMondal = function (whereToAdd, modalName) {
 			<div class="modal-dialog modal-dialog-centered modal-xl">
 				<div class="modal-content">
 					<!-- Modal Title -->
-					<div class="modal-header">
-						<h2 class="modal-title" id="${modalName}-chart-title">Graph Title</h2>
-						<!-- 'x' button in the top right -->
-						<button type="button" class="close custom-close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+					<div class="modal-header">		
+                        <div class="d-flex align-items-center" style="width: 100%;">
+                            <button type="button" class="btn btn-dark" id="chart-backButton" style="display: none;">Back</button>
+                            <h4 class="modal-title" id="${modalName}-chart-title" style="margin: auto;">Graph Title</h4>
+                            <button type="button" class="close custom-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
 					</div>
 					<div class="modal-body" id="${modalName}-chart-container">
 						<canvas class="chart" id="${modalName}-chart"></canvas>
@@ -46,19 +44,25 @@ const addMondal = function (whereToAdd, modalName) {
 
 /*
  * This function takes in 4 arguments
- *	1. The title of the chart, this will be displayed in the header of the modal
- *  2. The chart key. This will be used in the key for the chart to denote what the chart data is
- *  3&4. The x and y data, this must be in an array and not a map or JSON object
  */
 var renderChart = function (modalName, title, chartDetails, clickHandler) {
 	$('#' + modalName + '-chart-title').text(title);
-	// console.log(xData);
-	// console.log(yData);
-	const ctx = document.getElementById(modalName + "-chart").getContext('2d');
-	new Chart(ctx, chartDetails);
-	if(clickHandler) {
-		document.getElementById(modalName + "-chart").onclick = clickHandler;
-	}
+	const canvas = $('#'+modalName + "-chart")[0];
+	const ctx = canvas.getContext('2d');
+	
+    if (canvas.chartInstance) {
+        canvas.chartInstance.data = chartDetails.data;
+        canvas.chartInstance.options = chartDetails.options;
+        canvas.chartInstance.update();
+    } else {
+        canvas.chartInstance = new Chart(ctx, chartDetails);
+    }
+    
+    if (clickHandler) {
+        $(document).on('click', '#' + modalName + '-chart', clickHandler);
+    } else {
+        $(document).off('click', '#' + modalName + '-chart');
+    }
 };
 
 

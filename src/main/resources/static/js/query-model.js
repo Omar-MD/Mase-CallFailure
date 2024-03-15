@@ -86,7 +86,7 @@ const getModelFailuresTypeCount = function() {
         headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
-                
+
                 updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);
                 $("#model-id").text(model);
                 let eventCauseList = res.data.map(entry => entry.eventId + '-' + entry.causeCode);
@@ -119,7 +119,7 @@ const getModelFailuresTypeCount = function() {
                                         display: true,
                                         text: "Event Id - Cause Code",
                                         font: {
-                                            size: 24,
+                                            size: 18,
                                         }
                                     }
                                 },
@@ -129,16 +129,30 @@ const getModelFailuresTypeCount = function() {
                                         display: true,
                                         text: "# of Failures",
                                         font: {
-                                            size: 24,
+                                            size: 18,
                                         }
-                                    }, 
+                                    },
                                     ticks: {
                                         fontSize: 14
                                     }
                                 }
+                            },
+                            onHover: (event, chartElement) => {
+                                event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
                             }
                         }
-                    }
+                    },
+                    clickHandler: (click) => {
+                        let chartInstance = Chart.getChart(click.currentTarget);
+                        let bar = chartInstance.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
+
+                        if (bar.length > 0) {
+                            let index = bar[0].index;
+                            let label = chartInstance.data.labels[index].split('-');
+                            eventCauseDrillDown(label[0], label[1]);
+                        }
+                    },
+
                 });
                 // =================================================================
             } else {
@@ -150,3 +164,70 @@ const getModelFailuresTypeCount = function() {
         }
     });
 };
+
+const eventCauseDrillDown = function(eventId, causeCode) {
+    $.ajax({
+        type: 'GET',
+        url: rootUrl + "/query/event-cause-failures-over-time",
+        contentType: 'application/json',
+        dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
+        data: { "eventId": eventId, "causeCode": causeCode },
+        success: function(res) {
+            const dates = res.data.map(entry => entry.date);
+            const failureCounts = res.data.map(entry => entry.failureCount);
+
+            const newChartData = {
+                labels: dates,
+                datasets: [{
+                    label: "Number of Failures for Event Id - Cause Code (" + eventId + '-' + causeCode + ')',
+                    data: failureCounts,
+                    fill: false,
+                    borderColor: '#008080',
+                    borderWidth: 2
+                }]
+            };
+
+            const options = {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date',
+                            font: {
+                                size: 18
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Number of Failures',
+                            font: {
+                                size: 18
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                },
+                onHover: (event) => {
+                    event.native.target.style.cursor = 'default';
+                }
+            };
+
+            renderChart("model-failures-type-count", "Failures Over Time For Event Id-Cause Code", { type: 'line', data: newChartData, options: options });
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+}
