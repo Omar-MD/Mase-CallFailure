@@ -289,6 +289,19 @@ public class QueriesController {
 		return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
 
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
+	@GetMapping("/failure-causes-counts-by-cellid")
+	public ApiResponse<List<Map<String, Object>>> getFailureCausesAndCountsByCellId(
+			@RequestParam("cellId") Integer cellId) {
 
-
+		List<Object[]> failureCausesCountCellId = callFailureDAO.listFailureCausesCountsByCellId(cellId);
+		List<Map<String, Object>> responseList = new ArrayList<>();
+		for (Object[] entry : failureCausesCountCellId) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("failure_cause", entry[0]);
+			result.put(FAILURE_COUNT, entry[1]);
+			responseList.add(result);
+		}
+		return ApiResponse.success(HttpStatus.OK.value(), responseList);
+	}
 }
