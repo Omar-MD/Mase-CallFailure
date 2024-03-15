@@ -76,8 +76,9 @@ const loadContentForRole = function(role, username) {
             );
     
             const sidebar = $('#sidebar-content');
-            sidebar.html(
-                `<button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Import Data</button>
+            sidebar.html(`
+                 <hr class="pt-1 pb-1 style-hr"/>
+                 <button type="button" id="import-data-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Import Data</button>
                  <button type="button" id="create-user-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Create User</button>`
             );
             userRole.html(
@@ -118,32 +119,32 @@ const loadContentForRole = function(role, username) {
 }
 
 const updateSideBar = function(role) {
-
     const sidebar = $('#sidebar-content');
-    
     sidebar.html("");
+    
     switch (role) {
         case RoleType.NETWORK_ENGINEER:
             sidebar.append(`
-                <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures Count & Duration</button>
-                <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Types</button>
-                <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 IMSI Failures</button>
-                <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 MOC Combinations</button>
-                <hr class="text-white d-block"/>
-
+               <hr class="pt-1 pb-1 style-hr"/>
+                <button type="button" id="top10-imsi-failure-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 (IMSI Failures)</button>
+                <button type="button" id="top10-moc-combinations-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Top 10 (Market, Operator, Cell)</button>
+                <button type="button" id="imsi-failures-count-duration-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Duration, Count)</button>
+                <button type="button" id="model-failures-type-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure (Class, Count)</button>
+                
             `);
         case RoleType.SUPPORT_ENGINEER:
             sidebar.append(`
+                <hr class="pt-1 pb-1 style-hr"/>
                 <button type="button" id="imsi-failures-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Time)</button>
-                <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure Count</button>
-                <button type="button" id="cause-failure-imsi-list-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures for Cause Class</button>
-                <hr class="text-white d-block"/>
+                <button type="button" id="cause-failure-imsi-list-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failures (Cause Code)</button>
+                <button type="button" id="model-failure-count-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Model Failure (Count)</button>
             `);
         case RoleType.CUSTOMER_SERVICE_REP:
             sidebar.append(`
-                <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Events</button>
-                <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure Count (Time)</button>
-                <button type="button" id="imsi-unique-failure-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">Unique IMSI Failure</button>
+                <hr class="pt-1 pb-1 style-hr"/>
+                <button type="button" id="imsi-unique-failure-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure (Unique)</button>
+                <button type="button" id="imsi-failures-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure (All)</button>
+                <button type="button" id="imsi-failure-count-time-sidebar" class="dashbd-btn" onclick="handleButtonClick(this)">IMSI Failure (Count)</button>
             `);
         default:
             break;

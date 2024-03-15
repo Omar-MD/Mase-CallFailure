@@ -42,7 +42,6 @@ const getModelFailureCount = function() {
     let msg = $("#model-failure-count-result");
 
     msg.html("");
-
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/model-failure-count",
@@ -90,7 +89,7 @@ const getModelFailuresTypeCount = function() {
                 
                 updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);
                 $("#model-id").text(model);
-                let eventCauseList = res.data.map(entry => entry.eventId + '_' + entry.causeCode);
+                let eventCauseList = res.data.map(entry => entry.eventId + '-' + entry.causeCode);
                 let failureCountList = res.data.map(entry => entry.failureCount);
                 // =================================================================
                 addChart({
@@ -104,23 +103,37 @@ const getModelFailuresTypeCount = function() {
                             datasets: [{
                                 label: "Number of Failures",
                                 data: failureCountList,
-                                backgroundColor: '#198754',
+                                backgroundColor: '#008080',
                                 borderWidth: 1
                             }]
                         },
                         options: {
                             scales: {
                                 x: {
+                                    ticks: {
+                                        font: {
+                                            size: 14
+                                        }
+                                    },
                                     title: {
                                         display: true,
-                                        text: "Event Id- Cause Code"
+                                        text: "Event Id - Cause Code",
+                                        font: {
+                                            size: 24,
+                                        }
                                     }
                                 },
                                 y: {
                                     beginAtZero: true,
                                     title: {
                                         display: true,
-                                        text: "# of Failures"
+                                        text: "# of Failures",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    }, 
+                                    ticks: {
+                                        fontSize: 14
                                     }
                                 }
                             }

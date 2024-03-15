@@ -68,7 +68,6 @@ const getIMSIFailureCountTime = function() {
     let msg = $("#imsi-failure-count-time-result");
 
     msg.html("");
-
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/imsi-failure-count-time",
@@ -143,37 +142,68 @@ const getIMSIFailuresCountDuration = function() {
                 updateDataTable('imsi-count-duration', res.data, ["imsi", "failureCount", "totalDuration"]);
                 $("#imsi-failures-count-duration-datatable-caption").text("IMSI Failures Count and Duration - " + startDate.replace('T', ' ') + " to " + endDate.replace('T', ' '));
                 const imsiList = res.data.map(entry => entry.imsi);
+                const durationList = res.data.map(entry => entry.totalDuration);
                 const failureCountList = res.data.map(entry => entry.failureCount);
 
                 // =================================================================
                 addChart({
-                    whereToAdd: "imsi-failures-count-duration-container", 
-                    modalName: "imsi-failures-count-duration", 
-                    title: "IMSI Failure Counts and Duration", 
+                    whereToAdd: "imsi-failures-count-duration-container",
+                    modalName: "imsi-failures-count-duration",
+                    title: "IMSI Failure Counts and Duration",
                     chartDetails: {
-                        type: 'bar',
+                        type: 'scatter',
                         data: {
-                            labels: imsiList,
+                            labels: durationList,
                             datasets: [{
                                 label: "Number of Failures",
                                 data: failureCountList,
                                 backgroundColor: '#198754',
-                                borderWidth: 1
+                                // backgroundColor: '#AF2C2C',
+                                borderWidth: 1,
                             }]
                         },
                         options: {
                             scales: {
                                 x: {
+                                    ticks: {
+                                        font: {
+                                            size: 14
+                                        }
+                                    },
                                     title: {
                                         display: true,
-                                        text: "imsi" 
-                                    }
+                                        text: "Duration",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    },
                                 },
                                 y: {
                                     beginAtZero: true,
                                     title: {
                                         display: true,
-                                        text: "# of Failures"
+                                        text: "# of Failures",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    },
+                                    ticks: {
+                                        fontSize: 14
+                                    }
+                                }
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        title: function(tooltipItems) {
+                                            if (!tooltipItems.length) {
+                                                return '';
+                                            }
+                                            let index = tooltipItems[0];
+                                            let x = index.dataIndex;
+                                            let imsi = imsiList[x];
+                                            return `IMSI: ${imsi}`;
+                                        }
                                     }
                                 }
                             }
@@ -184,10 +214,10 @@ const getIMSIFailuresCountDuration = function() {
 
                         // Get the chart instance associated with the canvas
                         let chartInstance = Chart.getChart(canvas);
-                    
+
                         // Get the element under the click
                         let elements = chartInstance.getElementsAtEventForMode(event, 'nearest', { intersect: true }, false);
-                    
+
                         if (elements.length > 0) {
                             let index = elements[0].index;
                             let datasetIndex = elements[0].datasetIndex;
@@ -198,7 +228,7 @@ const getIMSIFailuresCountDuration = function() {
                     }
                 });
                 // =================================================================
-                
+
             } else {
                 console.log("Error:", res.error);
             }
@@ -246,6 +276,62 @@ const getTop10ImsiFailureTime = function() {
             if (res.status == "Success") {
                 updateDataTable('top10-imsi-failure-time', res.data, ["imsi", "failureCount"]);
                 $("#top10-imsi-failure-time-datatable-caption").text("TOP 10 IMSI Failure For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+                const top10imsiList = res.data.map(entry => entry.imsi);
+                const top10ImsiFailureCountList = res.data.map(entry => entry.failureCount);
+                console.log(res);
+
+                //==========================graph visualization codes====================
+
+                addChart({
+                    whereToAdd: "top10-imsi-failure-time-container",
+                    modalName: "top10-imsi-failure-time",
+                    title: "TOP 10 IMSI Failure ",
+                    chartDetails: {
+                        type: 'bar',
+                        data: {
+                            labels: top10imsiList,
+                            datasets: [{
+                                label: "Number of Failures",
+                                data: top10ImsiFailureCountList,
+                                backgroundColor: '#008080',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        font: {
+                                            size: 14
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: "TOP 10 IMSI",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "No. of Failures",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    },
+                                    ticks: {
+                                        fontSize: 14
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                // =================================================================
+
             } else {
                 console.log("Error:", res.error);
             }
