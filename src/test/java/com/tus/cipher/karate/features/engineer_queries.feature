@@ -45,6 +45,16 @@ Feature: Network Engineer Queries
     And match response.status == 'Success'
     And assert responseTime < 2000
     * print '[x]  query_times: query/top10-imsi-failures-time'
-
+    
+  Scenario: Drilldown Query 2 "query/failure-causes-counts-by-cellid"
+    * def query = { cellId: 1 }
+    Given path "query/failure-causes-counts-by-cellid"
+    And params query
+    When method GET
+    Then response.statusCode == 200
+    And match response.status == 'Success'
+    And assert responseTime < 2000
+    * print '[x]  query_times: query/failure-causes-counts-by-cellid'
+      
   Scenario: Inherited Support Engineer queries
     * call read('support_queries.feature') { 'supportToken': '#(engineerToken)' }
