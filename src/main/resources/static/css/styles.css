@@ -155,3 +155,5 @@ hr.style-hr:after {
     padding: 0 0.25em;
     background: #212529;
 }
+
+ th, td { white-space: nowrap; }
