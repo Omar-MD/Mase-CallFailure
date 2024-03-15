@@ -94,12 +94,9 @@ const getTop10MocCombinations = function() {
                                 label: "Failure Count",
                                 data: failureCountList,
                                 failurePercentages: failurePercentages,
-                                backgroundColor: 'gray',
-                                borderColor: 'red',
+                                backgroundColor: '#557C55',
                                 borderWidth: 1,
-                                barPercentage: 1,
-                                categoryPercentage: 1,
-                                borderRadius: 5,
+
                             }]
                         },
                         options: {
