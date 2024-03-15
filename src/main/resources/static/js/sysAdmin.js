@@ -6,7 +6,6 @@ const createAccount = function() {
     let role = $('#new-user-role').val();
 
     $('#accountMsg').remove();
-
     $.ajax({
         type: 'POST',
         url: rootUrl + "/sysadmin/accounts",
@@ -52,7 +51,6 @@ const importDataset = function() {
     let importMsg = $('#importMsg');
 
     importMsg.hide();
-
     showProgressBar();
     $.ajax({
         type: 'POST',

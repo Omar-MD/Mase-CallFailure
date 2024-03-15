@@ -64,19 +64,104 @@ const getIMSIFailureForFailureCauseClass = function() {
 const getTop10MocCombinations = function() {
     let startDate = $("#top10-moc-combinations-start-date").val();
     let endDate = $("#top10-moc-combinations-end-date").val();
+    
+    
 
     $.ajax({
         type: "GET",
         url: rootUrl + "/query/top10-market-operator-cellid-combinations",
-        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         data: { startDate: startDate, endDate: endDate },
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
-                updateDataTable('top10-moc-combinations', res.data, ['mcc', 'mnc', 'cell_id', 'failure_count']);
-                $("#top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
-           
-           	// top10-moc-combinations-container
-           
+                updateDataTable('top10-moc-combinations', res.data, ["mcc", "mnc", "cell_id", "failure_count"]);
+                $("#top10-moc-combinations-datatable-caption").text("top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+
+                const nodeCellList = res.data.map(entry => (entry.mcc + "/" + entry.mnc + '/' + entry.cell_id));
+                const failureCountList = res.data.map(entry => entry.failure_count);
+                const totalFailures = failureCountList.reduce((a, b) => a + b, 0);
+                const failurePercentages = res.data.map(entry => (entry.failure_count / totalFailures) * 100);
+
+                addChart({
+                    whereToAdd: "top10-moc-combinations-container",
+                    modalName: "top10-moc-combinations",
+                    title: "Top 10 Market/Operator/Cell ID Combinations",
+                    chartDetails: {
+                        type: 'bar',
+                        data: {
+                            labels: nodeCellList,
+                            datasets: [{
+                                label: "Failure Count",
+                                data: failureCountList,
+                                failurePercentages: failurePercentages,
+                                backgroundColor: '#557C55',
+                                borderWidth: 1,
+
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        font: {
+                                            size: 14
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: "mcc/mnc/cellId",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    }
+                                },
+                                y: {
+                                    ticks: {
+                                        font: {
+                                            size: 14
+                                        }
+                                    },
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: "# of Failures",
+                                        font: {
+                                            size: 24,
+                                        }
+                                    }
+                                }
+
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        title: function(tooltipItems) {
+                                            if (!tooltipItems.length) {
+                                                return '';
+                                            }
+                                            let index = tooltipItems[0];
+                                            let x = index.parsed.x;
+                                            let failurePercentage = failurePercentages[x];
+                                            let node = nodeCellList[x].split('/');
+                                            let mcc = node[0];
+                                            let mnc = node[1];
+                                            let cell = node[2];
+
+                                            return `Cell Id: ${cell}\n` +
+                                                `Node: { market: ${mcc}, operator: ${mnc}}\n` +
+                                                `Failure Percentage: ${failurePercentage.toFixed(2)}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                // =================================================================
+
             } else {
                 console.log("Error:", res.error);
             }
@@ -86,3 +171,4 @@ const getTop10MocCombinations = function() {
         }
     });
 }
+

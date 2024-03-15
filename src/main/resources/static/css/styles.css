@@ -136,3 +136,22 @@ body {
 .custom-close:hover {
     color: red;
 }
+
+
+hr.style-hr {
+    overflow: visible; 
+    padding: 0;
+    border: none;
+    border-top: medium double white;
+    color: white;
+    text-align: center;
+}
+hr.style-hr:after {
+    content: "§";
+    display: inline-block;
+    position: relative;
+    top: -0.7em;
+    font-size: 1.5em;
+    padding: 0 0.25em;
+    background: #212529;
+}
