@@ -298,7 +298,7 @@ public class QueriesController {
 		List<Map<String, Object>> responseList = new ArrayList<>();
 		for (Object[] entry : failureCausesCountCellId) {
 			Map<String, Object> result = new HashMap<>();
-			result.put("failure_cause", entry[0]);
+			result.put("failureCause", entry[0]);
 			result.put(FAILURE_COUNT, entry[1]);
 			responseList.add(result);
 		}
