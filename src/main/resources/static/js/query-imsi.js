@@ -165,31 +165,10 @@ const getIMSIFailuresCountDuration = function() {
                         options: {
                             scales: {
                                 x: {
-                                    ticks: {
-                                        font: {
-                                            size: 14
-                                        }
-                                    },
-                                    title: {
-                                        display: true,
-                                        text: "Duration",
-                                        font: {
-                                            size: 24,
-                                        }
-                                    },
+                                    title: { text: "Duration" }
                                 },
                                 y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: "# of Failures",
-                                        font: {
-                                            size: 24,
-                                        }
-                                    },
-                                    ticks: {
-                                        fontSize: 14
-                                    }
+                                    title: { text: "Number of Failures"}
                                 }
                             },
                             plugins: {
@@ -207,23 +186,6 @@ const getIMSIFailuresCountDuration = function() {
                                     }
                                 }
                             }
-                        }
-                    },
-                    clickHandler: (event) => {
-                        let canvas = event.currentTarget;
-
-                        // Get the chart instance associated with the canvas
-                        let chartInstance = Chart.getChart(canvas);
-
-                        // Get the element under the click
-                        let elements = chartInstance.getElementsAtEventForMode(event, 'nearest', { intersect: true }, false);
-
-                        if (elements.length > 0) {
-                            let index = elements[0].index;
-                            let datasetIndex = elements[0].datasetIndex;
-                            let label = chartInstance.data.labels[index];
-                            let value = chartInstance.data.datasets[datasetIndex].data[index];
-                            console.log("Clicked on " + label + " with value " + value);
                         }
                     }
                 });
@@ -298,40 +260,17 @@ const getTop10ImsiFailureTime = function() {
                         options: {
                             scales: {
                                 x: {
-                                    ticks: {
-                                        font: {
-                                            size: 14
-                                        }
-                                    },
-                                    title: {
-                                        display: true,
-                                        text: "TOP 10 IMSI",
-                                        font: {
-                                            size: 24
-                                        }
-                                    }
+                                    title: { text: "TOP 10 IMSI"}
                                 },
                                 y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: "No. of Failures",
-                                        font: {
-                                            size: 24
-                                        }
-                                    },
-                                    ticks: {
-                                        font: {
-                                            size: 14
-                                        }
-                                    }
+                                    title: { text: "Number of Failures"}
                                 }
                             },
                             onHover: (event, chartElement) => {
                                 event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
                             }
                         }
-                    }// Hrtr
+                    }
                 });
                 // =================================================================
 
