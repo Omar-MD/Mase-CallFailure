@@ -17,7 +17,7 @@ const login = function() {
     let errorMsg = $('#errorMsg');
 
     errorMsg.remove();
-    
+
     $.ajax({
         type: 'POST',
         url: rootUrl + "/authenticate",
@@ -28,30 +28,30 @@ const login = function() {
             if (response.statusCode === 200) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('role', response.data.role);
-                
+
                 switch (response.data.role) {
                     case 'SYSTEM_ADMINISTRATOR':
                         loadContentForRole(RoleType.SYSTEM_ADMINISTRATOR, username);
                         showHome();
                         interval_ID = setInterval(checkImportStatus, 5000);
                         break;
-                        
+
                     case 'CUSTOMER_SERVICE_REP':
                         loadContentForRole(RoleType.CUSTOMER_SERVICE_REP, username);
                         showHome();
                         break;
-                        
+
                     case 'NETWORK_ENGINEER':
                         loadContentForRole(RoleType.NETWORK_ENGINEER, username);
                         showHome();
                         break;
-                        
+
                     case 'SUPPORT_ENGINEER':
                         loadContentForRole(RoleType.SUPPORT_ENGINEER, username);
                         showHome();
                         break;
                 }
-            }else {
+            } else {
                 errorMsg.remove();
                 $('#login-card').append(`<div id=\"errorMsg\" class=\"alert alert-danger\"><strong>${response.error.errorMsg}!</strong> ${response.error.details}</div>`).show();
             }
@@ -74,7 +74,7 @@ const loadContentForRole = function(role, username) {
             header.html(
                 `<h2>System Admin Control Panel<h2>`
             );
-    
+
             const sidebar = $('#sidebar-content');
             sidebar.html(`
                  <hr class="pt-1 pb-1 style-hr"/>
@@ -89,7 +89,7 @@ const loadContentForRole = function(role, username) {
         case RoleType.CUSTOMER_SERVICE_REP:
             header.html(
                 `Customer Service Representive Control Panel`
-            ); 
+            );
             updateSideBar(role);
             userRole.html(
                 `<h4 class="mb-1" id="user-role">Customer Service Rep</h4>`
@@ -121,7 +121,7 @@ const loadContentForRole = function(role, username) {
 const updateSideBar = function(role) {
     const sidebar = $('#sidebar-content');
     sidebar.html("");
-    
+
     switch (role) {
         case RoleType.NETWORK_ENGINEER:
             sidebar.append(`
@@ -158,8 +158,8 @@ const updateDataTable = function(tableId, data, headers) {
         datatable.clear().draw();
     } else {
         datatable = $(`#${tableId}-datatable`).DataTable({
-            "sScrollY": "50vh",
-            "bScrollCollapse": true
+            sScrollY: "50vh",
+            bScrollCollapse: true,
         });
     }
     data.forEach(function(item) {
