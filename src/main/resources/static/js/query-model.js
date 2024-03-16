@@ -110,30 +110,13 @@ const getModelFailuresTypeCount = function() {
                         options: {
                             scales: {
                                 x: {
-                                    ticks: {
-                                        font: {
-                                            size: 14
-                                        }
-                                    },
                                     title: {
-                                        display: true,
-                                        text: "Event Id - Cause Code",
-                                        font: {
-                                            size: 18,
-                                        }
+                                        text: "Event Id - Cause Code"
                                     }
                                 },
                                 y: {
-                                    beginAtZero: true,
                                     title: {
-                                        display: true,
-                                        text: "# of Failures",
-                                        font: {
-                                            size: 18,
-                                        }
-                                    },
-                                    ticks: {
-                                        fontSize: 14
+                                        text: "Number of Failures",
                                     }
                                 }
                             },
@@ -196,35 +179,14 @@ const eventCauseDrillDown = function(eventId, causeCode) {
                         scales: {
                             x: {
                                 title: {
-                                    display: true,
                                     text: 'Date',
-                                    font: {
-                                        size: 18
-                                    }
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 14
-                                    }
                                 }
                             },
                             y: {
                                 title: {
-                                    display: true,
                                     text: 'Number of Failures',
-                                    font: {
-                                        size: 18
-                                    }
-                                },
-                                ticks: {
-                                    font: {
-                                        size: 14
-                                    }
                                 }
                             }
-                        },
-                        onHover: (event) => {
-                            event.native.target.style.cursor = 'default';
                         }
                     }
                 }
