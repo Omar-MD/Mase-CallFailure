@@ -5,9 +5,10 @@ let startChart = null;
 let currentChart = null;
 
 const saveChartToStack = function() {
-    let chartData = chartStack.length === 0 ? startChart: currentChart;
+    let chartData = chartStack.length === 0 ? startChart : currentChart;
     const immutableChartData = JSON.parse(JSON.stringify(chartData));
     immutableChartData.clickHandler = chartData.clickHandler;
+    immutableChartData.chartDetails.options.onHover = chartData.chartDetails.options.onHover;
     chartStack.push(immutableChartData);
 }
 
@@ -64,12 +65,18 @@ const renderChart = function(modalName, title, chartDetails, clickHandler) {
     const canvas = $('#' + modalName + "-chart")[0];
     const ctx = canvas.getContext('2d');
 
+    const mergedOptions = $.extend(true, {}, defaultChartOptions, chartDetails.options);
+
     if (canvas.chartInstance) {
-        canvas.chartInstance.data = chartDetails.data;
-        canvas.chartInstance.options = chartDetails.options;
+        canvas.chartInstance.config.data = chartDetails.data;
+        canvas.chartInstance.config.options = mergedOptions;
         canvas.chartInstance.update();
+        
     } else {
-        canvas.chartInstance = new Chart(ctx, chartDetails);
+        canvas.chartInstance = new Chart(ctx, {
+            ...chartDetails,
+            options: mergedOptions
+        });
     }
 
     if (clickHandler) {
@@ -100,7 +107,39 @@ const showBackButton = function() {
 const renderChartFromStack = function() {
     if (chartStack.length > 0) {
         let c = chartStack.pop();
-        console.log(c)
         renderChart(c.modalName, c.title, c.chartDetails, c.clickHandler);
+    }
+};
+
+const defaultChartOptions = {
+    scales: {
+        x: {
+            ticks: {
+                font: {
+                    size: 14
+                }
+            },
+            title: {
+                display: true,
+                font: {
+                    size: 18,
+                }
+            }
+        },
+        y: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                font: {
+                    size: 18,
+                }
+            },
+            ticks: {
+                fontSize: 14
+            }
+        }
+    },
+    onHover: (event) => {
+        event.native.target.style.cursor = 'default';
     }
 };
