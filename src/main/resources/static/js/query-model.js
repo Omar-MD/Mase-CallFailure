@@ -177,54 +177,58 @@ const eventCauseDrillDown = function(eventId, causeCode) {
             const dates = res.data.map(entry => entry.date);
             const failureCounts = res.data.map(entry => entry.failureCount);
 
-            const newChartData = {
-                labels: dates,
-                datasets: [{
-                    label: "Number of Failures for Event Id - Cause Code (" + eventId + '-' + causeCode + ')',
-                    data: failureCounts,
-                    fill: false,
-                    borderColor: '#008080',
-                    borderWidth: 2
-                }]
-            };
-
-            const options = {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Date',
-                            font: {
-                                size: 18
-                            }
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            }
-                        }
+            handleDrillDown({
+                modalName: "model-failures-type-count",
+                title: "Failures Over Time For Event Id-Cause Code",
+                chartDetails: {
+                    type: 'bar',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: "Number of Failures for Event Id - Cause Code (" + eventId + '-' + causeCode + ')',
+                            data: failureCounts,
+                            fill: false,
+                            borderColor: '#008080',
+                            borderWidth: 2
+                        }],
                     },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Number of Failures',
-                            font: {
-                                size: 18
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date',
+                                    font: {
+                                        size: 18
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Number of Failures',
+                                    font: {
+                                        size: 18
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: 14
+                                    }
+                                }
                             }
                         },
-                        ticks: {
-                            font: {
-                                size: 14
-                            }
+                        onHover: (event) => {
+                            event.native.target.style.cursor = 'default';
                         }
                     }
-                },
-                onHover: (event) => {
-                    event.native.target.style.cursor = 'default';
                 }
-            };
-
-            renderChart("model-failures-type-count", "Failures Over Time For Event Id-Cause Code", { type: 'line', data: newChartData, options: options });
+            });
         },
         error: function(error) {
             console.error("Error:", error);
