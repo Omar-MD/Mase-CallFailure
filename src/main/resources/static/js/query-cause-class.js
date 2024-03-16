@@ -73,7 +73,7 @@ const getTop10MocCombinations = function() {
         success: function(res) {
             if (res.status == "Success") {
                 updateDataTable('top10-moc-combinations', res.data, ["mcc", "mnc", "cell_id", "failure_count"]);
-                $("#top10-moc-combinations-datatable-caption").text("top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
+                $("#top10-moc-combinations-datatable-caption").text("Top 10 MOC Combinations For Date Range - " + startDate.replace('T', ' ') + "  to  " + endDate.replace('T', ' '));
                 const nodeCellList = res.data.map(entry => (entry.mcc + "/" + entry.mnc + '/' + entry.cell_id));
                 const failureCountList = res.data.map(entry => entry.failure_count);
                 const totalFailures = failureCountList.reduce((a, b) => a + b, 0);

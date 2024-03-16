@@ -95,10 +95,20 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
     
     //New
     @Query(value = "SELECT DISTINCT f.date_time, f.duration FROM call_failure f " +
-    	       "JOIN failure_class fc ON f.cause_code = fc.cause_code " +
-    	       "WHERE f.cell_id = :cellId AND fc.description = :description", nativeQuery = true)
-    	List<Object[]> findFailuresDetailsByCause(@Param("cellId") Integer cellId, @Param("description") String failureCause);
+    "JOIN failure_class fc ON f.cause_code = fc.cause_code " +
+    "WHERE f.cell_id = :cellId AND fc.description = :description", nativeQuery = true)
+    List<Object[]> findFailuresDetailsByCause(@Param("cellId") Integer cellId, @Param("description") String failureCause);
 
+
+    // Imsi Failures by Count
+    @Query(value="SELECT fc.description AS failure_class, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.failure_code = fc.failure_code WHERE cf.imsi = :imsi GROUP BY fc.description", nativeQuery = true)
+    List<Object[]> listImsiFailuresByClass(@Param("imsi") long imsi);
+
+    // Imsi Failures Class Event Cause
+    @Query(value="SELECT CONCAT(cf.event_id, '_', cf.cause_code) AS eventCause, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.failure_code = fc.failure_code WHERE cf.imsi = :imsi AND fc.description =:failureClass GROUP BY eventCause", nativeQuery = true)
+    List<Object[]> listImsiFailuresClassEventCause(@Param("imsi") long imsi, @Param("failureClass") String failureClass);
 }
 
 

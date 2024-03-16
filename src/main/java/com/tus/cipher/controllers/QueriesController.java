@@ -323,6 +323,32 @@ public class QueriesController {
 	    return ApiResponse.success(HttpStatus.OK.value(), responseList);
 	}
 
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
+	@GetMapping("/imsi-failure-class/{imsi}")
+	public ApiResponse<List<Map<String, Object>>> getImsiFailuresDrillDown(@PathVariable("imsi") Long imsi) {
+		List<Object[]> imsiFailuresCount = callFailureDAO.listImsiFailuresByClass(imsi);
+		List<Map<String, Object>> responseList = new ArrayList<>();
+		for (Object[] entry : imsiFailuresCount) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("failureClass", entry[0]);
+			result.put(FAILURE_COUNT, entry[1]);
+			responseList.add(result);
+		}
+		return ApiResponse.success(HttpStatus.OK.value(), responseList);
+	}
 
-
+	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
+	@GetMapping("/imsi-failure-class-event-cause")
+	public ApiResponse<List<Map<String, Object>>> getImsiFailuresCauseEventDrillDown(@RequestParam("imsi") Long imsi,
+			@RequestParam("failureClass") String failureClass) {
+		List<Object[]> imsiFailuresCount = callFailureDAO.listImsiFailuresClassEventCause(imsi, failureClass);
+		List<Map<String, Object>> responseList = new ArrayList<>();
+		for (Object[] entry : imsiFailuresCount) {
+			Map<String, Object> result = new HashMap<>();
+			result.put("eventCause", entry[0]);
+			result.put(FAILURE_COUNT, entry[1]);
+			responseList.add(result);
+		}
+		return ApiResponse.success(HttpStatus.OK.value(), responseList);
+	}
 }

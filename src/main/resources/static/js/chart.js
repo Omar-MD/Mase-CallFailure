@@ -5,10 +5,15 @@ let startChart = null;
 let currentChart = null;
 
 const saveChartToStack = function() {
-    let chartData = chartStack.length === 0 ? startChart : currentChart;
+    let chartData;
+    if (chartStack.length === 0) {
+        chartData = startChart == null ? currentChart : startChart;
+    } else {
+        chartData = currentChart;
+    }
     const immutableChartData = JSON.parse(JSON.stringify(chartData));
     immutableChartData.clickHandler = chartData.clickHandler;
-    immutableChartData.chartDetails.options.onHover = chartData.chartDetails.options.onHover;
+    immutableChartData.chartDetails.options = chartData.chartDetails.options;
     chartStack.push(immutableChartData);
 }
 
@@ -60,13 +65,13 @@ const addMondal = function(whereToAdd, modalName) {
 
 // Renders Chart
 const renderChart = function(modalName, title, chartDetails, clickHandler) {
-
+	
     $('#' + modalName + '-chart-title').text(title);
     const canvas = $('#' + modalName + "-chart")[0];
     const ctx = canvas.getContext('2d');
-
+    
     const mergedOptions = $.extend(true, {}, defaultChartOptions, chartDetails.options);
-
+    
     if (canvas.chartInstance) {
         canvas.chartInstance.config.data = chartDetails.data;
         canvas.chartInstance.config.options = mergedOptions;
@@ -78,11 +83,11 @@ const renderChart = function(modalName, title, chartDetails, clickHandler) {
             options: mergedOptions
         });
     }
-
+    
     if (clickHandler) {
-        $(document).on('click', '#' + modalName + '-chart', clickHandler);
+        $(canvas).off('click').on('click', clickHandler);
     } else {
-        $(document).off('click', '#' + modalName + '-chart');
+         $(canvas).off('click');
     }
 };
 
@@ -92,10 +97,11 @@ const handleDrillDown = function(chartData) {
     renderChart(chartData.modalName, chartData.title, chartData.chartDetails, chartData.clickHandler);
     showBackButton();
     currentChart = chartData;
+    startChart = null;
 };
 
 const showBackButton = function() {
-    $('#chart-backButton').show();
+    $('#chart-backButton').show().off('click');
     $('#chart-backButton').on('click', function() {
         renderChartFromStack();
         if (chartStack.length === 0) {
@@ -107,6 +113,7 @@ const showBackButton = function() {
 const renderChartFromStack = function() {
     if (chartStack.length > 0) {
         let c = chartStack.pop();
+        currentChart = c;
         renderChart(c.modalName, c.title, c.chartDetails, c.clickHandler);
     }
 };
