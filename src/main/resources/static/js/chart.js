@@ -5,10 +5,15 @@ let startChart = null;
 let currentChart = null;
 
 const saveChartToStack = function() {
-    let chartData = chartStack.length === 0 ? startChart : currentChart;
+    let chartData;
+    if(chartStack.length === 0){
+        chartData = startChart == null? currentChart: startChart;
+    }else{
+        chartData = currentChart;
+    }
     const immutableChartData = JSON.parse(JSON.stringify(chartData));
     immutableChartData.clickHandler = chartData.clickHandler;
-    immutableChartData.chartDetails.options.onHover = chartData.chartDetails.options.onHover;
+    immutableChartData.chartDetails.options = chartData.chartDetails.options;
     chartStack.push(immutableChartData);
 }
 
@@ -71,18 +76,18 @@ const renderChart = function(modalName, title, chartDetails, clickHandler) {
         canvas.chartInstance.config.data = chartDetails.data;
         canvas.chartInstance.config.options = mergedOptions;
         canvas.chartInstance.update();
-        
+
     } else {
         canvas.chartInstance = new Chart(ctx, {
             ...chartDetails,
             options: mergedOptions
         });
     }
-
+    
     if (clickHandler) {
-        $(document).on('click', '#' + modalName + '-chart', clickHandler);
-    } else {
-        $(document).off('click', '#' + modalName + '-chart');
+        $(canvas).off('click').on('click', clickHandler);
+    }else{
+         $(canvas).off('click');
     }
 };
 
@@ -92,10 +97,11 @@ const handleDrillDown = function(chartData) {
     renderChart(chartData.modalName, chartData.title, chartData.chartDetails, chartData.clickHandler);
     showBackButton();
     currentChart = chartData;
+    startChart = null;
 };
 
 const showBackButton = function() {
-    $('#chart-backButton').show();
+    $('#chart-backButton').show().off('click');
     $('#chart-backButton').on('click', function() {
         renderChartFromStack();
         if (chartStack.length === 0) {
@@ -107,6 +113,7 @@ const showBackButton = function() {
 const renderChartFromStack = function() {
     if (chartStack.length > 0) {
         let c = chartStack.pop();
+        currentChart = c;
         renderChart(c.modalName, c.title, c.chartDetails, c.clickHandler);
     }
 };

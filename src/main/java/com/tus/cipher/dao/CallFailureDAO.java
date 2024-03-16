@@ -90,9 +90,18 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 
     // Failure Causes & Counts By Cell ID
     @Query(value="SELECT fc.description AS failure_cause, COUNT(*) AS failure_count FROM call_failure cf "
-    + "JOIN failure_class fc ON cf.cause_code = fc.failure_code WHERE cf.cell_id = :cellId GROUP BY fc.description", nativeQuery = true)
+    + "JOIN failure_class fc ON cf.failure_code = fc.failure_code WHERE cf.cell_id = :cellId GROUP BY fc.description", nativeQuery = true)
     List<Object[]> listFailureCausesCountsByCellId(@Param("cellId") Integer cellId);
-    
+
+    // Imsi Failures by Count
+    @Query(value="SELECT fc.description AS failure_class, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.failure_code = fc.failure_code WHERE cf.imsi = :imsi GROUP BY fc.description", nativeQuery = true)
+    List<Object[]> listImsiFailuresByClass(@Param("imsi") long imsi);
+
+    // Imsi Failures Class Event Cause
+    @Query(value="SELECT CONCAT(cf.event_id, '_', cf.cause_code) AS eventCause, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.failure_code = fc.failure_code WHERE cf.imsi = :imsi AND fc.description =:failureClass GROUP BY eventCause", nativeQuery = true)
+    List<Object[]> listImsiFailuresClassEventCause(@Param("imsi") long imsi, @Param("failureClass") String failureClass);
 }
 
 
