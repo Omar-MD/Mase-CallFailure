@@ -307,17 +307,17 @@ public class QueriesController {
 	
 	//New
 	@PreAuthorize("hasAuthority('NETWORK_ENGINEER')")
-	@GetMapping("/failure-details-by-cause")
-	public ApiResponse<List<Map<String, Object>>> getFailureDetailsByCause(
+	@GetMapping("/imsi-failure-duration-by-cellid-class")
+	public ApiResponse<List<Map<String, Object>>> getImsiFailureDurationByCellIdClass(
 	        @RequestParam("cellId") Integer cellId,
 	        @RequestParam("failureCause") String failureCause) {
 
-	    List<Object[]> failureDetails = callFailureDAO.findFailuresDetailsByCause(cellId, failureCause);
+	    List<Object[]> failureDetails = callFailureDAO.listImsiFailureDurationByCellIdFailureClass(cellId, failureCause);
 	    List<Map<String, Object>> responseList = new ArrayList<>();
 	    for (Object[] entry : failureDetails) {
 	        Map<String, Object> result = new HashMap<>();
-	        result.put("date", entry[0]); // Assuming entry[0] is the date_time
-	        result.put("duration", entry[1]); // Assuming entry[1] is the duration
+	        result.put("imsi", ((Number) entry[0]).longValue()); // Convert to Long
+	        result.put("total_duration", ((Number) entry[1]).intValue());
 	        responseList.add(result);
 	    }
 	    return ApiResponse.success(HttpStatus.OK.value(), responseList);

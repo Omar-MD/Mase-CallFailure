@@ -43,7 +43,7 @@ const addMondal = function(whereToAdd, modalName) {
                     <!-- Modal Title -->
                     <div class="modal-header">      
                         <div class="d-flex align-items-center" style="width: 100%;">
-                            <button type="button" class="btn btn-dark" id="chart-backButton" style="display: none;">Back</button>
+                            <button type="button" class="" id="chart-backButton" style="display: none;"><i class="fas fa-arrow-left back-icon"></i></button>
                             <h4 class="modal-title" id="${modalName}-chart-title" style="margin: auto;">Graph Title</h4>
                             <button type="button" class="close custom-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div>
