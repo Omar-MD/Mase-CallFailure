@@ -178,7 +178,7 @@ const failureCausesCountsByCellIdDrilldown = function(cellId) {
 
             handleDrillDown({
                 modalName: "top10-moc-combinations",
-                title: "Failure Causes and Counts By Cell ID",
+                title: "Failure Classes and Counts By Cell ID",
                 chartDetails: {
                     type: 'bar',
                     data: {
@@ -201,8 +201,67 @@ const failureCausesCountsByCellIdDrilldown = function(cellId) {
                             },
                             y: {
                                 title: {
-                                    text: 'Failure Cause',
+                                    text: 'Failure Class',
                                 }
+                            }
+                        },
+                    onHover: (event, chartElement) => {
+                            event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                        }
+                    }
+                },
+                clickHandler: (click) => {
+                    let chartInstance = Chart.getChart(click.currentTarget);
+                    let bar = chartInstance.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
+
+                    if (bar.length > 0) {
+                        let index = bar[0].index;
+                        let failureType = chartInstance.data.labels[index];
+                        imsiFailureDurationByCellIdFailureClassDrillDown(cellId, failureType);
+                    }
+                },
+            });
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+}
+
+const imsiFailureDurationByCellIdFailureClassDrillDown = function(cellId, failureType) {
+    $.ajax({
+        type: 'GET',
+        url: rootUrl + "/query/imsi-failure-duration-by-cellid-class",
+        contentType: 'application/json',
+        dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
+        data: { "cellId": cellId, "failureCause": failureType },
+        success: function(res) {
+            const imsi = res.data.map(entry => entry.imsi);
+            const totalCount = res.data.map(entry => entry.total_duration);
+
+            handleDrillDown({
+                modalName: "top10-moc-combinations",
+                title: "Top 10 IMSI Failure Duration By Cell ID #" + cellId +" and Failure Class: " + failureType + "",
+                chartDetails: {
+                    type: 'bar',
+                    data: {
+                        labels: imsi,
+                        datasets: [{
+                            label: "Top 10 IMSI Failure Duration By Cell ID #" + cellId +" and Failure Class: " + failureType + "",
+                            data: totalCount,
+                            fill: false,
+                            borderColor: '#008080',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: { text: 'IMSI' }
+                            },
+                            y: {
+                                title: { text: 'Total Duration (Seconds)' }
                             }
                         }
                     }

@@ -131,9 +131,21 @@ body {
     border: none;
     color: black;
     font-size: 48px;
+    font-weight: bold;
 }
 
 .custom-close:hover {
+    color: red;
+}
+
+#chart-backButton {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 32px;
+}
+
+#chart-backButton:hover {
     color: red;
 }
 

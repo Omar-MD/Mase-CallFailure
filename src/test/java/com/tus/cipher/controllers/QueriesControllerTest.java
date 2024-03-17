@@ -329,7 +329,7 @@ class QueriesControllerTest {
 		List<?> responseData = (List<?>) response.getData();
 		assertEquals(imsiFailures.size(), responseData.size());
 	}
-	
+
 	// Drilldown Query 2
 	@Test
 	void testListFailureCausesCountsByCellId() {

@@ -92,13 +92,11 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
     @Query(value="SELECT fc.description AS failure_cause, COUNT(*) AS failure_count FROM call_failure cf "
     + "JOIN failure_class fc ON cf.cause_code = fc.failure_code WHERE cf.cell_id = :cellId GROUP BY fc.description", nativeQuery = true)
     List<Object[]> listFailureCausesCountsByCellId(@Param("cellId") Integer cellId);
-    
-    //New
-    @Query(value = "SELECT DISTINCT f.date_time, f.duration FROM call_failure f " +
-    "JOIN failure_class fc ON f.cause_code = fc.cause_code " +
-    "WHERE f.cell_id = :cellId AND fc.description = :description", nativeQuery = true)
-    List<Object[]> findFailuresDetailsByCause(@Param("cellId") Integer cellId, @Param("description") String failureCause);
 
+    // IMSI Failure Duration by Cell ID & Failure Class
+    @Query(value = "SELECT cf.imsi, COUNT(*) AS total_duration FROM call_failure cf JOIN failure_class fc ON cf.cause_code = fc.failure_code "
+    + "WHERE cf.cell_id = :cellId AND fc.description = :description GROUP BY cf.imsi ORDER BY total_duration LIMIT 10", nativeQuery = true)
+    List<Object[]> listImsiFailureDurationByCellIdFailureClass(@Param("cellId") Integer cellId, @Param("description") String failureCause);
 
     // Imsi Failures by Count
     @Query(value="SELECT fc.description AS failure_class, COUNT(*) AS failure_count FROM call_failure cf "
