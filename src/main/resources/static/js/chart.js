@@ -1,31 +1,30 @@
 'use strict';
 
-const chartStack = [];
-let startChart = null;
-let currentChart = null;
+const modalData = {}; // Object to store modal-specific data
 
-const saveChartToStack = function() {
-    let chartData;
-    if (chartStack.length === 0) {
-        chartData = startChart == null ? currentChart : startChart;
-    } else {
-        chartData = currentChart;
-    }
-    const immutableChartData = JSON.parse(JSON.stringify(chartData));
-    immutableChartData.clickHandler = chartData.clickHandler;
-    immutableChartData.chartDetails.options = chartData.chartDetails.options;
-    chartStack.push(immutableChartData);
+const saveChartToStack = function(modalName) {
+    const currentModal = modalData[modalName];
+    const immutableChartData = JSON.parse(JSON.stringify(currentModal.currentChart));
+    immutableChartData.clickHandler = currentModal.currentChart.clickHandler;
+    immutableChartData.chartDetails.options = currentModal.currentChart.chartDetails.options;
+    currentModal.chartStack.push(immutableChartData);
 }
 
-// 1 - Creates Modal, Renders Starting Chart, and Saves it.
 const addChart = function(chartData) {
-    addMondal(chartData.whereToAdd, chartData.modalName);
-    renderChart(chartData.modalName, chartData.title, chartData.chartDetails, chartData.clickHandler);
-    startChart = chartData;
+    const modalName = chartData.modalName;
+    if (!modalData[modalName]) {
+        modalData[modalName] = {
+            chartStack: [],
+            currentChart: null
+        };
+    }
+    addModal(chartData.whereToAdd, modalName);
+    renderChart(modalName, chartData.title, chartData.chartDetails, chartData.clickHandler);
+    modalData[modalName].currentChart = chartData;
 }
 
 // Creates Modal
-const addMondal = function(whereToAdd, modalName) {
+const addModal = function(whereToAdd, modalName) {
     let oldChart = $('#' + modalName + "-chart");
     if (oldChart.length) {
         // Remove old chart
@@ -43,7 +42,7 @@ const addMondal = function(whereToAdd, modalName) {
                     <!-- Modal Title -->
                     <div class="modal-header">      
                         <div class="d-flex align-items-center" style="width: 100%;">
-                            <button type="button" class="" id="chart-backButton" style="display: none;"><i class="fas fa-arrow-left back-icon"></i></button>
+                            <button type="button" class="back-button" id="${modalName}-backButton" style="display: none;"><i class="fas fa-arrow-left back-icon"></i></button>
                             <h4 class="modal-title" id="${modalName}-chart-title" style="margin: auto;">Graph Title</h4>
                             <button type="button" class="close custom-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div>
@@ -63,58 +62,54 @@ const addMondal = function(whereToAdd, modalName) {
     }
 }
 
-// Renders Chart
 const renderChart = function(modalName, title, chartDetails, clickHandler) {
-	
     $('#' + modalName + '-chart-title').text(title);
     const canvas = $('#' + modalName + "-chart")[0];
     const ctx = canvas.getContext('2d');
-    
     const mergedOptions = $.extend(true, {}, defaultChartOptions, chartDetails.options);
-    
+
     if (canvas.chartInstance) {
         canvas.chartInstance.config.data = chartDetails.data;
         canvas.chartInstance.config.options = mergedOptions;
         canvas.chartInstance.update();
-        
     } else {
         canvas.chartInstance = new Chart(ctx, {
             ...chartDetails,
             options: mergedOptions
         });
     }
-    
+
     if (clickHandler) {
         $(canvas).off('click').on('click', clickHandler);
     } else {
-         $(canvas).off('click');
+        $(canvas).off('click');
     }
 };
 
-// Handles Drill Down
 const handleDrillDown = function(chartData) {
-    saveChartToStack();
-    renderChart(chartData.modalName, chartData.title, chartData.chartDetails, chartData.clickHandler);
-    showBackButton();
-    currentChart = chartData;
-    startChart = null;
+    const modalName = chartData.modalName;
+    saveChartToStack(modalName);
+    renderChart(modalName, chartData.title, chartData.chartDetails, chartData.clickHandler);
+    showBackButton(modalName);
+    modalData[modalName].currentChart = chartData;
 };
 
-const showBackButton = function() {
-    $('#chart-backButton').show().off('click');
-    $('#chart-backButton').on('click', function() {
-        renderChartFromStack();
-        if (chartStack.length === 0) {
-            $('#chart-backButton').hide();
+const showBackButton = function(modalName) {
+    $('#' + modalName + '-backButton').show().off('click');
+    $('#' + modalName + '-backButton').on('click', function() {
+        renderChartFromStack(modalName);
+        if (modalData[modalName].chartStack.length === 0) {
+            $('#' + modalName + '-backButton').hide();
         }
     });
 };
 
-const renderChartFromStack = function() {
-    if (chartStack.length > 0) {
-        let c = chartStack.pop();
-        currentChart = c;
-        renderChart(c.modalName, c.title, c.chartDetails, c.clickHandler);
+const renderChartFromStack = function(modalName) {
+    const modal = modalData[modalName];
+    if (modal.chartStack.length > 0) {
+        let c = modal.chartStack.pop();
+        modal.currentChart = c;
+        renderChart(modalName, c.title, c.chartDetails, c.clickHandler);
     }
 };
 

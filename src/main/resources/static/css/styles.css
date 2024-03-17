@@ -138,17 +138,16 @@ body {
     color: red;
 }
 
-#chart-backButton {
+.back-button {
     background: none;
     border: none;
     color: black;
     font-size: 32px;
 }
 
-#chart-backButton:hover {
+.back-button:hover {
     color: red;
 }
-
 
 hr.style-hr {
     overflow: visible; 

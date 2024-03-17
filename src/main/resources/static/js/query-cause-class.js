@@ -205,7 +205,7 @@ const failureCausesCountsByCellIdDrilldown = function(cellId) {
                                 }
                             }
                         },
-                    onHover: (event, chartElement) => {
+                        onHover: (event, chartElement) => {
                             event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
                         }
                     }
@@ -242,13 +242,13 @@ const imsiFailureDurationByCellIdFailureClassDrillDown = function(cellId, failur
 
             handleDrillDown({
                 modalName: "top10-moc-combinations",
-                title: "Top 10 IMSI Failure Duration By Cell ID #" + cellId +" and Failure Class: " + failureType + "",
+                title: "Top 10 IMSI Failure Duration By Cell ID #" + cellId + " and Failure Class: " + failureType + "",
                 chartDetails: {
                     type: 'bar',
                     data: {
                         labels: imsi,
                         datasets: [{
-                            label: "Top 10 IMSI Failure Duration By Cell ID #" + cellId +" and Failure Class: " + failureType + "",
+                            label: "Top 10 IMSI Failure Duration By Cell ID #" + cellId + " and Failure Class: " + failureType + "",
                             data: totalCount,
                             fill: false,
                             borderColor: '#008080',
