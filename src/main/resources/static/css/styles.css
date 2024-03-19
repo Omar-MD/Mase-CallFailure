@@ -11,6 +11,22 @@ body {
     height: 10vh;
 }
 
+.nav-link i {
+    font-size: 24px; 
+    margin-right: 5px;
+    color: white; 
+}
+
+.nav-link {
+    color: inherit;
+    font-size: 20px;
+    transition: color 0.3s; 
+}
+
+.nav-link:hover {
+    color: #ffc107; 
+}
+
 #nav-aside-divider {
     position: absolute;
     margin: 0;
@@ -86,3 +102,69 @@ body {
 #header-content {
 	font-size: 175%;
 }
+
+#logo img {
+    max-height: 7vh;
+    width: auto;
+    margin-left: 10px;
+}
+
+#logout-nav-link:hover {
+    color: white !important;
+}
+
+/* Chart related CSSS */
+.chart {
+    /* 
+        Becuase the modals are created by javascript, the !important tags are needed 
+        otherwise this css is too low in the hierarchy and is not applied
+        
+        Don't ask me why that is the case 
+    */
+    height: 100% !important;
+    width: 100% !important;
+    padding: 2vh;
+}
+
+.custom-close {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.custom-close:hover {
+    color: red;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 32px;
+}
+
+.back-button:hover {
+    color: red;
+}
+
+hr.style-hr {
+    overflow: visible; 
+    padding: 0;
+    border: none;
+    border-top: medium double white;
+    color: white;
+    text-align: center;
+}
+hr.style-hr:after {
+    content: "§";
+    display: inline-block;
+    position: relative;
+    top: -0.7em;
+    font-size: 1.5em;
+    padding: 0 0.25em;
+    background: #212529;
+}
+
+ th, td { white-space: nowrap; }

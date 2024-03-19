@@ -22,10 +22,10 @@ public class FileWatcherConfig {
 
 	@Bean
 	@Autowired
-	FileSystemWatcher fileSystemWatcher(ImportController wsController) {
-		fileSystemWatcher = new FileSystemWatcher(true, Duration.ofMillis(5000L), Duration.ofMillis(3000L));
+	FileSystemWatcher fileSystemWatcher(ImportController importController) {
+		fileSystemWatcher = new FileSystemWatcher(true, Duration.ofMillis(1000L), Duration.ofMillis(500L));
 		fileSystemWatcher.addSourceDirectory(new File(CALL_FAILURE_DIR));
-		fileSystemWatcher.addListener(new MyFileChangeListener(wsController));
+		fileSystemWatcher.addListener(new MyFileChangeListener(importController));
 		fileSystemWatcher.start();
 		System.out.println("FileSystemWatcher initialized, monitoring directory: "+ CALL_FAILURE_DIR);
 		return fileSystemWatcher;

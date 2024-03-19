@@ -6,40 +6,40 @@ const createAccount = function() {
     let role = $('#new-user-role').val();
 
     $('#accountMsg').remove();
-
     $.ajax({
         type: 'POST',
         url: rootUrl + "/sysadmin/accounts",
         contentType: 'application/json',
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         data: JSON.stringify({ "username": username, "password": password, "role": role }),
         dataType: "json",
-        success: function(data) {
+        success: function(res) {
 
-            if (data.data != null) {
+            if (res.data != null) {
                 $('#create-user-form').after("<div id=\"accountMsg\" class=\"alert alert-success\"><strong>Success!</strong> New User Account Created</div>").show();
                 $('#created-users').append(`
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <strong>Username:</strong> ${data.data.username}
+                                <strong>Username:</strong> ${res.data.username}
                             </div>
                             <div>
-                                <strong>Role:</strong> ${data.data.role}
+                                <strong>Role:</strong> ${res.data.role}
                             </div>
                         </div>
                     </li>`
                 )
             }
 
-            if (data.error != null) {
+            if (res.error != null) {
                 $('#create-user-form').after(
-                    `<div id="accountMsg" class="alert alert-danger"><strong>Error!</strong> ${data.error.errorMsg}<br/>${data.error.details}</div>`
+                    `<div id="accountMsg" class="alert alert-danger"><strong>Error!</strong> ${res.error.errorMsg}<br/>${res.error.details}</div>`
                 ).show();
             }
         },
         error: function() {
             $('#create-user-form').after(
-                `<div id="accountMsg" class="alert alert-danger"><strong>Error!</strong> ${data.error.errorMsg}<br/>${data.error.details}</div>`
+                `<div id="accountMsg" class="alert alert-danger"><strong>Error!</strong> ${res.error.errorMsg}<br/>${res.error.details}</div>`
             ).show();
         }
     });
@@ -51,12 +51,12 @@ const importDataset = function() {
     let importMsg = $('#importMsg');
 
     importMsg.hide();
-
     showProgressBar();
     $.ajax({
         type: 'POST',
         url: rootUrl + "/sysadmin/import",
         contentType: 'application/json',
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         data: JSON.stringify({ "filename": filename }),
         dataType: "json",
         success: function(res) {
@@ -100,6 +100,7 @@ const checkImportStatus = function() {
         type: 'GET',
         url: rootUrl + "/sysadmin/auto-import-status",
         contentType: 'application/json',
+        headers: {"Authorization":  'Bearer ' + localStorage.getItem('token')},
         success: function(res) {
             if (res.status == "Success") {
                 importStatus.html(res.data);
@@ -110,6 +111,3 @@ const checkImportStatus = function() {
         }
     });
 }
-
-setInterval(checkImportStatus, 5000);
-

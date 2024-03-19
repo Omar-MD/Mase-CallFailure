@@ -7,15 +7,20 @@ $(document).ready(function() {
     //------------------------  LOGIN & HOME  ------------------------
     //------------------------------------------------------------------
 
+    // Landing Page
+    $('#nav-bar').on('click', '#header-content', function() {
+        homeNav('#landing-window');
+    });
+
     // Login
     $('#loginSubmit').on('click', function(event) {
         event.preventDefault();
         login();
     });
 
-    // Landing Page
-    $('#nav-bar').on('click', '#header-content', function() {
-        homeNav('#landing-window');
+    // Logout
+    $('#logout-nav-link').on('click', function() {
+        logout();
     });
 
     //------------------------------------------------------------------
@@ -89,6 +94,17 @@ $(document).ready(function() {
         getModelFailureCount();
     });
 
+    // Query 4.5
+    $('#sidebar-content').on('click', '#cause-failure-imsi-list-sidebar', function() {
+        addFailureCauseCodeDropdown('#cause-failure-imsi-list-dropdown');
+        homeNav('#cause-failure-imsi-list-window');
+    });
+    $("#cause-failure-imsi-list-btn").on('click', function(event) {
+        event.preventDefault();
+        homeNav('#cause-failure-imsi-datatable-window');
+        getIMSIFailureForFailureCauseClass();
+    });
+
 
     // Query #5
     $('#sidebar-content').on('click', '#model-failures-type-count-sidebar', function() {
@@ -111,6 +127,37 @@ $(document).ready(function() {
         getIMSIFailuresCountDuration();
         homeNav('#imsi-failures-count-duration-datatable-window');
     });
+    
+    // Query #7
+    $('#sidebar-content').on('click', '#top10-moc-combinations-sidebar', function() {
+        homeNav('#top10-moc-combinations-window');
+    });
+    $("#top10-moc-combinations-btn").on('click', function(event) {
+        event.preventDefault();
+        getTop10MocCombinations();
+        homeNav('#top10-moc-combinations-datatable-window');
+    });
+
+	//Query #8
+	$('#sidebar-content').on('click', '#imsi-unique-failure-sidebar', function() {
+		addImsiDropdown('#imsi-unique-dropdown');
+		homeNav('#imsi-uniqe-query-failure-window');
+	});
+	$("#imsiUniqueFailures-btn").on('click', function(event) {
+		event.preventDefault();
+		getIMSIUniqueCauseCodeFailure();
+		homeNav('#imsi-datatable-unique-failure-window');
+	});
+
+    // Query #9
+     $('#sidebar-content').on('click', '#top10-imsi-failure-time-sidebar', function() {
+        homeNav('#top10-imsi-failure-time-window');
+    });
+    $("#top10-imsi-failure-time-btn").on('click', function(event) {
+        event.preventDefault();
+        getTop10ImsiFailureTime();
+        homeNav('#top10-imsi-failure-time-datatable-window');
+    });
 });
 
 const homeNav = function(pageID) {
@@ -121,6 +168,21 @@ const homeNav = function(pageID) {
 const showHome = function() {
     $('#login-section').addClass("d-none");
     $('#home-section').removeClass("d-none");
+    $('#logout-nav-link').removeClass('d-none');
 }
 
+const showLogin = function() {
+    $('#home-section').addClass('d-none');
+    $('#login-section').removeClass('d-none');
+    $('#logout-nav-link').addClass('d-none');
+}
 
+const logout = function() {
+     if (localStorage.getItem('role') === RoleType.SYSTEM_ADMINISTRATOR) {
+        clearInterval(interval_ID);
+    }
+    localStorage.clear();
+    $('#header-content').text("Welcome To Login Page");
+    homeNav('#landing-window');
+    showLogin();
+};

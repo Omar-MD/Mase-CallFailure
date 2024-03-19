@@ -3,29 +3,35 @@ package com.tus.cipher.controllers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import com.tus.cipher.dao.CallFailureDAO;
+import com.tus.cipher.dao.FailureClassDAO;
+import com.tus.cipher.dto.sheets.FailureClass;
 import com.tus.cipher.responses.ApiResponse;
 
 class QueriesControllerTest {
 
 	private QueriesController queriesController;
 	private CallFailureDAO callFailureDAOMock;
+	private FailureClassDAO failureClassDAOMock;
 
 	@BeforeEach
 	void setUp() {
 		callFailureDAOMock = mock(CallFailureDAO.class);
-		queriesController = new QueriesController(callFailureDAOMock);
+		failureClassDAOMock = mock(FailureClassDAO.class);
+		queriesController = new QueriesController(callFailureDAOMock, failureClassDAOMock);
 	}
 
 	@Test
@@ -33,7 +39,7 @@ class QueriesControllerTest {
 		List<Long> imsiList = Arrays.asList(123456L, 789012L);
 		when(callFailureDAOMock.listImsi()).thenReturn(imsiList);
 
-		ApiResponse<Object> response = queriesController.getImsiFailures();
+		ApiResponse<List<Long>> response = queriesController.getImsiFailures();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.getData() instanceof List);
@@ -75,11 +81,23 @@ class QueriesControllerTest {
 		List<Long> validTacList = Arrays.asList(123456L, 789012L);
 		when(callFailureDAOMock.listTac()).thenReturn(validTacList);
 
-		ApiResponse<Object> response = queriesController.getModelsWithFailure();
+		ApiResponse<List<Long>> response = queriesController.getModelsWithFailure();
 
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.getData() instanceof List);
 		assertEquals(validTacList, response.getData());
+	}
+
+	@Test
+	void testGetFailureClasses() {
+		List<FailureClass> failureClasses = Arrays.asList(new FailureClass(), new FailureClass());
+		when(failureClassDAOMock.findAll()).thenReturn(failureClasses);
+
+		ApiResponse<List<FailureClass>> response = queriesController.getIMSIFailureForCauseClass();
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		assertEquals(failureClasses, response.getData());
 	}
 
 	@Test
@@ -130,6 +148,20 @@ class QueriesControllerTest {
 	}
 
 	@Test
+	void testGetImsiFailuresWithTimeError() {
+
+		LocalDateTime end = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		LocalDateTime start = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+
+		ApiResponse<Object> response = queriesController.findImsiFailures(start, end);
+
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+	}
+
+	@Test
 	void testGetModelFailureCount() {
 		long tac = 12345L;
 		LocalDateTime start = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
@@ -141,6 +173,30 @@ class QueriesControllerTest {
 
 		assertEquals("Success", response.getStatus());
 		assertEquals(expectedCount, (long) response.getData());
+	}
+
+	@Test
+	void testGetModelFailureCountError() {
+		long tac = 12345L;
+		LocalDateTime end = LocalDateTime.of(2022, 2, 2, 2, 2, 2);
+		LocalDateTime start = LocalDateTime.of(2033, 3, 3, 3, 3, 3);
+
+		ApiResponse<Long> response = queriesController.getModelsFaliureCount(start, end, tac);
+
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+	}
+
+	@Test
+	void testGetIMSIFailureClasses() {
+		List<Long> imsisList = Arrays.asList(1000L, 2000L, 3000L, 4000L, 5000L);
+		when(callFailureDAOMock.getIMSIsWithFailureClass(1L)).thenReturn(imsisList);
+		ApiResponse<List<Long>> response = queriesController.getIMSIFailureClasses(1L);
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List<?>);
+		assertEquals(response.getData(), imsisList);
 	}
 
 	@Test
@@ -181,20 +237,118 @@ class QueriesControllerTest {
 
 	@Test
 	void testGetCallFailuresWithCountAndDuration() {
-		 // Mock data
-        LocalDateTime startDate = LocalDateTime.of(2024, 1, 1, 0, 0);
-        LocalDateTime endDate = LocalDateTime.of(2024, 1, 31, 23, 59);
+		// Mock data
+		LocalDateTime startDate = LocalDateTime.of(2024, 1, 1, 0, 0);
+		LocalDateTime endDate = LocalDateTime.of(2024, 1, 31, 23, 59);
 
-        List<Object[]> expectedResult = new ArrayList<>();
-         expectedResult.add(new Object[] { "IMSI_1", 10L, 3600L });
-         expectedResult.add(new Object[] { "IMSI_2", 5L, 1800L });
+		List<Object[]> expectedResult = new ArrayList<>();
+		expectedResult.add(new Object[] { "IMSI_1", 10L, 3600L });
+		expectedResult.add(new Object[] { "IMSI_2", 5L, 1800L });
 
-        when(callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate)).thenReturn(expectedResult);
+		when(callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate)).thenReturn(expectedResult);
 
-        // Call the method from your service class that uses the repository method
-        List<Object[]> actualResult = callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate);
+		// Call the method from your service class that uses the repository method
+		List<Object[]> actualResult = callFailureDAOMock.findAllImsiFailureCountAndDuration(startDate, endDate);
 
-        // Assert the result
-        assertEquals(expectedResult, actualResult);
+		// Assert the result
+		assertEquals(expectedResult, actualResult);
 	}
+
+//Query 9
+	@Test
+	void testGetTop10ImsiFailuresValidDate() {
+		LocalDateTime startDate = LocalDateTime.of(2019, 4, 4, 6, 4, 2);
+		LocalDateTime endDate = LocalDateTime.of(2024, 1, 2, 3, 4, 5);
+		List<Object[]> testListTop10ImsiFailures = new ArrayList<>();
+		when(callFailureDAOMock.findTop10IMSIWithFailures(startDate, endDate)).thenReturn(testListTop10ImsiFailures);
+		ApiResponse<List<Map<String, Object>>> response = queriesController.getTop10ImsiFailures(startDate, endDate);
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertEquals("Success", response.getStatus());
+	}
+
+	@Test
+
+	void testGetTop10ImsiFailuresInValidDate() {
+		LocalDateTime endDate = LocalDateTime.of(2015, 5, 5, 5, 5, 5);
+		LocalDateTime startDate = LocalDateTime.of(2024, 4, 4, 4, 4, 4);
+		ApiResponse<List<Map<String, Object>>> response = queriesController.getTop10ImsiFailures(startDate, endDate);
+		assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+	}
+
+
+
+	// Query 7
+	@Test
+    void testGetTop10MarketOperatorCellIdCombinationsValidDate() {
+        LocalDateTime startDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
+        LocalDateTime endDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
+        List<Object[]> testListTop10MocCombinations = new ArrayList<>();
+        Object[] testMocObject1 = {505, 71, 3, 3599};
+        Object[] testMocObject2 = {440, 11, 2, 3494};
+        testListTop10MocCombinations.add(testMocObject1);
+        testListTop10MocCombinations.add(testMocObject2);
+        when(callFailureDAOMock.top10MarketOperatorCellIdCombinations(startDate, endDate)).thenReturn(testListTop10MocCombinations);
+        ApiResponse<Object> response = queriesController.getTop10MarketOperatorCellIdCombinations(startDate, endDate);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+        assertEquals("Success", response.getStatus());
+    }
+
+	@Test
+     void testGetTop10MarketOperatorCellIdCombinationsInvalidDate() {
+        LocalDateTime endDate = LocalDateTime.of(2019, 1, 1, 1, 1, 1);
+        LocalDateTime startDate = LocalDateTime.of(2024, 3, 8, 1, 1, 1);
+        ApiResponse<Object> response = queriesController.getTop10MarketOperatorCellIdCombinations(startDate, endDate);
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
+		assertEquals(null, response.getData());
+		assertEquals("End date must be after start date", response.getError().getDetails());
+		assertEquals("Bad Date Range", response.getError().getErrorMsg());
+    }
+
+	// Query 8
+	@Test
+	void testGetImsiUniqueFailures() {
+		long imsi = 1234L;
+
+		List<Long> imsis = Arrays.asList(1234L, 123456L, 789012L);
+
+		when(callFailureDAOMock.listImsi()).thenReturn(imsis);
+
+		List<Object[]> imsiFailures = new ArrayList<>();
+		imsiFailures.add(new Object[] { 1, 100, 10 });
+		imsiFailures.add(new Object[] { 2, 200, 5 });
+
+		when(callFailureDAOMock.findImsiUniqueEventCauseDescriptions(imsi)).thenReturn(imsiFailures);
+
+		ApiResponse<Object> response = queriesController.findImsiUniqueFailures(imsi);
+
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		assertTrue(response.getData() instanceof List);
+		List<?> responseData = (List<?>) response.getData();
+		assertEquals(imsiFailures.size(), responseData.size());
+	}
+
+	// Drilldown Query 2
+	@Test
+	void testListFailureCausesCountsByCellId() {
+		int cellId = 1;
+        List<Object[]> failureCausesCountCellId = new ArrayList<>();
+        failureCausesCountCellId.add(new Object[]{"EMERGENCY", 10});
+        failureCausesCountCellId.add(new Object[]{"HIGH PRIORITY ACCESS", 20});
+        when(callFailureDAOMock.listFailureCausesCountsByCellId(cellId)).thenReturn(failureCausesCountCellId);
+        ApiResponse<List<Map<String, Object>>> response = queriesController.getFailureCausesAndCountsByCellId(cellId);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+        assertEquals("Success", response.getStatus());
+        List<Map<String, Object>> responseData = response.getData();
+        assertEquals(2, responseData.size());
+        Map<String, Object> failureCauseAndCount1 = responseData.get(0);
+        assertEquals("EMERGENCY", failureCauseAndCount1.get("failureCause"));
+        assertEquals(10, failureCauseAndCount1.get("failureCount"));
+        Map<String, Object> failureCauseAndCount2 = responseData.get(1);
+        assertEquals("HIGH PRIORITY ACCESS", failureCauseAndCount2.get("failureCause"));
+        assertEquals(20, failureCauseAndCount2.get("failureCount"));
+        verify(callFailureDAOMock).listFailureCausesCountsByCellId(cellId);
+    }
 }
