@@ -86,7 +86,7 @@ const getModelFailuresTypeCount = function() {
         headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
         success: function(res) {
             if (res.status == "Success") {
-                
+
                 updateDataTable('model-failures-type-count', res.data, ['eventId', 'causeCode', 'failureCount']);
                 $("#model-id").text(model);
                 let eventCauseList = res.data.map(entry => entry.eventId + '-' + entry.causeCode);
@@ -110,35 +110,32 @@ const getModelFailuresTypeCount = function() {
                         options: {
                             scales: {
                                 x: {
-                                    ticks: {
-                                        font: {
-                                            size: 14
-                                        }
-                                    },
                                     title: {
-                                        display: true,
-                                        text: "Event Id - Cause Code",
-                                        font: {
-                                            size: 24,
-                                        }
+                                        text: "Event Id - Cause Code"
                                     }
                                 },
                                 y: {
-                                    beginAtZero: true,
                                     title: {
-                                        display: true,
-                                        text: "# of Failures",
-                                        font: {
-                                            size: 24,
-                                        }
-                                    }, 
-                                    ticks: {
-                                        fontSize: 14
+                                        text: "Number of Failures",
                                     }
                                 }
+                            },
+                            onHover: (event, chartElement) => {
+                                event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
                             }
                         }
-                    }
+                    },
+                    clickHandler: (click) => {
+                        let chartInstance = Chart.getChart(click.currentTarget);
+                        let bar = chartInstance.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
+
+                        if (bar.length > 0) {
+                            let index = bar[0].index;
+                            let label = chartInstance.data.labels[index].split('-');
+                            eventCauseDrillDown(label[0], label[1]);
+                        }
+                    },
+
                 });
                 // =================================================================
             } else {
@@ -150,3 +147,53 @@ const getModelFailuresTypeCount = function() {
         }
     });
 };
+
+const eventCauseDrillDown = function(eventId, causeCode) {
+    $.ajax({
+        type: 'GET',
+        url: rootUrl + "/query/event-cause-failures-over-time",
+        contentType: 'application/json',
+        dataType: "json",
+        headers: { "Authorization": 'Bearer ' + localStorage.getItem('token') },
+        data: { "eventId": eventId, "causeCode": causeCode },
+        success: function(res) {
+            const dates = res.data.map(entry => entry.date);
+            const failureCounts = res.data.map(entry => entry.failureCount);
+
+            handleDrillDown({
+                modalName: "model-failures-type-count",
+                title: "Failures Over Time For Event Id-Cause Code",
+                chartDetails: {
+                    type: 'bar',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: "Number of Failures for Event Id - Cause Code (" + eventId + '-' + causeCode + ')',
+                            data: failureCounts,
+                            fill: false,
+                            borderColor: '#008080',
+                            borderWidth: 2
+                        }],
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    text: 'Date',
+                                }
+                            },
+                            y: {
+                                title: {
+                                    text: 'Number of Failures',
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        error: function(error) {
+            console.error("Error:", error);
+        }
+    });
+}

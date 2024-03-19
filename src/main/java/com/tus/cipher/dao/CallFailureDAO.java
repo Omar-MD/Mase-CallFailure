@@ -79,6 +79,34 @@ public interface CallFailureDAO extends JpaRepository<CallFailure, Long> {
 	//Query#9
 	@Query(value="SELECT c.imsi, COUNT(*) AS failureCount FROM call_failure c  WHERE c.date_time >= :startDate AND c.date_time <= :endDate GROUP BY c.imsi ORDER BY failureCount DESC LIMIT 10", nativeQuery = true)
     List<Object[]> findTop10IMSIWithFailures(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+	/*
+	 *  Drill Down Queries
+	 */
+
+    // Failure Over Time for Event ID, Cause Code
+	@Query(value="SELECT DATE(cf.date_time) AS date, COUNT(*) As totalFailures FROM call_failure cf  WHERE cf.event_id=:eventId AND cf.cause_code=:causeCode GROUP BY date", nativeQuery = true)
+    List<Object[]> findEventCauseFailuresOverTime(@Param("eventId") Long eventId, @Param("causeCode") Long causeCode);
+
+    // Failure Causes & Counts By Cell ID
+    @Query(value="SELECT fc.description AS failure_cause, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.cause_code = fc.failure_code WHERE cf.cell_id = :cellId GROUP BY fc.description", nativeQuery = true)
+    List<Object[]> listFailureCausesCountsByCellId(@Param("cellId") Integer cellId);
+
+    // IMSI Failure Duration by Cell ID & Failure Class
+    @Query(value = "SELECT cf.imsi, COUNT(*) AS total_duration FROM call_failure cf JOIN failure_class fc ON cf.cause_code = fc.failure_code "
+    + "WHERE cf.cell_id = :cellId AND fc.description = :description GROUP BY cf.imsi ORDER BY total_duration LIMIT 10", nativeQuery = true)
+    List<Object[]> listImsiFailureDurationByCellIdFailureClass(@Param("cellId") Integer cellId, @Param("description") String failureCause);
+
+    // Imsi Failures by Count
+    @Query(value="SELECT fc.description AS failure_class, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.failure_code = fc.failure_code WHERE cf.imsi = :imsi GROUP BY fc.description", nativeQuery = true)
+    List<Object[]> listImsiFailuresByClass(@Param("imsi") long imsi);
+
+    // Imsi Failures Class Event Cause
+    @Query(value="SELECT CONCAT(cf.event_id, '_', cf.cause_code) AS eventCause, COUNT(*) AS failure_count FROM call_failure cf "
+    + "JOIN failure_class fc ON cf.failure_code = fc.failure_code WHERE cf.imsi = :imsi AND fc.description =:failureClass GROUP BY eventCause", nativeQuery = true)
+    List<Object[]> listImsiFailuresClassEventCause(@Param("imsi") long imsi, @Param("failureClass") String failureClass);
 }
 
 

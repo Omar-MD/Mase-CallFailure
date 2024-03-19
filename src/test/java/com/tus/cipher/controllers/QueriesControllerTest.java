@@ -3,6 +3,7 @@ package com.tus.cipher.controllers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -329,4 +330,25 @@ class QueriesControllerTest {
 		assertEquals(imsiFailures.size(), responseData.size());
 	}
 
+	// Drilldown Query 2
+	@Test
+	void testListFailureCausesCountsByCellId() {
+		int cellId = 1;
+        List<Object[]> failureCausesCountCellId = new ArrayList<>();
+        failureCausesCountCellId.add(new Object[]{"EMERGENCY", 10});
+        failureCausesCountCellId.add(new Object[]{"HIGH PRIORITY ACCESS", 20});
+        when(callFailureDAOMock.listFailureCausesCountsByCellId(cellId)).thenReturn(failureCausesCountCellId);
+        ApiResponse<List<Map<String, Object>>> response = queriesController.getFailureCausesAndCountsByCellId(cellId);
+        assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+        assertEquals("Success", response.getStatus());
+        List<Map<String, Object>> responseData = response.getData();
+        assertEquals(2, responseData.size());
+        Map<String, Object> failureCauseAndCount1 = responseData.get(0);
+        assertEquals("EMERGENCY", failureCauseAndCount1.get("failureCause"));
+        assertEquals(10, failureCauseAndCount1.get("failureCount"));
+        Map<String, Object> failureCauseAndCount2 = responseData.get(1);
+        assertEquals("HIGH PRIORITY ACCESS", failureCauseAndCount2.get("failureCause"));
+        assertEquals(20, failureCauseAndCount2.get("failureCount"));
+        verify(callFailureDAOMock).listFailureCausesCountsByCellId(cellId);
+    }
 }
