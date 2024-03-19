@@ -178,7 +178,7 @@ const failureCausesCountsByCellIdDrilldown = function(cellId) {
 
             handleDrillDown({
                 modalName: "top10-moc-combinations",
-                title: "Failure Classes and Counts By Cell ID",
+                title: "Number of Failures for Cell ID #(" + cellId + ')',
                 chartDetails: {
                     type: 'bar',
                     data: {
@@ -207,6 +207,11 @@ const failureCausesCountsByCellIdDrilldown = function(cellId) {
                         },
                         onHover: (event, chartElement) => {
                             event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                            }
                         }
                     }
                 },
@@ -262,6 +267,11 @@ const imsiFailureDurationByCellIdFailureClassDrillDown = function(cellId, failur
                             },
                             y: {
                                 title: { text: 'Total Duration (Seconds)' }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
                             }
                         }
                     }

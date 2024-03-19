@@ -160,12 +160,14 @@ const getIMSIFailuresCountDuration = function() {
                                 backgroundColor: '#198754',
                                 // backgroundColor: '#AF2C2C',
                                 borderWidth: 1,
+                                pointRadius: 6, 
+                                pointHoverRadius: 8
                             }]
                         },
                         options: {
                             scales: {
                                 x: {
-                                    title: { text: "Duration" }
+                                    title: { text: "Duration (seconds)" }
                                 },
                                 y: {
                                     title: { text: "Number of Failures" }
@@ -184,6 +186,11 @@ const getIMSIFailuresCountDuration = function() {
                                             return `IMSI: ${imsi}`;
                                         }
                                     }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false,
                                 }
                             }
                         }
@@ -245,7 +252,7 @@ const getTop10ImsiFailureTime = function() {
                 addChart({
                     whereToAdd: "top10-imsi-failure-time-container",
                     modalName: "top10-imsi-failure-time",
-                    title: "TOP 10 IMSI Failure ",
+                    title: "Top 10 IMSI Failure ",
                     chartDetails: {
                         type: 'bar',
                         data: {
@@ -260,7 +267,7 @@ const getTop10ImsiFailureTime = function() {
                         options: {
                             scales: {
                                 x: {
-                                    title: { text: "TOP 10 IMSI" }
+                                    title: { text: "IMSI" }
                                 },
                                 y: {
                                     title: { text: "Number of Failures" }
@@ -268,6 +275,11 @@ const getTop10ImsiFailureTime = function() {
                             },
                             onHover: (event, chartElement) => {
                                 event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                }
                             }
                         }
                     },
@@ -313,7 +325,7 @@ const imsiFailureRankingDrillDown = function(imsi) {
                     data: {
                         labels: failureClass,
                         datasets: [{
-                            label: "Imsi (" + imsi + ") Failure Classes",
+                            label: "IMSI (" + imsi + ") Failure Classes",
                             data: failureCount,
                             fill: false,
                             backgroundColor: '#800000',
@@ -332,6 +344,11 @@ const imsiFailureRankingDrillDown = function(imsi) {
                         },
                         onHover: (event, chartElement) => {
                             event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                            }
                         }
                     }
                 },
@@ -368,7 +385,7 @@ const imsiFailureClassEventCauseDrillDown = function(imsi, failureClass) {
 
             handleDrillDown({
                 modalName: "top10-imsi-failure-time",
-                title: "Imsi (" + imsi + ") Failure ("+ failureClass + ") Event Causes",
+                title: "IMSI (" + imsi + ") Failure ("+ failureClass + ") Event Causes",
                 chartDetails: {
                     type: 'bar',
                     data: {
@@ -388,6 +405,11 @@ const imsiFailureClassEventCauseDrillDown = function(imsi, failureClass) {
                             },
                             y: {
                                 title: { text: 'Number of Failures' }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
                             }
                         }
                     }
