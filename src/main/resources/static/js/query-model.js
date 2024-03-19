@@ -91,7 +91,6 @@ const getModelFailuresTypeCount = function() {
                 $("#model-id").text(model);
                 let eventCauseList = res.data.map(entry => entry.eventId + '-' + entry.causeCode);
                 let failureCountList = res.data.map(entry => entry.failureCount);
-                // =================================================================
                 addChart({
                     whereToAdd: "model-failures-type-count-container",
                     modalName: "model-failures-type-count",
@@ -122,6 +121,11 @@ const getModelFailuresTypeCount = function() {
                             },
                             onHover: (event, chartElement) => {
                                 event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                }
                             }
                         }
                     },
@@ -137,7 +141,6 @@ const getModelFailuresTypeCount = function() {
                     },
 
                 });
-                // =================================================================
             } else {
                 console.log("Error:", res.error);
             }
@@ -162,7 +165,7 @@ const eventCauseDrillDown = function(eventId, causeCode) {
 
             handleDrillDown({
                 modalName: "model-failures-type-count",
-                title: "Failures Over Time For Event Id-Cause Code",
+                title: "Failures Over Time For Event Id - Cause Code (" + eventId + '-' + causeCode + ')',
                 chartDetails: {
                     type: 'bar',
                     data: {
@@ -186,6 +189,11 @@ const eventCauseDrillDown = function(eventId, causeCode) {
                                 title: {
                                     text: 'Number of Failures',
                                 }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
                             }
                         }
                     }

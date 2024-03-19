@@ -184,7 +184,7 @@ function move() {
         i = 1;
         let elem = document.getElementById("progressBarFG");
         let width = 1;
-        let id = setInterval(frame, 10);
+        let id = setInterval(frame, 30);
         function frame() {
             if (width >= 100) {
                 clearInterval(id);
